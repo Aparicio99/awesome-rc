@@ -1,1 +1,13 @@
 Awesome window manager configuration and widget files
+
+rc.lua		Main file
+menu.lua	Menus
+helpers.lua	Helper functions
+clock.lua	Clock widget with multiple modes, calender and weather popup
+volume.lua	Text volume widget
+battery.lua	Battery widget with warning popups
+mpd.lua		Music Player Daemon client with basic controls and info popup
+
+Screenshot	http://i.imgur.com/Ik4b9.png
+
+http://awesome.naquadah.org/
