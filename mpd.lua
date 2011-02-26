@@ -1,0 +1,59 @@
+mpd = {
+	widget = widget({ type = "textbox" }),
+
+	-- Update the textbox with the current mpd level
+	update = function(cmd)
+		output = pread("mpc "..cmd)
+
+		local state = output:match("\n%[(%a+)%]")
+
+		if state == "playing" then
+			mpd.widget.text = " ▶"
+		elseif state == "paused" then
+			mpd.widget.text = " ||"
+		else
+			mpd.widget.text = ""
+		end
+
+		return output
+	end,
+
+	cmd = function(s, t)
+		if not t then t = 2 end
+		return function()
+			rout(mpd.update(s), t)
+		end
+	end,
+
+	-- Toggle mpd client
+	client = function()
+		local c = getclient("name", "ncmpc")
+		if not c then
+			spawn(terminal.." -g 80x58--3+20 -e ncmpc")
+		else
+			c:kill()
+		end
+
+	end,
+
+	-- Setup widget
+	init = function()
+
+		mpd.toggle = mpd.cmd("toggle")
+		mpd.stop = mpd.cmd("stop")
+		mpd.next = mpd.cmd("next")
+		mpd.prev = mpd.cmd("prev")
+		mpd.show = mpd.cmd("", 0)
+
+		mpd.widget:buttons(awful.util.table.join(
+			awful.button({ }, 1, mpd.toggle),
+			awful.button({ }, 2, mpd.stop),
+			awful.button({ }, 3, mpd.client),
+			awful.button({ }, 4, mpd.prev),
+			awful.button({ }, 5, mpd.next)
+		))
+
+		mpd.update("")
+		return mpd.widget
+	end,
+}
