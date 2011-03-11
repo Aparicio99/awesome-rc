@@ -1,4 +1,4 @@
-Awesome window manager configuration and widget files
+Awesome window manager configuration and widget files.
 
 rc.lua		Main file (setup, binds, rules and signals)
 menu.lua	Menus
