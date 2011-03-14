@@ -21,10 +21,9 @@ theme.border_normal = "#333333"
 theme.border_focus  = "#666666"
 theme.border_marked = "#91231c"
 
---theme.wallpaper_cmd = { "awsetbg /home/aparicio/imagens/wallpapers/gray.png" }
-theme.wallpaper_cmd = { "feh --bg-tile /home/aparicio/imagens/wallpapers/gray.png" }
+dir = "/home/aparicio/.config/awesome/themes/default/"
+theme.wallpaper_cmd = { "feh --bg-tile " .. dir .. "gray.png" }
 
-dir = "~/.config/awesome/themes/default/"
 
 -- There are other variable sets
 -- overriding the default one when

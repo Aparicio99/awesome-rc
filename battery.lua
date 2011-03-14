@@ -13,7 +13,7 @@ battery = {
 
 	-- Update battery level textbox
 	reload = function()
-		if not battery.show then
+		if not battery.show or battery.widget == nil then
 			return
 		end
 
@@ -76,6 +76,9 @@ battery = {
 
 	-- Show battery infromation popup
 	info = function()
+		if battery.widget == nil then
+			return
+		end
 		local file = io.open(battery.path.."uevent")
 		rout(file:read("*all"))
 		file:close()
@@ -83,6 +86,11 @@ battery = {
 
 	-- Setup widget
 	init = function()
+
+		if not awful.util.file_readable(battery.path) then
+			battery.widget = nil
+			return nil
+		end
 
 		battery.widget:buttons(awful.util.table.join(
 						awful.button({ }, 1, function() battery.info() end),
