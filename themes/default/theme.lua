@@ -22,7 +22,7 @@ theme.border_focus  = "#666666"
 theme.border_marked = "#91231c"
 
 dir = "/home/aparicio/.config/awesome/themes/default/"
-theme.wallpaper_cmd = { "feh --bg-tile " .. dir .. "gray.png" }
+theme.wallpaper_cmd = { "feh --bg-tile " .. dir .. "wallpaper.png" }
 
 
 -- There are other variable sets

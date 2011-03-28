@@ -289,7 +289,7 @@ awful.rules.rules = {
 					buttons = clientbuttons,
 					size_hints_honor = false} },
 	-- Float
-	{ rule_any = {	class = { "MPlayer", "gimp", "Gmpc", "Transmission", "Gsimplecal" },
+	{ rule_any = {	class = { "MPlayer", "gimp", "Gmpc", "Transmission" },
 			name = { "File Transfers", "cal", "ncmpc" } },
 			properties = { floating = true } },
 	-- Drop consoles
@@ -309,12 +309,13 @@ client.add_signal("manage",
 		if not startup then
 			-- Put windows in a smart way, only if they does not
 			-- set an initial position.
-			if not c.size_hints.user_position and not
-			c.size_hints.program_position then
-			awful.placement.no_overlap(c)
-			awful.placement.no_offscreen(c) end end end )
+			if not (c.size_hints.user_position or c.size_hints.program_position) then
+				awful.placement.no_overlap(c)
+				awful.placement.no_offscreen(c)
+			end
+		end
+	end )
 
-client.add_signal("focus", function(c) c.border_color = beautiful.border_focus
-end) client.add_signal("unfocus", function(c) c.border_color =
-beautiful.border_normal end)
+client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
