@@ -223,6 +223,7 @@ globalkeys = awful.util.table.join(
 		awful.key({     }, "XF86AudioNext",        mpd.next),
 		awful.key({     }, "XF86MonBrightnessUp",  lspawn("xbacklight +10")),
 		awful.key({     }, "XF86MonBrightnessDown",lspawn("xbacklight -10")),
+		awful.key({ Win }, "e",                    lspawn("xscreensaver-command -lock")),
 		awful.key({ Win }, "F1",                   function () drop.toggle(3) end),
 		awful.key({ Win }, "F3",                   drop.onoff),
 		awful.key({ Alt }, "F2",		   dmenu),
