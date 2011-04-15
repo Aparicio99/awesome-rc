@@ -37,9 +37,9 @@ gamesmenu = {
 officemenu = {
 	{ "Gnumeric",		"gnumeric" },
 	{ "Abiword",		"abiword" },
-	{ "ooWriter",		"oowriter" },
-	{ "ooCalc",		"oocalc" },
-	{ "ooImpress",		"ooimpress" },
+	{ "ooWriter",		"lowriter" },
+	{ "ooCalc",		"localc" },
+	{ "ooImpress",		"loimpress" },
 }
 utilsmenu = {
 	{ "Leafpad",		"leafpad" },
