@@ -41,10 +41,10 @@ mpd = {
 	init = function()
 
 		mpd.toggle = mpd.cmd("toggle")
-		mpd.stop = mpd.cmd("stop")
 		mpd.next = mpd.cmd("next")
 		mpd.prev = mpd.cmd("prev")
 		mpd.show = mpd.cmd("", 0)
+		mpd.stop = function() mpd.update("stop") end
 
 		mpd.widget:buttons(awful.util.table.join(
 			awful.button({ }, 1, mpd.toggle),
