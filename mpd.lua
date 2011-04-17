@@ -31,7 +31,8 @@ mpd = {
 		if not c then
 			spawn(terminal.." -g 80x58--3+20 -e ncmpc")
 		else
-			c:kill()
+			--c:kill()
+			spawn("pkill -9 ncmpc")
 		end
 
 	end,
