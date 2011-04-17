@@ -1,5 +1,6 @@
 volume = {
 	reset = true,
+	value = 0,
 	widget = widget({ type = "textbox" }),
 
 	-- Update the textbox with the current volume level
@@ -11,11 +12,18 @@ volume = {
 		local level = output:match("%d+%%")
 		local mute = output:match("%[%a+%]")
 
-		if mute == "[on]" then
-			volume.widget.text = " Vol "..level
-		else
-			volume.widget.text = " Vol "..level.." Muted"
+		local text = "Vol "..level
+
+		if mute == "[off]" then
+			text = text.." Muted"
 		end
+
+		--if not volume.reset then
+		--	text = "<span color='orange'>"..text.."</span>"
+		--end
+
+		volume.widget.text = text
+		volume.value = tonumber(level:sub(0,-2))
 	end,
 
 	-- Toggle volume mute
@@ -28,7 +36,6 @@ volume = {
 		else
 			rout("Mute ON", 2)
 		end
-
 		volume.update(output)
 	end,
 
@@ -40,6 +47,7 @@ volume = {
 		else
 			rout("Volume reset OFF", 1)
 		end
+		--volume.update()
 	end,
 
 	-- Set volume level
@@ -53,7 +61,9 @@ volume = {
 	-- Set volume to 50% if reset is enabled
 	check = function()
 		if volume.reset then
-			volume.set("50%")
+			if volume.value < 40 or volume.value > 60 then
+				volume.set("50%")
+			end
 		else
 			volume.set("100%")
 		end
