@@ -12,7 +12,7 @@ volume = {
 		local level = output:match("%d+%%")
 		local mute = output:match("%[%a+%]")
 
-		local text = "Vol "..level
+		local text = " Vol "..level
 
 		if mute == "[off]" then
 			text = text.." Muted"
