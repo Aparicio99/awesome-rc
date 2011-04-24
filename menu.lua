@@ -33,6 +33,7 @@ gamesmenu = {
 	{ "TeeWorlds",		"teeworlds" },
 	{ "Chickens",		"chickens --window" },
 	{ "CrashTest",		"crashtext" },
+	{ "Steam",		"wine /home/aparicio/.wine/drive_c/Programas/Steam/Steam.exe" },
 }
 officemenu = {
 	{ "Gnumeric",		"gnumeric" },
