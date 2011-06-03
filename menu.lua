@@ -5,7 +5,7 @@ appsmenu = {
 	{ "DrScheme",		"drscheme" }
 }
 internetmenu = {
-	{ "Emesene",		"emesene"},
+	{ "Emesene",		"emesene-2"},
 	{ "Transmission",	"transmission-gtk"},
 	{ "Uzbl",		"uzbl-browser"},
 	{ "Midori",		"midori"},
@@ -58,6 +58,7 @@ awesomemenu = {
 	{ "quit", awesome.quit }
 }
 mainmenu = awful.menu({ items = {
+			{ "Casa",	function() spawn("skype") spawn("claws-mail") spawn("luakit") spawn(t("conky")) spawn(terminal)  end},
 			{ "Skype",	"skype"},
 			{ "Gmpc",	"gmpc"},
 			{ "Claws Mail",	"claws-mail"},
