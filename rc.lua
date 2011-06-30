@@ -61,7 +61,7 @@ awful.tag.setproperty(tags[MAIN][1], "mwfact", 0.75)
 awful.tag.setproperty(tags[1][2], "layout", awful.layout.suit.max)
 
 --------------------------------------- Widgets ---------------------------------------
-openbrowser = widget({type = "textbox"})
+plusmenu = widget({type = "textbox"})
 systray = widget({ type = "systray" })
 mpd_widget = mpd.init()
 battery_widget = battery.init()
@@ -71,8 +71,8 @@ clock_widget = clock.init()
 --------------------------------------- Panel ---------------------------------------
 
 -- Browser mouse actions
-openbrowser.text = "+ "
-openbrowser:buttons(awful.util.table.join(
+plusmenu.text = "+ "
+plusmenu:buttons(awful.util.table.join(
 				awful.button({ }, 1, lspawn(browser)),
 				awful.button({ }, 2, function() clipmenu:toggle()  end),
 				awful.button({ }, 3, function() browsermenu:toggle()  end)))
@@ -136,7 +136,7 @@ for s = 1, screen.count() do
 		{
 			mylayoutbox[s],
 			mytaglist[s],
-			s == 1 and openbrowser or nil,
+			s == 1 and plusmenu or nil,
 			layout = awful.widget.layout.horizontal.leftright
 		},
 		s == MAIN and clock_widget or nil,
