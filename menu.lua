@@ -58,7 +58,7 @@ awesomemenu = {
 	{ "quit", awesome.quit }
 }
 mainmenu = awful.menu({ items = {
-			{ "Casa",	function() spawn("skype") spawn("claws-mail") spawn("luakit") spawn(t("conky")) spawn(terminal)  end},
+			{ "Casa",	function() spawn("skype") spawn("claws-mail") spawn("luakit") spawn(t("conky")) spawn(terminal) end},
 			{ "Skype",	"skype"},
 			{ "Gmpc",	"gmpc"},
 			{ "Claws Mail",	"claws-mail"},
