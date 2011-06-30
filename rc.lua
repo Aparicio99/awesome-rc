@@ -15,7 +15,8 @@ Win = "Mod4"
 Alt = "Mod1"
 Ctr = "Control"
 Shi = "Shift"
-terminal = "/home/aparicio/scripts/uterm"
+scripts = "/home/aparicio/scripts/"
+terminal = scripts.."uterm"
 browser = "luakit"
 
 --------------------------------------- Includes ---------------------------------------
@@ -73,7 +74,8 @@ clock_widget = clock.init()
 openbrowser.text = "+ "
 openbrowser:buttons(awful.util.table.join(
 				awful.button({ }, 1, lspawn(browser)),
-				awful.button({ }, 3, function() browsermenu:toggle()  end, nil, "weeeeeeeeee")))
+				awful.button({ }, 2, function() clipmenu:toggle()  end),
+				awful.button({ }, 3, function() browsermenu:toggle()  end)))
 
 -- Tag mouse actions
 mytaglist = {}
