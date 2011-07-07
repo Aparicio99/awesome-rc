@@ -80,21 +80,11 @@ browsermenu = awful.menu({ items = {
 
 --------------------------------------- Clipboard Menu ---------------------------------------
 clipmenu = awful.menu({ width = 200,  items = {
-			{ "Clear",			"clip clear all" },
-			{ "Selection -> Clipboard",	"clip sel cli" },
-			{ "Clipboard -> Selection",	"clip cli sel" },
-			{ "Save Selection",		"clip sel sec" },
-			{ "Restore Selection",		"clip sec sel" },
-			{ "Dump Selection", function()
-						local sel = pread("clip sel")
-						if string.len(sel) ~= 0 then out(sel, 0)
-						else out("Selection empty")
-						end
-					    end },
-			{ "Dump Clipboard", function()
-						local cli = pread("clip cli")
-						if string.len(cli) ~= 0 then out(cli, 0)
-						else out("Clipboard empty")
-						end
-					    end },
+			{ "Clear",			clipboard.clear    },
+			{ "Selection -> Clipboard",	clipboard.seltocli },
+			{ "Clipboard -> Selection",	clipboard.clitosel },
+			{ "Save Selection",		clipboard.savesel  },
+			{ "Restore Selection",		clipboard.restsel  },
+			{ "Dump Selection",		clipboard.dumpsel  },
+			{ "Dump Clipboard",		clipboard.dumpcli  },
 }})
