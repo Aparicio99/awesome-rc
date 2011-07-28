@@ -61,8 +61,8 @@ volume = {
 	-- Set volume to 50% if reset is enabled
 	check = function()
 		if volume.reset then
-			if volume.value < 40 or volume.value > 60 then
-				volume.set("50%")
+			if volume.value < 30 or volume.value > 50 then
+				volume.set("10")
 			end
 		else
 			volume.set("100%")

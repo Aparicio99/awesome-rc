@@ -74,7 +74,7 @@ clock_widget = clock.init()
 -- Browser mouse actions
 plusmenu.text = "+ "
 plusmenu:buttons(awful.util.table.join(
-				awful.button({ }, 1, lspawn(browser)),
+				awful.button({ }, 1, lspawn(browser.." -U")),
 				awful.button({ }, 2, function() clipmenu:toggle()  end),
 				awful.button({ }, 3, function() browsermenu:toggle()  end)))
 
@@ -220,6 +220,8 @@ globalkeys = awful.util.table.join(
 		awful.key({     }, "XF86AudioMute",        volume.toggle),
 		awful.key({     }, "XF86AudioRaiseVolume", volume.inc),
 		awful.key({     }, "XF86AudioLowerVolume", volume.dec),
+		awful.key({ Win }, "KP_Add",               volume.inc),
+		awful.key({ Win }, "KP_Subtract",          volume.dec),
 		awful.key({     }, "XF86AudioPlay",	   function () volume.check() mpd.toggle() end),
 		awful.key({     }, "XF86AudioStop",        mpd.stop),
 		awful.key({     }, "XF86AudioPrev",        mpd.prev),
