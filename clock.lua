@@ -1,10 +1,13 @@
 clock = {
-	offset = 0,
-	format = " %a %b %d %H:%M ",
-	long = false,
 	widget = widget({type = "textbox"}),
-	timer = timer({timeout = 60}),
-	supertimer = timer({timeout = 1}),
+	timer_min = timer({timeout = 60}),
+	timer_sec = timer({timeout = 1}),
+	offset = 0,
+	long = false,
+	format_min = " %a %b %d <span color=\"green\">%H:%M</span>  ",
+	format_sec = " %d/%m/%y <span color=\"red\">%H:%M:%S</span>",
+	format_nix = "      %s   ",
+	format2 = format_sec,
 
 	-- Show calendar popup
 	showcalendar = function(offset)
@@ -46,19 +49,19 @@ clock = {
 	-- Toggle hour format
 	toggle = function(n)
 		if n == 1 then
-			longformat = " %d/%m/%y %H:%M:%S "
+			clock.format2 = clock.format_sec
 		else
-			longformat = " %s "
+			clock.format2 = clock.format_nix
 		end
 
 		if clock.long then
-			clock.supertimer:stop()
-			clock.widget.text = os.date(clock.format)
-			clock.timer:start()
+			clock.timer_sec:stop()
+			clock.widget.text = os.date(clock.format_min)
+			clock.timer_min:start()
 		else
-			clock.timer:stop()
-			clock.widget.text = os.date(longformat)
-			clock.supertimer:start()
+			clock.timer_min:stop()
+			clock.widget.text = os.date(clock.format2)
+			clock.timer_sec:start()
 		end
 		clock.long = not clock.long
 	end,
@@ -66,11 +69,11 @@ clock = {
 	-- Setup widget
 	init = function()
 		-- Timers
-		clock.timer:add_signal("timeout", function()
-							clock.widget.text = os.date(clock.format)
+		clock.timer_min:add_signal("timeout", function()
+							clock.widget.text = os.date(clock.format_min)
 							battery.reload()
 						end)
-		clock.supertimer:add_signal("timeout", function() clock.widget.text = os.date(longformat) end)
+		clock.timer_sec:add_signal("timeout", function() clock.widget.text = os.date(clock.format2) end)
 
 		-- Binds
 		clock.widget:buttons(awful.util.table.join(
@@ -85,8 +88,8 @@ clock = {
 		))
 
 		-- Start
-		clock.widget.text = os.date(clock.format)
-		clock.timer:start()
+		clock.widget.text = os.date(clock.format_min)
+		clock.timer_min:start()
 
 		return clock.widget
 	end,

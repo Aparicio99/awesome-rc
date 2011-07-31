@@ -62,14 +62,21 @@ awful.tag.setproperty(tags[MAIN][1], "mwfact", 0.75)
 awful.tag.setproperty(tags[1][2], "layout", awful.layout.suit.max)
 
 --------------------------------------- Widgets ---------------------------------------
-plusmenu = widget({type = "textbox"})
-systray = widget({ type = "systray" })
-mpd_widget = mpd.init()
-battery_widget = battery.init()
-volume_widget = volume.init()
-clock_widget = clock.init()
+plusmenu	= widget({type = "textbox"})
+conky_toggle	= widget({type = "textbox"})
+systray		= widget({type = "systray"})
+blank1		= widget({type = "textbox"})
+blank2		= widget({type = "textbox"})
+mpd_widget	= mpd.init()
+battery_widget	= battery.init()
+volume_widget	= volume.init()
+clock_widget	= clock.init()
+
 
 --------------------------------------- Panel ---------------------------------------
+
+blank1.text = " "
+blank2.text = "  "
 
 -- Browser mouse actions
 plusmenu.text = "+ "
@@ -77,6 +84,17 @@ plusmenu:buttons(awful.util.table.join(
 				awful.button({ }, 1, lspawn(browser.." -U")),
 				awful.button({ }, 2, function() clipmenu:toggle()  end),
 				awful.button({ }, 3, function() browsermenu:toggle()  end)))
+
+conky_toggle.text = "  "
+conky_toggle:buttons(awful.util.table.join(awful.button({ }, 1,
+				function()
+					local c = getclient("instance", "Conky")
+					if not c then
+						spawn("conky -c /home/aparicio/.conkyrc-desktop")
+					else
+						c:kill()
+					end
+				end)))
 
 -- Tag mouse actions
 mytaglist = {}
@@ -140,11 +158,17 @@ for s = 1, screen.count() do
 			s == 1 and plusmenu or nil,
 			layout = awful.widget.layout.horizontal.leftright
 		},
+		s == MAIN and conky_toggle or nil,
 		s == MAIN and clock_widget or nil,
+		s == MAIN and blank2 or nil,
 		s == MAIN and volume_widget or nil,
+		s == MAIN and blank2 or nil,
 		s == MAIN and battery_widget or nil,
 		s == MAIN and mpd_widget or nil,
+		s == MAIN and blank2 or nil,
+		s == MAIN and blank1 or nil,
 		s == MAIN and systray or nil,
+		s == MAIN and blank1 or nil,
 		s == MAIN and mypromptbox or nil,
 		mytasklist[s],
 		layout = awful.widget.layout.horizontal.rightleft
@@ -205,6 +229,7 @@ globalkeys = awful.util.table.join(
 		awful.key({ Win, Ctr }, "Left",  function() awful.tag.incmwfact(-0.05)  info() end),
 		awful.key({ Win, Ctr }, "Right", function() awful.tag.incmwfact( 0.05)  info() end),
 		awful.key({ Win, Shi }, "0",     function() awful.tag.setmwfact(0.5)    info() end),
+		awful.key({ Win, Shi }, "\'",    function() awful.tag.setmwfact(0.75)   info() end),
 		awful.key({ Win, Ctr }, "Up",    function() awful.tag.incncol( 1)       info() end),
 		awful.key({ Win, Ctr }, "Down",  function() awful.tag.incncol(-1)       info() end),
 		awful.key({ Win,     }, "space", function() awful.layout.inc(layouts,  1) info() end),
@@ -217,11 +242,18 @@ globalkeys = awful.util.table.join(
 		awful.key({ Ctr }, "Print",                lspawn("/home/aparicio/scripts/screenshot area")),
 		awful.key({     }, "XF86WWW",              lspawn(browser)),
 		awful.key({     }, "XF86Display",          lspawn("xset dpms force off")),
+		awful.key({     }, "Pause",                function () spawn("xset dpms force off") mpd.stop() end),
 		awful.key({     }, "XF86AudioMute",        volume.toggle),
 		awful.key({     }, "XF86AudioRaiseVolume", volume.inc),
 		awful.key({     }, "XF86AudioLowerVolume", volume.dec),
 		awful.key({ Win }, "KP_Add",               volume.inc),
 		awful.key({ Win }, "KP_Subtract",          volume.dec),
+		awful.key({ Win }, "KP_Multiply",          volume.toggle),
+		awful.key({ Win }, "KP_Divide",            volume.check),
+		awful.key({ Win }, "Home",                 mpd.prev),
+		awful.key({ Win }, "End",                  mpd.next),
+		awful.key({ Win }, "Insert",               mpd.toggle),
+		awful.key({ Win }, "Delete",               mpd.stop),
 		awful.key({     }, "XF86AudioPlay",	   function () volume.check() mpd.toggle() end),
 		awful.key({     }, "XF86AudioStop",        mpd.stop),
 		awful.key({     }, "XF86AudioPrev",        mpd.prev),
@@ -262,6 +294,7 @@ root.keys(globalkeys)
 --------------------------------------- Client key bindings ---------------------------------------
 clientkeys = awful.util.table.join(
 		awful.key({ Alt      }, "F4",     function (c) c:kill() end),
+		awful.key({ Win      }, "p",      function (c) c.sticky = not c.sticky end),
 		awful.key({ Win,     }, "f",      function (c) c.fullscreen = not c.fullscreen end),
 		awful.key({ Win, Alt }, "space",  awful.client.floating.toggle ),
 		awful.key({ Win, Ctr }, "Return", function (c) c:swap(awful.client.getmaster()) end),
@@ -306,9 +339,22 @@ awful.rules.rules = {
 	-- Other
 	{ rule = { class = browser },	properties = { tag = tags[1][2] } },
 	{ rule = { class = "Skype" },	properties = { tag = tags[MAIN][1] } },
-	{ rule = { name = "conky" },	properties = { skip_taskbar = true } },
-	{ rule = { class = "Claws-mail" }, properties = {  floating = true} },
+	{ rule = { class = "Claws-mail", role = "compose" }, properties = {  floating = true} },
 	{ rule = { class = "Claws-mail", role = "mainwindow" }, properties = { maximized_horizontal = true, maximized_vertical = true} },
+	{ rule = { class = "Boincmgr" }, properties = {  floating = true, skip_taskbar = true} },
+	{ rule = { class = "Conky"  },
+		properties = {
+			floating = true,
+			focus = false,
+			skip_taskbar = true,
+		},
+		callback = function( c )
+			local w_area = screen[ c.screen ].workarea
+			local strutwidth = 200
+			c:struts( { right = strutwidth } )
+			--c:geometry( { x = w_area.width - strutwidth, width = strutwidth, y = w_area.y, height = w_area.height } )
+		end
+	}
 }
 
 --------------------------------------- Signals ---------------------------------------

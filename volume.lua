@@ -1,6 +1,7 @@
 volume = {
 	reset = true,
 	value = 0,
+	default = 8,
 	widget = widget({ type = "textbox" }),
 
 	-- Update the textbox with the current volume level
@@ -12,7 +13,7 @@ volume = {
 		local level = output:match("%d+%%")
 		local mute = output:match("%[%a+%]")
 
-		local text = " Vol "..level
+		local text = "Vol <span color=\"green\">"..level.."</span>"
 
 		if mute == "[off]" then
 			text = text.." Muted"
@@ -47,7 +48,7 @@ volume = {
 		else
 			rout("Volume reset OFF", 1)
 		end
-		--volume.update()
+		--volume.update(
 	end,
 
 	-- Set volume level
@@ -61,8 +62,8 @@ volume = {
 	-- Set volume to 50% if reset is enabled
 	check = function()
 		if volume.reset then
-			if volume.value < 30 or volume.value > 50 then
-				volume.set("10")
+			if volume.value < 20 or volume.value > 35 then
+				volume.set(volume.default)
 			end
 		else
 			volume.set("100%")
