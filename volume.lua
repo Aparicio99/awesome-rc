@@ -16,7 +16,7 @@ volume = {
 		local text = "Vol <span color=\"green\">"..level.."</span>"
 
 		if mute == "[off]" then
-			text = text.." Muted"
+			text = "Vol "..level
 		end
 
 		--if not volume.reset then

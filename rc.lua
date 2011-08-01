@@ -85,7 +85,7 @@ plusmenu:buttons(awful.util.table.join(
 				awful.button({ }, 2, function() clipmenu:toggle()  end),
 				awful.button({ }, 3, function() browsermenu:toggle()  end)))
 
-conky_toggle.text = "  "
+conky_toggle.text = " "
 conky_toggle:buttons(awful.util.table.join(awful.button({ }, 1,
 				function()
 					local c = getclient("instance", "Conky")
@@ -131,13 +131,14 @@ mytasklist.buttons = awful.util.table.join(
 -- Run Prompt
 mypromptbox = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
 
-mywibox = {}
-mylayoutbox = {}
+panel = {}
+control = {}
+layoutbox = {}
 for s = 1, screen.count() do
 
 	-- Layout box
-	mylayoutbox[s] = awful.widget.layoutbox(s)
-	mylayoutbox[s]:buttons(awful.util.table.join(
+	layoutbox[s] = awful.widget.layoutbox(s)
+	layoutbox[s]:buttons(awful.util.table.join(
 				awful.button({ }, 1, function () mainmenu:toggle() end),
 				awful.button({ }, 2, function () awful.layout.set(awful.layout.suit.floating) end),
 				awful.button({ }, 3, function () awful.layout.set(awful.layout.suit.tile) end),
@@ -150,14 +151,24 @@ for s = 1, screen.count() do
 	mytasklist[s] = awful.widget.tasklist( function(c) return awful.widget.tasklist.label.currenttags(c, s) end, mytasklist.buttons)
 
 	-- Panel
-	mywibox[s] = awful.wibox({ position = "top", screen = s, ontop = false })
-	mywibox[s].widgets = {
+	panel[s] = awful.wibox({ position = "top", screen = s, ontop = false, width = screen[s].geometry.width - 200})
+	panel[s].widgets = {
 		{
-			mylayoutbox[s],
+			layoutbox[s],
 			mytaglist[s],
 			s == 1 and plusmenu or nil,
 			layout = awful.widget.layout.horizontal.leftright
 		},
+		s == MAIN and blank1 or nil,
+		s == MAIN and systray or nil,
+		s == MAIN and blank1 or nil,
+		s == MAIN and mypromptbox or nil,
+		mytasklist[s],
+		layout = awful.widget.layout.horizontal.rightleft
+	}
+
+	control[s] = awful.wibox({ position = "top", screen = s, ontop = false, width = 200, x = screen[s].geometry.width - 200})
+	control[s].widgets = {
 		s == MAIN and conky_toggle or nil,
 		s == MAIN and clock_widget or nil,
 		s == MAIN and blank2 or nil,
@@ -165,12 +176,6 @@ for s = 1, screen.count() do
 		s == MAIN and blank2 or nil,
 		s == MAIN and battery_widget or nil,
 		s == MAIN and mpd_widget or nil,
-		s == MAIN and blank2 or nil,
-		s == MAIN and blank1 or nil,
-		s == MAIN and systray or nil,
-		s == MAIN and blank1 or nil,
-		s == MAIN and mypromptbox or nil,
-		mytasklist[s],
 		layout = awful.widget.layout.horizontal.rightleft
 	}
 end
@@ -331,7 +336,7 @@ awful.rules.rules = {
 					size_hints_honor = false} },
 	-- Float
 	{ rule_any = {	class = { "MPlayer", "gimp", "Gmpc", "Transmission" },
-			name = { "File Transfers", "cal", "ncmpc" } },
+			name = { "File Transfers", "cal", "ncmpc", "puff" } },
 			properties = { floating = true } },
 	-- Drop consoles
 	{ rule_any = {	instance = {"dropterm1", "dropterm2", "dropterm3"} },

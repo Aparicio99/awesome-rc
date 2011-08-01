@@ -22,7 +22,7 @@ drop = {
 	end,
 
 	setprop = function(c, n, resize)
-		area = screen[mouse.screen].workarea
+		area = screen[mouse.screen].geometry
 		yy = area.y
 		xx = area.x + (area.width - c:geometry().width)/2
 		ww = 800
