@@ -50,7 +50,7 @@ utilsmenu = {
 	{ "urxvt",		terminal },
 	{ "htop",		t("htop") },
 	{ "root shell",		t("su") },
-	{ "conky",		t("conky") },
+	{ "conky",		"conky" },
 }
 awesomemenu = {
 	{ "Toggle battery status", battery.toggle },
@@ -58,7 +58,7 @@ awesomemenu = {
 	{ "quit", awesome.quit }
 }
 mainmenu = awful.menu({ items = {
-			{ "Casa",	function() spawn("skype") spawn("claws-mail") spawn("luakit") spawn(t("conky")) spawn(terminal) end},
+			{ "Casa",	function() spawn("skype") spawn("claws-mail") spawn("luakit") spawn("conky") spawn(terminal) end},
 			{ "Skype",	"skype"},
 			{ "Gmpc",	"gmpc"},
 			{ "Claws Mail",	"claws-mail"},

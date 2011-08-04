@@ -6,7 +6,7 @@ require("naughty")
 
 config = awful.util.getdir("config")
 cache = awful.util.getdir("cache")
-beautiful.init(config .. "/themes/default/theme.lua")
+beautiful.init(config .. "/themes/green/theme.lua")
 
 --------------------------------------- Alias ---------------------------------------
 spawn = awful.util.spawn
@@ -90,7 +90,7 @@ conky_toggle:buttons(awful.util.table.join(awful.button({ }, 1,
 				function()
 					local c = getclient("instance", "Conky")
 					if not c then
-						spawn("conky -c /home/aparicio/.conkyrc-desktop")
+						spawn("conky")
 					else
 						c:kill()
 					end
@@ -227,18 +227,18 @@ globalkeys = awful.util.table.join(
 						end),
 
 		-- Layout manipulation
-		awful.key({ Win, Alt }, "Left",  function() awful.tag.incnmaster( 1)    info() end),
-		awful.key({ Win, Alt }, "Right", function() awful.tag.incnmaster(-1)    info() end),
-		awful.key({ Win, Alt }, "Up",    function() awful.client.swap.byidx( 1) info() end),
-		awful.key({ Win, Alt }, "Down",  function() awful.client.swap.byidx(-1) info() end),
-		awful.key({ Win, Ctr }, "Left",  function() awful.tag.incmwfact(-0.05)  info() end),
-		awful.key({ Win, Ctr }, "Right", function() awful.tag.incmwfact( 0.05)  info() end),
-		awful.key({ Win, Shi }, "0",     function() awful.tag.setmwfact(0.5)    info() end),
-		awful.key({ Win, Shi }, "\'",    function() awful.tag.setmwfact(0.75)   info() end),
-		awful.key({ Win, Ctr }, "Up",    function() awful.tag.incncol( 1)       info() end),
-		awful.key({ Win, Ctr }, "Down",  function() awful.tag.incncol(-1)       info() end),
-		awful.key({ Win,     }, "space", function() awful.layout.inc(layouts,  1) info() end),
-		awful.key({ Win, Shi }, "space", function() awful.layout.inc(layouts, -1) info() end),
+		awful.key({ Win, Alt }, "Left",  function() awful.tag.incnmaster( 1)      layoutinfo() end),
+		awful.key({ Win, Alt }, "Right", function() awful.tag.incnmaster(-1)      layoutinfo() end),
+		awful.key({ Win, Alt }, "Up",    function() awful.client.swap.byidx( 1)   layoutinfo() end),
+		awful.key({ Win, Alt }, "Down",  function() awful.client.swap.byidx(-1)   layoutinfo() end),
+		awful.key({ Win, Ctr }, "Left",  function() incmwfact5(-0.05)             layoutinfo() end),
+		awful.key({ Win, Ctr }, "Right", function() incmwfact5(0.05)              layoutinfo() end),
+		awful.key({ Win, Shi }, "0",     function() awful.tag.setmwfact(0.5)      layoutinfo() end),
+		awful.key({ Win, Shi }, "\'",    function() awful.tag.setmwfact(0.75)     layoutinfo() end),
+		awful.key({ Win, Ctr }, "Up",    function() awful.tag.incncol( 1)         layoutinfo() end),
+		awful.key({ Win, Ctr }, "Down",  function() awful.tag.incncol(-1)         layoutinfo() end),
+		awful.key({ Win,     }, "space", function() awful.layout.inc(layouts,  1) layoutinfo() end),
+		awful.key({ Win, Shi }, "space", function() awful.layout.inc(layouts, -1) layoutinfo() end),
 
 		-- Apps
 		awful.key({ Win }, "Return",               lspawn(terminal)),

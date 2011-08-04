@@ -8,32 +8,37 @@ function rout(s, t)
 	naughty.notify({ text=s, timeout=t, replaces_id=0 })
 end
 
+function urgent(s1, s2)
+	naughty.notify({ title=s1, text=s2, bg="#ff0000", fg="#000000"})
+end
+
+-- Spawn program and show output in notification
 function spawn_out(s, t)
 	rout(pread(s), t)
 end
 
+-- Simplify calls to external programs in places where a function is expected
 function lspawn(s)
-	return function()
-		spawn(s)
-	end
+	return function() spawn(s) end
 end
 
-function urgent(s1, s2)
-	naughty.notify({ title=s1, text=s2, bg="#ff0000", fg="#000000"})
+function t(s)
+	return terminal.." -e "..s
 end
 
 function mkprompt(p, f, c)
 	return function () awful.prompt.run({ prompt = p }, mypromptbox.widget, f, nil, c) end
 end
 
-function info()
-	rout(	"Masters: " .. awful.tag.getnmaster() ..
-		"\nColumns: " .. awful.tag.getncol() ..
-		"\nFactor: " .. awful.tag.getmwfact())
+function round(what, precision)
+	return math.floor(what*math.pow(10,precision)+0.5) / math.pow(10,precision)
 end
 
-function t(s)
-	return terminal.." -e "..s
+-- Show notification with layout information 
+function layoutinfo()
+	rout(	"Masters: " .. awful.tag.getnmaster() ..
+		"\nColumns: " .. awful.tag.getncol() ..
+		"\nFactor: " .. awful.tag.getmwfact(), 2)
 end
 
 function dmenu()
@@ -43,6 +48,7 @@ function dmenu()
 		"' -sf '" .. beautiful.fg_focus .. "'")
 end
 
+-- Move windows to adjacent desktops
 function shift_to_tag(n)
 	return function(c)
 		local id = awful.tag.getidx(awful.tag.selected(mouse.screen)) + n;
@@ -56,6 +62,7 @@ function shift_to_tag(n)
 	end
 end
 
+-- Get the client with some property, like instance of value conky
 function getclient(prop, val)
 	for i, c in ipairs(client.get()) do
 		if c[prop] == val then
@@ -64,6 +71,14 @@ function getclient(prop, val)
 	end
 end
 
+-- Set the factor being always multiple of 5
+function incmwfact5(factor)
+	local val = math.ceil(awful.tag.getmwfact() * 100) -- math.ceil is to correct a weird bug
+	val = ((val - (val%5)) / 100) + factor             -- if getmwfact() seems to return 0.65, that value is different from 0.65
+	awful.tag.setmwfact(val)                           -- so 65%5 return 5 instead of 0
+end
+
+-- Show notification with all the info about the focused window
 function client_info()
   local v = ""
 
