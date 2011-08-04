@@ -163,6 +163,7 @@ for s = 1, screen.count() do
 			s == 1 and plusmenu or nil,
 			layout = awful.widget.layout.horizontal.leftright
 		},
+		s == MAIN and battery_widget or nil,
 		s == MAIN and blank1 or nil,
 		s == MAIN and systray or nil,
 		s == MAIN and blank1 or nil,
@@ -179,7 +180,6 @@ for s = 1, screen.count() do
 		s == MAIN and blank2 or nil,
 		s == MAIN and volume_widget or nil,
 		s == MAIN and blank2 or nil,
-		s == MAIN and battery_widget or nil,
 		s == MAIN and mpd_widget or nil,
 		layout = awful.widget.layout.horizontal.rightleft
 	}
