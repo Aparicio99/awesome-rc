@@ -19,7 +19,7 @@ scripts = "/home/aparicio/scripts/"
 terminal = scripts.."uterm"
 browser = "luakit"
 
---------------------------------------- Includes ---------------------------------------
+--------------------------------------- External files -------------------------------
 require("helpers")
 require("clock")
 require("volume")
@@ -61,7 +61,9 @@ end
 awful.tag.setproperty(tags[MAIN][1], "mwfact", 0.75)
 awful.tag.setproperty(tags[1][2], "layout", awful.layout.suit.max)
 
---------------------------------------- Widgets ---------------------------------------
+--------------------------------------- Panel ---------------------------------------
+
+-- Widgets
 plusmenu	= widget({type = "textbox"})
 conky_toggle	= widget({type = "textbox"})
 systray		= widget({type = "systray"})
@@ -72,28 +74,23 @@ battery_widget	= battery.init()
 volume_widget	= volume.init()
 clock_widget	= clock.init()
 
-
---------------------------------------- Panel ---------------------------------------
-
 blank1.text = " "
 blank2.text = "  "
 
--- Browser mouse actions
+-- Plus button mouse actions
 plusmenu.text = "+ "
 plusmenu:buttons(awful.util.table.join(
 				awful.button({ }, 1, lspawn(browser.." -U")),
 				awful.button({ }, 2, function() clipmenu:toggle()  end),
 				awful.button({ }, 3, function() browsermenu:toggle()  end)))
 
+-- Hidden button to toggle conky
 conky_toggle.text = " "
 conky_toggle:buttons(awful.util.table.join(awful.button({ }, 1,
 				function()
 					local c = getclient("instance", "Conky")
-					if not c then
-						spawn("conky")
-					else
-						c:kill()
-					end
+					if not c then spawn("conky")
+					else c:kill() end
 				end)))
 
 -- Tag mouse actions
@@ -110,7 +107,7 @@ mytaglist.buttons = awful.util.table.join(
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
 			awful.button({ }, 1,
-					function (c)
+					function (c) -- focus window
 						if not c:isvisible() then awful.tag.viewonly(c:tags()[1]) end
 						client.focus = c
 						c:raise()
@@ -118,32 +115,39 @@ mytasklist.buttons = awful.util.table.join(
 			awful.button({ }, 2, function (c) c:kill() end),
 			awful.button({ }, 3, function (c) c.minimized = not c.minimized end),
 			awful.button({ }, 4,
-					function ()
+					function () -- changed focused client
 						awful.client.focus.byidx(1)
 						if client.focus then client.focus:raise() end
 					end),
 			awful.button({ }, 5,
-					function ()
+					function () -- changed focused client
 						awful.client.focus.byidx(-1)
 						if client.focus then client.focus:raise() end
 					end))
 
+-- Layout box mouse actions
+layoutbox = {}
+layoutbox.buttons = awful.util.table.join(
+			awful.button({ }, 1, function () mainmenu:toggle() end),
+			awful.button({ }, 2, function () awful.layout.set(awful.layout.suit.floating) end),
+			awful.button({ }, 3, function () awful.layout.set(awful.layout.suit.tile) end),
+			awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
+			awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end))
+
+
+
+
 -- Run Prompt
-mypromptbox = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
+promptbox = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
 
 panel = {}
 control = {}
-layoutbox = {}
 for s = 1, screen.count() do
 
-	-- Layout box
+	-- Layout box and Menu button
 	layoutbox[s] = awful.widget.layoutbox(s)
-	layoutbox[s]:buttons(awful.util.table.join(
-				awful.button({ }, 1, function () mainmenu:toggle() end),
-				awful.button({ }, 2, function () awful.layout.set(awful.layout.suit.floating) end),
-				awful.button({ }, 3, function () awful.layout.set(awful.layout.suit.tile) end),
-				awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-				awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
+	layoutbox[s]:buttons(layoutbox.buttons)
+
 	-- Tag list
 	mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
 
@@ -162,11 +166,12 @@ for s = 1, screen.count() do
 		s == MAIN and blank1 or nil,
 		s == MAIN and systray or nil,
 		s == MAIN and blank1 or nil,
-		s == MAIN and mypromptbox or nil,
+		s == MAIN and promptbox or nil,
 		mytasklist[s],
 		layout = awful.widget.layout.horizontal.rightleft
 	}
 
+	-- Widgets panel
 	control[s] = awful.wibox({ position = "top", screen = s, ontop = false, width = 200, x = screen[s].geometry.width - 200})
 	control[s].widgets = {
 		s == MAIN and conky_toggle or nil,
@@ -201,7 +206,7 @@ awful.rules.rules = {
 			properties = { floating = true, ontop = true, skip_taskbar = true, sticky = true, hidden = true } },
 	-- Other
 	{ rule = { class = browser },	properties = { tag = tags[1][2] } },
-	{ rule = { class = "Skype" },	properties = { tag = tags[MAIN][1] } },
+	{ rule = { class = "Skype" },	properties = { floating = true, sticky = true } },
 	{ rule = { class = "Claws-mail", role = "compose" }, properties = {  floating = true} },
 	{ rule = { class = "Claws-mail", role = "mainwindow" }, properties = { maximized_horizontal = true, maximized_vertical = true} },
 	{ rule = { class = "Boincmgr" }, properties = {  floating = true, skip_taskbar = true} },
@@ -215,7 +220,6 @@ awful.rules.rules = {
 			local w_area = screen[ c.screen ].workarea
 			local strutwidth = 200
 			c:struts( { right = strutwidth } )
-			--c:geometry( { x = w_area.width - strutwidth, width = strutwidth, y = w_area.y, height = w_area.height } )
 		end
 	}
 }

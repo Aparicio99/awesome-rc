@@ -88,12 +88,13 @@ globalkeys = awful.util.table.join(
 		awful.key({ Win }, "F1",                   function () drop.toggle(3) end),
 		awful.key({ Win }, "F3",                   drop.onoff),
 		awful.key({ Alt }, "F2",		   dmenu),
+		awful.key({     }, "F4",                   function () toggle_hidden("instance", "skype") end),
 		awful.key({ Win }, "b",                    lspawn("/home/aparicio/scripts/luakit_bookmark")),
 		awful.key({ Win }, "s",                    clipboard.seltocli),
 		awful.key({ Win }, "c",                    clipboard.clitosel),
 
 		-- Prompts
-		awful.key({ Win }, "r",	function () mypromptbox:run() end ),
+		awful.key({ Win }, "r",	function () promptbox:run() end ),
 		awful.key({ Win }, "x",	mkprompt("Lua: ",  awful.util.eval, cache.."/history_eval") ),
 		awful.key({ Win }, "F11", mkprompt("Calc: ", function (s) out("= " .. awful.util.eval("return (" .. s .. ")")) end ) ),
 		awful.key({ Win }, "XF86AudioPlay", mkprompt("mpc ", function (s) mpd.cmd(s, 10)() end, cache.."/history_mpc") )

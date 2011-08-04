@@ -27,7 +27,7 @@ function t(s)
 end
 
 function mkprompt(p, f, c)
-	return function () awful.prompt.run({ prompt = p }, mypromptbox.widget, f, nil, c) end
+	return function () awful.prompt.run({ prompt = p }, promptbox.widget, f, nil, c) end
 end
 
 function round(what, precision)
@@ -59,6 +59,21 @@ function shift_to_tag(n)
 		local new = tags[c.screen][id]
 		awful.client.movetotag(new)
 		awful.tag.viewonly(new)
+	end
+end
+
+-- Hide/Show all windows matching some property
+function toggle_hidden(prop, value)
+	for i, c in ipairs(client.get()) do
+		if c[prop] == value then
+			if c.hidden then
+				c.hidden = false
+				client.focus = c
+				c:raise()
+			else
+				c.hidden = true
+			end
+		end
 	end
 end
 
