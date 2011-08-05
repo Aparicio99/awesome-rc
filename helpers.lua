@@ -71,7 +71,12 @@ function toggle_hidden(prop, value)
 				client.focus = c
 				c:raise()
 			else
-				c.hidden = true
+				if c ~= client.focus then
+					client.focus = c
+					c:raise()
+				else
+					c.hidden = true
+				end
 			end
 		end
 	end
