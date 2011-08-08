@@ -62,22 +62,41 @@ function shift_to_tag(n)
 	end
 end
 
+last_focus = nil
+
 -- Hide/Show all windows matching some property
 function toggle_hidden(prop, value)
+
+	local windows = {}
+	local all_hidden = false
+	local focus = false
+
 	for i, c in ipairs(client.get()) do
 		if c[prop] == value then
-			if c.hidden then
-				c.hidden = false
-				client.focus = c
-				c:raise()
-			else
-				if c ~= client.focus then
-					client.focus = c
-					c:raise()
-				else
-					c.hidden = true
-				end
+			table.insert(windows, c)
+
+			all_hidden = all_hidden or c.hidden
+			if c == client.focus then
+				last_focus = c
+				focus = true
 			end
+		end
+	end
+
+	if all_hidden then
+		for i, c in ipairs(windows) do
+			c.hidden = false
+			c:raise()
+		end
+		client.focus = last_focus
+	else
+		if focus then
+			for i, c in ipairs(windows) do
+				c.hidden = true
+			end
+		else
+			client.focus = last_focus
+			last_focus:raise()
 		end
 	end
 end
