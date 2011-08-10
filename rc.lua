@@ -49,6 +49,7 @@ if screen.count() == 2 then MAIN = 2 else MAIN = 1 end
 
 naughty.config.presets.normal.font = "Monospace 8"
 naughty.config.presets.normal.screen = MAIN
+naughty.config.presets.normal.border_color = "#ffffff"
 naughty.config.presets.low.screen = MAIN
 naughty.config.presets.critical.screen = MAIN
 
