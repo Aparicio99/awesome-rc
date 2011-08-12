@@ -66,7 +66,7 @@ globalkeys = awful.util.table.join(
 		awful.key({ Ctr }, "Print",                lspawn("/home/aparicio/scripts/screenshot area")),
 		awful.key({     }, "XF86WWW",              lspawn(browser)),
 		awful.key({     }, "XF86Display",          lspawn("xset dpms force off")),
-		awful.key({     }, "Pause",                function () spawn("xset dpms force off") mpd.stop() end),
+		awful.key({     }, "Pause",                lspawn("/home/aparicio/scripts/akf")),
 		awful.key({     }, "XF86AudioMute",        volume.toggle),
 		awful.key({     }, "XF86AudioRaiseVolume", volume.inc),
 		awful.key({     }, "XF86AudioLowerVolume", volume.dec),
