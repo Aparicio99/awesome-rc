@@ -48,6 +48,19 @@ function dmenu()
 		"' -sf '" .. beautiful.fg_focus .. "'")
 end
 
+function sleep()
+	out("sleeping...")
+	spawn("/home/aparicio/scripts/afk true")
+
+	keygrabber.run( function(mod, key, event)
+				if event == "press" then
+					spawn("/home/aparicio/scripts/afk false")
+					return false
+				end
+				return true
+			end)
+end
+
 -- Move windows to adjacent desktops
 function shift_to_tag(n)
 	return function(c)
