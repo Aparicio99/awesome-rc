@@ -200,7 +200,7 @@ awful.rules.rules = {
 					size_hints_honor = false} },
 	-- Float
 	{ rule_any = {	class = { "MPlayer", "gimp", "Gmpc", "Transmission" },
-			name = { "File Transfers", "cal", "ncmpc", "puff" } },
+			name = { "File Transfers", "cal", "ncmpc", "puff", "feh" } },
 			properties = { floating = true } },
 	-- Drop consoles
 	{ rule_any = {	instance = {"dropterm1", "dropterm2", "dropterm3"} },
