@@ -67,6 +67,7 @@ globalkeys = awful.util.table.join(
 		awful.key({     }, "XF86WWW",              lspawn(browser)),
 		awful.key({     }, "XF86Display",          lspawn("xset dpms force off")),
 		awful.key({     }, "Pause",                sleep),
+		awful.key({     }, "Scroll_Lock",          lspawn("xset -led 3")),
 		awful.key({     }, "XF86AudioMute",        volume.toggle),
 		awful.key({     }, "XF86AudioRaiseVolume", volume.inc),
 		awful.key({     }, "XF86AudioLowerVolume", volume.dec),
