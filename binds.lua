@@ -131,6 +131,8 @@ clientkeys = awful.util.table.join(
 		awful.key({ Win, Shi }, "Right",  shift_to_tag(1)),
 		awful.key({ Win, Shi }, "Left",   shift_to_tag(-1)),
 		awful.key({ Win,     }, "i",      client_info),
+		awful.key({ Win, Alt }, "KP_Add", function (c) if c.opacity < 0.9 then c.opacity = c.opacity + 0.1 else c.opacity = 1 end end),
+		awful.key({ Win, Alt }, "KP_Subtract", function (c) if c.opacity > 0.1 then c.opacity = c.opacity - 0.1 else c.opacity = 0.1 end end),
 		awful.key({ Win,     }, "m",	  function (c)
 							c.maximized_horizontal = not c.maximized_horizontal
 							c.maximized_vertical   = not c.maximized_vertical
