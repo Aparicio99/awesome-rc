@@ -207,6 +207,7 @@ awful.rules.rules = {
 			properties = { floating = true, ontop = true, skip_taskbar = true, sticky = true, hidden = true } },
 	-- Other
 	{ rule = { class = browser },	properties = { tag = tags[1][2] } },
+	{ rule = { name = "xeyes" },	properties = { floating = true, skip_taskbar = true, sticky = true } },
 	{ rule = { class = "Skype" },	properties = { floating = true, sticky = true, ontop = true } },
 	{ rule = { class = "Claws-mail", role = "compose" }, properties = {  floating = true} },
 	{ rule = { class = "Claws-mail", role = "mainwindow" }, properties = { maximized_horizontal = true, maximized_vertical = true} },
