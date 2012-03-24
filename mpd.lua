@@ -30,9 +30,11 @@ mpd = {
 		local c = getclient("name", "ncmpc")
 		if not c then
 			spawn(terminal.." -g 80x58--3+20 -e ncmpc")
+			mpd.update("")
 		else
 			--c:kill()
 			spawn("pkill -9 ncmpc")
+			mpd.update("")
 		end
 
 	end,

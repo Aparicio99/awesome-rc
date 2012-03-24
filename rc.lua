@@ -216,6 +216,7 @@ awful.rules.rules = {
 		properties = {
 			floating = true,
 			focus = false,
+			sticky = true,
 			skip_taskbar = true,
 		},
 		callback = function( c )
