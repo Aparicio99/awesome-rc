@@ -81,7 +81,7 @@ blank2.text = "  "
 -- Plus button mouse actions
 plusmenu.text = "+ "
 plusmenu:buttons(awful.util.table.join(
-				awful.button({ }, 1, lspawn(browser.." -U")),
+				awful.button({ }, 1, lspawn(browser)),
 				awful.button({ }, 2, function() clipmenu:toggle()  end),
 				awful.button({ }, 3, function() browsermenu:toggle()  end)))
 
@@ -205,10 +205,12 @@ awful.rules.rules = {
 	-- Drop consoles
 	{ rule_any = {	instance = {"dropterm1", "dropterm2", "dropterm3"} },
 			properties = { floating = true, ontop = true, skip_taskbar = true, sticky = true, hidden = true } },
+
+	{ rule_any = { class = {"Skype", "Pidgin" } },	properties = { floating = true, sticky = true, ontop = true } },
+
 	-- Other
 	{ rule = { class = browser },	properties = { tag = tags[1][2] } },
 	{ rule = { name = "xeyes" },	properties = { floating = true, skip_taskbar = true, sticky = true } },
-	{ rule = { class = "Skype" },	properties = { floating = true, sticky = true, ontop = true } },
 	{ rule = { class = "Claws-mail", role = "compose" }, properties = {  floating = true} },
 	{ rule = { class = "Claws-mail", role = "mainwindow" }, properties = { maximized_horizontal = true, maximized_vertical = true, sticky = true} },
 	{ rule = { class = "Boincmgr" }, properties = {  floating = true, skip_taskbar = true} },
