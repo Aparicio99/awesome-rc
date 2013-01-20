@@ -199,7 +199,7 @@ awful.rules.rules = {
 					buttons = clientbuttons,
 					size_hints_honor = false} },
 	-- Float
-	{ rule_any = {	class = { "MPlayer", "gimp", "Gmpc", "Transmission", "Minecraft" },
+	{ rule_any = {	class = { "MPlayer", "gimp", "Gmpc", "Transmission", "Minecraft", "Steam" },
 			name = { "File Transfers", "cal", "ncmpc", "puff", "feh" } },
 			properties = { floating = true } },
 	-- Drop consoles
