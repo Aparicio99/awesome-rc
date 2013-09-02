@@ -1,13 +1,13 @@
 volume = {
 	reset = true,
 	value = 0,
-	default = 8,
+	default = "10%",
 	widget = widget({ type = "textbox" }),
 
 	-- Update the textbox with the current volume level
 	update = function(output)
 		if not output then
-			output = pread("amixer get Master")
+			output = pread("amixer get PCM")
 		end
 
 		local level = output:match("%d+%%")
@@ -53,16 +53,16 @@ volume = {
 
 	-- Set volume level
 	set = function(s)
-		volume.update(pread("amixer set Master "..s))
+		volume.update(pread("amixer set PCM "..s))
 	end,
 
-	inc = function() volume.set("1+") end,
-	dec = function() volume.set("1-") end,
+	inc = function() volume.set("1%+") end,
+	dec = function() volume.set("1%-") end,
 
 	-- Set volume to 50% if reset is enabled
 	check = function()
 		if volume.reset then
-			if volume.value < 20 or volume.value > 35 then
+			if volume.value < 5 or volume.value > 20 then
 				volume.set(volume.default)
 			end
 		else
