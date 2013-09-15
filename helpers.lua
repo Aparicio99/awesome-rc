@@ -78,20 +78,22 @@ end
 last_focus = nil
 
 -- Hide/Show all windows matching some property
-function toggle_hidden(prop, value)
+function toggle_hidden(prop, ...)
 
 	local windows = {}
 	local all_hidden = false
 	local focus = false
 
 	for i, c in ipairs(client.get()) do
-		if c[prop] == value then
-			table.insert(windows, c)
+		for j, value in ipairs(arg) do
+			if c[prop] == value then
+				table.insert(windows, c)
 
-			all_hidden = all_hidden or c.hidden
-			if c == client.focus then
-				last_focus = c
-				focus = true
+				all_hidden = all_hidden or c.hidden
+				if c == client.focus then
+					last_focus = c
+					focus = true
+				end
 			end
 		end
 	end

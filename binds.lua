@@ -89,8 +89,7 @@ globalkeys = awful.util.table.join(
 		awful.key({ Win }, "F1",                   function () drop.toggle(3) end),
 		awful.key({ Win }, "F3",                   drop.onoff),
 		awful.key({ Alt }, "F2",		   dmenu),
-		awful.key({     }, "F4",                   function () toggle_hidden("instance", "skype") spawn("/home/aparicio/scripts/scroll_led off") end),
-		awful.key({ Win }, "b",                    lspawn("/home/aparicio/scripts/luakit_bookmark")),
+		awful.key({     }, "F4",                   function () toggle_hidden("instance", "skype", "Pidgin") spawn("/home/aparicio/scripts/scroll_led off") end),
 		awful.key({ Win }, "s",                    clipboard.seltocli),
 		awful.key({ Win }, "c",                    clipboard.clitosel),
 
