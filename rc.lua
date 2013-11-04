@@ -17,7 +17,7 @@ Ctr = "Control"
 Shi = "Shift"
 scripts = "/home/aparicio/scripts/"
 terminal = scripts.."uterm"
-browser = "luakit"
+browser = "Firefox"
 
 --------------------------------------- External files -------------------------------
 require("helpers")
