@@ -13,7 +13,7 @@ volume = {
 		local level = output:match("%d+%%")
 		local mute = output:match("%[%a+%]")
 
-		local text = "Vol <span color=\"green\">"..level.."</span>"
+		local text = "Vol <span color=\"#00ff00\">"..level.."</span>"
 
 		if mute == "[off]" then
 			text = "Vol "..level

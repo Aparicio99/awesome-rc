@@ -4,9 +4,9 @@ clock = {
 	timer_sec = timer({timeout = 1}),
 	offset = 0,
 	long = false,
-	format_min = "%a %b %d <span color=\"green\">%H:%M</span>  ",
-	format_sec = "%d/%m/%y <span color=\"red\">%H:%M:%S</span> ",
-	format_nix = "      <span color=\"red\">%s</span>    ",
+	format_min = "%a %b %d <span color=\"#00ff00\">%H:%M</span>  ",
+	format_sec = "%d/%m/%y <span color=\"#ff0000\">%H:%M:%S</span> ",
+	format_nix = "      <span color=\"#ff0000\">%s</span>    ",
 	format2 = format_sec,
 
 	-- Show calendar popup
