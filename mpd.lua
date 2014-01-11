@@ -8,7 +8,7 @@ mpd = {
 		local state = output:match("\n%[(%a+)%]")
 
 		if state == "playing" then
-			mpd.widget.text = " <span color=\"green\">▶</span> "
+			mpd.widget.text = " <span color=\"#00ff00\">▶</span> "
 		elseif state == "paused" then
 			mpd.widget.text = " || "
 		else
