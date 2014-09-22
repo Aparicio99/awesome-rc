@@ -59,7 +59,7 @@ awesomemenu = {
 }
 mainmenu = awful.menu({ items = {
 			{ "Casa",	function() spawn("skype") spawn("claws-mail") spawn("luakit") end},
-			{ "Skype",	"skype"},
+			{ "Skype",	"apulse32 skype"},
 			{ "Gmpc",	"gmpc"},
 			{ "Claws Mail",	"claws-mail"},
 			{ "internet",	internetmenu },
