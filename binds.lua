@@ -71,6 +71,8 @@ globalkeys = awful.util.table.join(
 		awful.key({     }, "XF86AudioMute",        volume.toggle),
 		awful.key({     }, "XF86AudioRaiseVolume", volume.inc),
 		awful.key({     }, "XF86AudioLowerVolume", volume.dec),
+		awful.key({ Win }, "+",                    volume.inc),
+		awful.key({ Win }, "-",                    volume.dec),
 		awful.key({ Win }, "KP_Add",               volume.inc),
 		awful.key({ Win }, "KP_Subtract",          volume.dec),
 		awful.key({ Win }, "KP_Multiply",          volume.toggle),
