@@ -1,43 +1,24 @@
---------------------------------------- Main menu ---------------------------------------
-appsmenu = {
-	{ "Mathematica",	"mathematica" },
-	{ "Boinc",		"boincmgr" },
-	{ "DrScheme",		"drscheme" }
-}
 internetmenu = {
-	{ "Emesene",		"emesene-2"},
-	{ "Transmission",	"transmission-gtk"},
-	{ "Uzbl",		"uzbl-browser"},
-	{ "Midori",		"midori"},
-	{ "Google Earth",	"googleearth"},
-	{ "Wicd-client",	"wicd-client"},
+	{ "Transmission",	"transmission-remote-gtk"},
+	{ "Google Chrome",	"google-chrome-stable"},
 	{ "Dropbox",		"/home/aparicio/.dropbox-dist/dropboxd"},
 }
 multimediamenu = {
 	{ "GPicView",		"gpicview" },
-	{ "Mirage",		"mirage" },
 	{ "Gimp",		"gimp" },
-	{ "ePDFViwer",		"epdfview" },
 	{ "Gmpc",		"gmpc" },
-	{ "Gnome Mplayer",	"gnome-mplayer" },
-	{ "Audacity",		"audacity" },
 	{ "ncmpc",		t("ncmpc") },
+	{ "ncmpcpp",		t("ncmpcpp") },
 }
 gamesmenu = {
-	{ "AssaultCube",	"assaultcube" },
-	{ "FooBillard",		"foobillard" },
-	{ "FretsOnFire",	"FretsOnFire" },
+	{ "Steam",		"steam" },
 	{ "SuperTuxKart",	"supertuxkart" },
 	{ "Xmoto",		"xmoto" },
-	{ "GL-117",		"gl-117" },
 	{ "TeeWorlds",		"teeworlds" },
-	{ "Chickens",		"chickens --window" },
 	{ "CrashTest",		"crashtext" },
-	{ "Steam",		"wine /home/aparicio/.wine/drive_c/Programas/Steam/Steam.exe" },
 }
 officemenu = {
 	{ "Gnumeric",		"gnumeric" },
-	{ "Abiword",		"abiword" },
 	{ "ooWriter",		"lowriter" },
 	{ "ooCalc",		"localc" },
 	{ "ooImpress",		"loimpress" },
@@ -47,45 +28,28 @@ utilsmenu = {
 	{ "Character Map",	"gucharmap" },
 	{ "Xkill",		"xkill" },
 	{ "LXappearance",	"lxappearance" },
-	{ "urxvt",		terminal },
+	{ "terminal",		terminal },
 	{ "htop",		t("htop") },
 	{ "root shell",		t("su") },
 	{ "conky",		"conky" },
 }
+
 awesomemenu = {
-	{ "Toggle battery status", battery.toggle },
-	{ "restart", awesome.restart },
-	{ "quit", awesome.quit }
+   { "manual", terminal .. " -e man awesome" },
+   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "restart", awesome.restart },
+   { "quit", awesome.quit }
 }
+
 mainmenu = awful.menu({ items = {
-			{ "Casa",	function() spawn("skype") spawn("claws-mail") spawn("firefox") end},
-			{ "Firefox",	"firefox"},
-			{ "Skype",	"skype"},
-			{ "Claws Mail",	"claws-mail"},
-			{ "Gmpc",	"gmpc"},
-			{ "internet",	internetmenu },
-			{ "apps",	appsmenu },
-			{ "multimedia",	multimediamenu },
-			{ "games",	gamesmenu },
-			{ "office",	officemenu },
-			{ "utils",	utilsmenu },
-			{ "awesome",	awesomemenu }
-}})
-
---------------------------------------- Browser Menu ---------------------------------------
-browsermenu = awful.menu({ items = {
-			{ "GMail",	browser.." gmail.com" },
-			{ "Facebook",	browser.." facebook.com" },
-			{ "Reddit",	browser.." reddit.com" },
-}})
-
---------------------------------------- Clipboard Menu ---------------------------------------
-clipmenu = awful.menu({ width = 200,  items = {
-			{ "Clear",			clipboard.clear    },
-			{ "Selection -> Clipboard",	clipboard.seltocli },
-			{ "Clipboard -> Selection",	clipboard.clitosel },
-			{ "Save Selection",		clipboard.savesel  },
-			{ "Restore Selection",		clipboard.restsel  },
-			{ "Dump Selection",		clipboard.dumpsel  },
-			{ "Dump Clipboard",		clipboard.dumpcli  },
+	{ "Start", function() spawn("skype") spawn("claws-mail") spawn("firefox") end, beautiful.tux_icon},
+	{ "Firefox",	"firefox",       "/usr/share/icons/hicolor/32x32/apps/firefox.png"},
+	{ "Skype",	"skype",         "/usr/share/icons/hicolor/32x32/apps/skype.png"},
+	{ "Claws Mail",	"claws-mail",    "/usr/share/icons/hicolor/48x48/apps/claws-mail.png"},
+	{ "internet",	internetmenu,    beautiful.internet_icon},
+	{ "multimedia",	multimediamenu,  beautiful.multimedia_icon },
+	{ "games",	gamesmenu,       beautiful.games_icon },
+	{ "office",	officemenu,      beautiful.office_icon },
+	{ "utils",	utilsmenu,       beautiful.utils_icon },
+	{ "awesome",	awesomemenu,     beautiful.awesome_icon }
 }})

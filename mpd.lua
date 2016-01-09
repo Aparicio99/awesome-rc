@@ -1,19 +1,22 @@
 mpd = {
-	widget = widget({ type = "textbox" }),
+	widget = wibox.widget.textbox(),
 
 	-- Update the textbox with the current mpd level
 	update = function(cmd)
 		output = pread("mpc "..cmd)
 
 		local state = output:match("\n%[(%a+)%]")
+		local symbol
 
 		if state == "playing" then
-			mpd.widget.text = " <span color=\"#00ff00\">▶</span> "
+			symbol = "▶"
 		elseif state == "paused" then
-			mpd.widget.text = " || "
+			symbol = "||"
 		else
-			mpd.widget.text = " ◼ "
+			symbol = "◼"
 		end
+
+		mpd.widget:set_markup(string.format(" <span color=\"%s\">%s</span> ", beautiful.fg_focus, symbol))
 
 		return output
 	end,
@@ -29,7 +32,7 @@ mpd = {
 	client = function()
 		local c = getclient("name", "ncmpc")
 		if not c then
-			spawn(terminal.." -g 80x58--3+20 -e ncmpc")
+			spawn(terminal.." -geometry 80x58-+2+19 -e ncmpc")
 			mpd.update("")
 		else
 			--c:kill()

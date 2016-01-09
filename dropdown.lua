@@ -29,12 +29,12 @@ drop = {
 		hh = 300
 
 		if n == 2 then
-			yy = yy + area.height - c:geometry().height
+			yy = yy + area.height - c:geometry().height - 2
 
 		elseif n == 3 then
 			xx = area.x
 			ww = area.width / 2
-			hh = area.height
+			hh = area.height - 2
 		end
 
 		if resize then
@@ -48,7 +48,7 @@ drop = {
 	manage = function(n)
 		function func(c)
 			drop.setprop(c, n, true)
-			client.remove_signal("manage", func)
+			client.disconnect_signal("manage", func)
 		end
 		return func
 	end,
@@ -56,7 +56,7 @@ drop = {
 	toggle = function(n)
 		local c = getclient("instance", "dropterm"..n)
 		if not c then
-			client.add_signal("manage", drop.manage(n))
+			--client.connect_signal("manage", drop.manage(n))
 			if n == 3 then
 				spawn(terminal.." -name dropterm"..n.." -e su")
 			else

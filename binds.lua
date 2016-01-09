@@ -1,12 +1,12 @@
 
 --------------------------------------- Root Mouse Bindings ---------------------------------------
 root.buttons(awful.util.table.join(
-			awful.button({     }, 3, function(c) mainmenu:toggle() end),
-			awful.button({     }, 4, awful.tag.viewnext),
-			awful.button({     }, 5, awful.tag.viewprev),
-			awful.button({ Win }, 4, awful.tag.viewnext),
-			awful.button({ Win }, 5, awful.tag.viewprev)
-			))
+		awful.button({     }, 3, function(c) mainmenu:toggle() end),
+		awful.button({     }, 4, awful.tag.viewnext),
+		awful.button({     }, 5, awful.tag.viewprev),
+		awful.button({ Win }, 4, awful.tag.viewnext),
+		awful.button({ Win }, 5, awful.tag.viewprev)
+))
 
 --------------------------------------- Global Key Bindings ---------------------------------------
 globalkeys = awful.util.table.join(
@@ -90,13 +90,13 @@ globalkeys = awful.util.table.join(
 		awful.key({ Win }, "e",                    lspawn("xscreensaver-command -lock")),
 		awful.key({ Win }, "F1",                   function () drop.toggle(3) end),
 		awful.key({ Win }, "F3",                   drop.onoff),
-		awful.key({ Alt }, "F2",		   dmenu),
+		--awful.key({ Alt }, "F2",		   dmenu),
 		awful.key({     }, "F4",                   function () toggle_hidden("instance", "skype", "Pidgin") spawn("/home/aparicio/scripts/scroll_led off") end),
 		awful.key({ Win }, "s",                    clipboard.seltocli),
 		awful.key({ Win }, "c",                    clipboard.clitosel),
 
 		-- Prompts
-		awful.key({ Win }, "r",	function () promptbox:run() end ),
+		awful.key({ Win }, "r",	function () promptbox[mouse.screen]:run() end ),
 		awful.key({ Win }, "x",	mkprompt("Lua: ",  awful.util.eval, cache.."/history_eval") ),
 		awful.key({ Win }, "F11", mkprompt("Calc: ", function (s) out("= " .. awful.util.eval("return (" .. s .. ")")) end ) ),
 		awful.key({ Win }, "XF86AudioPlay", mkprompt("mpc ", function (s) mpd.cmd(s, 10)() end, cache.."/history_mpc") )

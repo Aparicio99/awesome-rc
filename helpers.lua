@@ -27,7 +27,7 @@ function t(s)
 end
 
 function mkprompt(p, f, c)
-	return function () awful.prompt.run({ prompt = p }, promptbox.widget, f, nil, c) end
+	return function () awful.prompt.run({ prompt = p }, promptbox[mouse.screen].widget, f, nil, c) end
 end
 
 function round(what, precision)
@@ -55,9 +55,8 @@ function sleep()
 	keygrabber.run( function(mod, key, event)
 				if event == "press" then
 					spawn("/home/aparicio/scripts/afk false")
-					return false
+					keygrabber.stop()
 				end
-				return true
 			end)
 end
 
@@ -104,7 +103,8 @@ function toggle_hidden(prop, ...)
 			c:raise()
 		end
 		client.focus = last_focus
-	else
+
+	elseif next(windows) then
 		if focus then
 			for i, c in ipairs(windows) do
 				c.hidden = true
@@ -113,6 +113,8 @@ function toggle_hidden(prop, ...)
 			client.focus = last_focus
 			last_focus:raise()
 		end
+	else
+		out("No hidden windows found")
 	end
 end
 

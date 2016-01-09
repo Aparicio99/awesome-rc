@@ -2,7 +2,7 @@ volume = {
 	reset = true,
 	value = 0,
 	default = "10%",
-	widget = widget({ type = "textbox" }),
+	widget = wibox.widget.textbox(),
 
 	-- Update the textbox with the current volume level
 	update = function(output)
@@ -13,7 +13,7 @@ volume = {
 		local level = output:match("%d+%%")
 		local mute = output:match("%[%a+%]")
 
-		local text = "Vol <span color=\"#00ff00\">"..level.."</span>"
+		local text = "Vol <span color=\"" .. beautiful.fg_focus .. "\">"..level.."</span>"
 
 		if mute == "[off]" then
 			text = "Vol "..level
@@ -23,7 +23,7 @@ volume = {
 		--	text = "<span color='orange'>"..text.."</span>"
 		--end
 
-		volume.widget.text = text
+		volume.widget:set_markup(text)
 		volume.value = tonumber(level:sub(0,-2))
 	end,
 
