@@ -231,17 +231,6 @@ require("rules")
 
 --------------------------------------- Signals ---------------------------------------
 client.connect_signal("manage", function (c, startup)
-
-    if c.instance == "dropterm1" then
-	    drop.setprop(c, 1, true)
-
-    elseif c.instance == "dropterm2" then
-	    drop.setprop(c, 2, true)
-
-    elseif c.instance == "dropterm3" then
-	    drop.setprop(c, 3, true)
-    end
-
     if not startup then
         -- Put windows in a smart way, only if they does not set an initial position.
         if not c.size_hints.user_position and not c.size_hints.program_position then
