@@ -42,10 +42,10 @@ awesomemenu = {
 }
 
 mainmenu = awful.menu({ items = {
-	{ "Start", function() spawn("skype") spawn("claws-mail") spawn("firefox") end, beautiful.tux_icon},
-	{ "Firefox",	"firefox",       "/usr/share/icons/hicolor/32x32/apps/firefox.png"},
-	{ "Skype",	"skype",         "/usr/share/icons/hicolor/32x32/apps/skype.png"},
-	{ "Claws Mail",	"claws-mail",    "/usr/share/icons/hicolor/48x48/apps/claws-mail.png"},
+	{ "&Start", function() spawn("skype") spawn("claws-mail") spawn("firefox") end, beautiful.tux_icon},
+	{ "&Firefox",	"firefox",       beautiful.firefox_icon},
+	{ "&Skype",	"skype",         beautiful.skype_icon},
+	{ "&Claws Mail",	"claws-mail",    beautiful.email_icon},
 	{ "internet",	internetmenu,    beautiful.internet_icon},
 	{ "multimedia",	multimediamenu,  beautiful.multimedia_icon },
 	{ "games",	gamesmenu,       beautiful.games_icon },
