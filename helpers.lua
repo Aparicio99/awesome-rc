@@ -134,6 +134,17 @@ function incmwfact5(factor)
 	awful.tag.setmwfact(val)                           -- so 65%5 return 5 instead of 0
 end
 
+-- Returns a copy of the table without the entries rejected by the filter function
+function filter_table(tbl, filter)
+	local ret = {}
+	for _, v in pairs(tbl) do
+		if not filter(v) then
+			table.insert(ret, v)
+		end
+	end
+	return ret
+end
+
 -- Show notification with all the info about the focused window
 function client_info()
   local v = ""

@@ -1,23 +1,26 @@
 drop = {
-	enable = true,
+	enabled = false,
 
 	onoff = function()
-		if drop.enable then
-			rout("Drop Off", 1)
-			table.remove(globalkeys)
-			table.remove(globalkeys)
-			table.remove(globalkeys)
-			table.remove(globalkeys)
-			table.remove(globalkeys)
-			table.remove(globalkeys)
-			drop.enable = false
+
+		local globalkeys = root.keys()
+
+		hasitem = awful.util.table.hasitem
+
+		if drop.enabled then
+			rout("Drop terminals Off", 1)
+			globalkeys = filter_table(globalkeys, function(x)
+				return (x.key == "F1" or x.key == "F2")
+				       and not hasitem(x.modifiers, Win)
+			end)
 		else
-			rout("Drop On", 1)
+			rout("Drop terminals On", 1)
 			globalkeys = awful.util.table.join(globalkeys,
 				awful.key({     }, "F1", function () drop.toggle(1) end ),
 				awful.key({     }, "F2", function () drop.toggle(2) end ))
-			drop.enable = true
 		end
+
+		drop.enabled = not drop.enabled
 		root.keys(globalkeys)
 	end,
 
@@ -45,18 +48,9 @@ drop = {
 		c.hidden = false
 	end,
 
-	manage = function(n)
-		function func(c)
-			drop.setprop(c, n, true)
-			client.disconnect_signal("manage", func)
-		end
-		return func
-	end,
-
 	toggle = function(n)
 		local c = getclient("instance", "dropterm"..n)
 		if not c then
-			--client.connect_signal("manage", drop.manage(n))
 			if n == 3 then
 				spawn(terminal.." -name dropterm"..n.." -e su")
 			else

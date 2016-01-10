@@ -9,7 +9,7 @@ root.buttons(awful.util.table.join(
 ))
 
 --------------------------------------- Global Key Bindings ---------------------------------------
-globalkeys = awful.util.table.join(
+local globalkeys = awful.util.table.join(
 		-- Generic
 		awful.key({ Win,     }, "Menu",  function () mainmenu:toggle() end),
 		awful.key({ Win, Alt }, "Menu",  function () awful.menu.clients({keygrabber=true}) end),
@@ -111,12 +111,10 @@ for i = 1, 4 do
 		awful.key({ Win, Alt }, "#"..i+9, function () awful.client.toggletag(tags[client.focus.screen][i]) end))
 end
 
---------------------------------------- Dynamic key bindings ---------------------------------------
-globalkeys = awful.util.table.join(globalkeys,
-	awful.key({ }, "F1", function () drop.toggle(1) end),
-	awful.key({ }, "F2", function () drop.toggle(2) end))
-
 root.keys(globalkeys)
+
+--------------------------------------- Enable dropterms key bindings ---------------------------------------
+drop.onoff()
 
 --------------------------------------- Client key bindings ---------------------------------------
 clientkeys = awful.util.table.join(
