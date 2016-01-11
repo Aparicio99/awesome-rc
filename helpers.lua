@@ -107,6 +107,10 @@ function toggle_hidden(prop, ...)
 				c.hidden = true
 			end
 		else
+			if not last_focus then
+				last_focus = windows[1]
+			end
+
 			client.focus = last_focus
 			last_focus:raise()
 		end
