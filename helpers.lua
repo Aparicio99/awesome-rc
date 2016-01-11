@@ -41,13 +41,6 @@ function layoutinfo()
 		"\nFactor: " .. awful.tag.getmwfact(), 2)
 end
 
-function dmenu()
-	 spawn("dmenu_run -i -p 'Run:' -nb '" ..
-		beautiful.bg_normal .. "' -nf '" .. beautiful.fg_normal ..
-		"' -sb '" .. beautiful.bg_focus ..
-		"' -sf '" .. beautiful.fg_focus .. "'")
-end
-
 function sleep()
 	if pread("pidof xscreensaver") == "" then
 		out("sleeping...")
