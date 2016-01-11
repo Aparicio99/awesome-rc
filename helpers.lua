@@ -49,15 +49,19 @@ function dmenu()
 end
 
 function sleep()
-	out("sleeping...")
-	spawn("/home/aparicio/scripts/afk true")
+	if pread("pidof xscreensaver") == "" then
+		out("sleeping...")
+		pread("/home/aparicio/scripts/afk true")
 
-	keygrabber.run( function(mod, key, event)
-				if event == "press" then
-					spawn("/home/aparicio/scripts/afk false")
-					keygrabber.stop()
-				end
-			end)
+		keygrabber.run( function(mod, key, event)
+			if event == "press" then
+				keygrabber.stop()
+				spawn("/home/aparicio/scripts/afk false")
+			end
+		end)
+	else
+		spawn("xscreensaver-command -lock")
+	end
 end
 
 -- Move windows to adjacent desktops
