@@ -55,7 +55,11 @@ awful.rules.rules = {
 
 	-- Right fixed Conky
 	{ rule = { class = "Conky"  },
-	  properties = { floating = true, focus = false, sticky = true, skip_taskbar = true, border_width = 0 },
+	  properties = { floating = true,
+	                 focus = false,
+                         sticky = true,
+                         skip_taskbar = true,
+                         border_color = beautiful.bg_normal },
 	  callback = function(c)
 		local w_area = screen[ c.screen ].workarea
 		local strutwidth = 200
