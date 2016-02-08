@@ -57,7 +57,7 @@ awful.rules.rules = {
 	{ rule = { class = "Conky"  },
 	  properties = { floating = true, focus = false, sticky = true, skip_taskbar = true },
 	  callback = function(c)
-		local w_area = screen[ c.screen ].workarea
+		--local w_area = screen[ c.screen ].workarea
 		local strutwidth = 200
 		c:struts( { right = strutwidth } )
 	  end

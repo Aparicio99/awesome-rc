@@ -182,7 +182,11 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    main_panel[s] = awful.wibox({ position = "top", screen = s, ontop = false, width = screen[s].geometry.width - 200})
+    if s == 1 then
+        main_panel[s] = awful.wibox({ position = "top", screen = s, ontop = false, width = screen[s].geometry.width - 200})
+    else
+        main_panel[s] = awful.wibox({ position = "top", screen = s, ontop = false})
+    end
 
     -- Widgets that are aligned to the left
     local main_left_layout = wibox.layout.fixed.horizontal()
@@ -202,24 +206,25 @@ for s = 1, screen.count() do
 
     main_panel[s]:set_widget(main_layout)
 
+    if s == 1 then
+        control_panel[s] = awful.wibox({ position = "top", screen = s, ontop = false, width = 200, x = screen[s].geometry.width - 200})
 
-    control_panel[s] = awful.wibox({ position = "top", screen = s, ontop = false, width = 200, x = screen[s].geometry.width - 200})
+        local control_right_layout = wibox.layout.fixed.horizontal()
+        control_right_layout:add(clock_widget)
+        control_right_layout:add(conky_toggle)
 
-    local control_right_layout = wibox.layout.fixed.horizontal()
-    control_right_layout:add(clock_widget)
-    control_right_layout:add(conky_toggle)
+        local control_left_layout = wibox.layout.fixed.horizontal()
+        control_left_layout:add(blank2)
+        control_left_layout:add(mpd_widget)
+        control_left_layout:add(blank2)
+        control_left_layout:add(volume_widget)
 
-    local control_left_layout = wibox.layout.fixed.horizontal()
-    control_left_layout:add(blank2)
-    control_left_layout:add(mpd_widget)
-    control_left_layout:add(blank2)
-    control_left_layout:add(volume_widget)
+        local control_layout = wibox.layout.align.horizontal()
+        control_layout:set_left(control_left_layout)
+        control_layout:set_right(control_right_layout)
 
-    local control_layout = wibox.layout.align.horizontal()
-    control_layout:set_left(control_left_layout)
-    control_layout:set_right(control_right_layout)
-
-    control_panel[s]:set_widget(control_layout)
+        control_panel[s]:set_widget(control_layout)
+    end
 end
 -- }}}
 
