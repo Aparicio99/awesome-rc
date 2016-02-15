@@ -58,6 +58,7 @@ require("mpd")
 require("clock")
 require("dropdown")
 require("clipboard")
+require("conky")
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
@@ -103,21 +104,12 @@ end
 mpd_widget    = mpd.init()
 volume_widget = volume.init()
 clock_widget  = clock.init()
-conky_toggle  = wibox.widget.textbox()
+conky_toggle  = conky.init()
 blank1        = wibox.widget.textbox()
 blank2        = wibox.widget.textbox()
 
 blank1:set_text(" ")
 blank2:set_text("  ")
-
--- Hidden button to toggle conky
-conky_toggle:set_text(" ")
-conky_toggle:buttons(awful.util.table.join(awful.button({ }, 1,
-				function()
-					local c = getclient("instance", "Conky")
-					if not c then spawn("conky")
-					else c:kill() end
-				end)))
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -165,6 +157,28 @@ mytasklist.buttons = awful.util.table.join(
 main_panel = {}
 control_panel = {}
 
+main_panel[1] = awful.wibox({ position = "top", screen = 1, ontop = false, width = screen[1].geometry.width - 200, x = 200})
+control_panel[1] = awful.wibox({ position = "top", screen = s, ontop = false, width = 200, x = 0})
+
+if screen.count() == 2 then
+    main_panel[2] = awful.wibox({ position = "top", screen = 2, ontop = false, x = screen[1].geometry.width + 200, width = screen[2].geometry.width - 200})
+    control_panel[2] = awful.wibox({ position = "top", screen = s, ontop = false, width = 200, x = screen[1].geometry.width})
+end
+
+local control_right_layout = wibox.layout.fixed.horizontal()
+control_right_layout:add(clock_widget)
+
+local control_left_layout = wibox.layout.fixed.horizontal()
+control_left_layout:add(conky_toggle)
+control_left_layout:add(blank2)
+control_left_layout:add(mpd_widget)
+control_left_layout:add(blank2)
+control_left_layout:add(volume_widget)
+
+local control_layout = wibox.layout.align.horizontal()
+control_layout:set_left(control_left_layout)
+control_layout:set_right(control_right_layout)
+
 for s = 1, screen.count() do
 
     -- Create a promptbox for each screen
@@ -181,22 +195,15 @@ for s = 1, screen.count() do
     -- Create a tasklist widget
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
-    -- Create the wibox
-    if s == 1 then
-        main_panel[s] = awful.wibox({ position = "top", screen = s, ontop = false, width = screen[s].geometry.width - 200})
-    else
-        main_panel[s] = awful.wibox({ position = "top", screen = s, ontop = false})
-    end
-
     -- Widgets that are aligned to the left
     local main_left_layout = wibox.layout.fixed.horizontal()
-    main_left_layout:add(mylayoutbox[s])
-    main_left_layout:add(mytaglist[s])
     main_left_layout:add(promptbox[s])
+    if s == 1 then main_left_layout:add(wibox.widget.systray()) end
 
     -- Widgets that are aligned to the right
     local main_right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then main_right_layout:add(wibox.widget.systray()) end
+    main_right_layout:add(mytaglist[s])
+    main_right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
     local main_layout = wibox.layout.align.horizontal()
@@ -205,27 +212,10 @@ for s = 1, screen.count() do
     main_layout:set_right(main_right_layout)
 
     main_panel[s]:set_widget(main_layout)
+    control_panel[s]:set_widget(control_layout)
 
-    if s == 1 then
-        control_panel[s] = awful.wibox({ position = "top", screen = s, ontop = false, width = 200, x = screen[s].geometry.width - 200})
-
-        local control_right_layout = wibox.layout.fixed.horizontal()
-        control_right_layout:add(clock_widget)
-        control_right_layout:add(conky_toggle)
-
-        local control_left_layout = wibox.layout.fixed.horizontal()
-        control_left_layout:add(blank2)
-        control_left_layout:add(mpd_widget)
-        control_left_layout:add(blank2)
-        control_left_layout:add(volume_widget)
-
-        local control_layout = wibox.layout.align.horizontal()
-        control_layout:set_left(control_left_layout)
-        control_layout:set_right(control_right_layout)
-
-        control_panel[s]:set_widget(control_layout)
-    end
 end
+
 -- }}}
 
 --------------------------------------- Bindinds ------------------------------------

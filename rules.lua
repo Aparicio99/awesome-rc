@@ -60,10 +60,6 @@ awful.rules.rules = {
                          sticky = true,
                          skip_taskbar = true,
                          border_color = beautiful.bg_normal },
-	  callback = function(c)
-		--local w_area = screen[ c.screen ].workarea
-		local strutwidth = 200
-		c:struts( { right = strutwidth } )
-	  end
+	  callback = conky.callback
 	}
 }

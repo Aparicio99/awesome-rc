@@ -125,7 +125,7 @@ clientkeys = awful.util.table.join(
 		awful.key({ Win,     }, "f",      function (c) c.fullscreen = not c.fullscreen end),
 		awful.key({ Win, Alt }, "space",  awful.client.floating.toggle ),
 		awful.key({ Win, Ctr }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-		awful.key({ Win,     }, "o",      awful.client.movetoscreen ),
+		awful.key({ Win,     }, "o",      awful.client.movetoscreen),
 		awful.key({ Win, Alt }, "r",      function (c) c:redraw() end),
 		awful.key({ Win,     }, "t",      function (c) c.ontop = not c.ontop end),
 		awful.key({ Win,     }, "n",      function (c) c.minimized = not c.minimized end),
@@ -146,5 +146,5 @@ clientbuttons = awful.util.table.join(
 		awful.button({ Win }, 1, awful.mouse.client.move),
 		awful.button({ Win }, 2, function (c) c:kill() end),
 		awful.button({ Win }, 3, awful.mouse.client.resize),
-		awful.button({ Win }, 4, awful.tag.viewnext),
-		awful.button({ Win }, 5, awful.tag.viewprev))
+		awful.button({ Win }, 4, function(c) awful.tag.viewnext(mouse.screen) end),
+		awful.button({ Win }, 5, function(c) awful.tag.viewprev(mouse.screen) end))
