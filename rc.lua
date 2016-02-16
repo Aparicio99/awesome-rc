@@ -81,16 +81,9 @@ layouts =
 naughty.config.presets.normal.font = "Monospace 8"
 naughty.config.presets.normal.border_color = beautiful.fg_focus
 naughty.config.presets.normal.screen = 1
+naughty.config.presets.normal.position = "top_left"
 naughty.config.presets.low.screen = 1
 naughty.config.presets.critical.screen = 1
-
--- {{{ Wallpaper
---if beautiful.wallpaper then
---    for s = 1, screen.count() do
---        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
---    end
---end
--- }}}
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
@@ -198,13 +191,16 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the left
     local main_left_layout = wibox.layout.fixed.horizontal()
+    main_left_layout:add(mylayoutbox[s])
+    main_left_layout:add(blank1)
+    main_left_layout:add(mytaglist[s])
+    main_left_layout:add(blank1)
     main_left_layout:add(promptbox[s])
     if s == 1 then main_left_layout:add(wibox.widget.systray()) end
+    main_left_layout:add(blank1)
 
     -- Widgets that are aligned to the right
     local main_right_layout = wibox.layout.fixed.horizontal()
-    main_right_layout:add(mytaglist[s])
-    main_right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
     local main_layout = wibox.layout.align.horizontal()
