@@ -1,7 +1,7 @@
 conky = {
 	widget = wibox.widget.textbox(),
 
-	spawn = function()
+	spawn_here = function()
 		local c = getclient("instance", "Conky")
 
 		if not c then
@@ -16,16 +16,20 @@ conky = {
 		end
 	end,
 
-	toggle_screen = function(c)
+	spawn_there = function()
 
-		c:geometry({x = 0})
-		if mouse.screen == 1 then
-			awful.client.movetoscreen(c, 2)
+		local c = getclient("instance", "Conky")
+
+		if not c then
+			spawn("conky")
 		else
-			awful.client.movetoscreen(c, 1)
+			c:geometry({x = 0})
+			if mouse.screen == 1 then
+				awful.client.movetoscreen(c, 2)
+			else
+				awful.client.movetoscreen(c, 1)
+			end
 		end
-		awful.screen.focus_relative(1)
-
 	end,
 
 	callback = function(c)
@@ -34,7 +38,6 @@ conky = {
 		c:buttons(awful.util.table.join(
 			awful.button({     }, 4, function(c) awful.tag.viewnext(mouse.screen) end),
 			awful.button({     }, 5, function(c) awful.tag.viewprev(mouse.screen) end),
-			awful.button({     }, 3, function (c) conky.toggle_screen(c) end),
 			awful.button({ Win }, 2, function (c) c:kill() end)
 		))
 
@@ -44,10 +47,12 @@ conky = {
 	init = function()
 
 		-- Binds
-		conky.widget:buttons(awful.util.table.join(awful.button({ }, 1, conky.spawn)))
+		conky.widget:buttons(awful.util.table.join(
+		                              awful.button({ }, 1, conky.spawn_here),
+		                              awful.button({ }, 3, conky.spawn_there)))
 
 		-- Start
-		conky.widget:set_text("#")
+		conky.widget:set_text(" ")
 
 		return conky.widget
 	end,

@@ -165,15 +165,16 @@ if screen.count() == 2 then
     control_panel[2] = awful.wibox({ position = "top", screen = s, ontop = false, width = 200, x = screen[1].geometry.width})
 end
 
-local control_right_layout = wibox.layout.fixed.horizontal()
-control_right_layout:add(clock_widget)
-
 local control_left_layout = wibox.layout.fixed.horizontal()
 control_left_layout:add(conky_toggle)
-control_left_layout:add(blank2)
-control_left_layout:add(mpd_widget)
-control_left_layout:add(blank2)
-control_left_layout:add(volume_widget)
+control_left_layout:add(blank1)
+control_left_layout:add(clock_widget)
+
+local control_right_layout = wibox.layout.fixed.horizontal()
+control_right_layout:add(volume_widget)
+control_right_layout:add(blank2)
+control_right_layout:add(mpd_widget)
+control_right_layout:add(blank2)
 
 local control_layout = wibox.layout.align.horizontal()
 control_layout:set_left(control_left_layout)
