@@ -146,6 +146,38 @@ function filter_table(tbl, filter)
 	return ret
 end
 
+-- Swap all normal windows between the visible clients in each screen
+function swap_screens()
+
+	if screen.count() ~= 2 then -- not implemented
+		return
+	end
+
+	local clients = {}
+
+	for s = 1, 2 do
+		local filter = function(c)
+			return c.screen == s
+			   and c.type == "normal"
+			   and not c.hidden
+			   and not c.sticky
+			   and c:isvisible()
+		end
+		clients[s] = {}
+		for c in awful.client.iterate(filter) do
+			table.insert(clients[s], c)
+		end
+	end
+
+	for i, c in ipairs(clients[1]) do
+		awful.client.movetoscreen(c, 2)
+	end
+
+	for i, c in ipairs(clients[2]) do
+		awful.client.movetoscreen(c, 1)
+	end
+end
+
 -- Show notification with all the info about the focused window
 function client_info()
   local v = ""

@@ -26,6 +26,7 @@ local globalkeys = awful.util.table.join(
 		awful.key({ Win,     }, "Down",  function () awful.screen.focus_relative(-1) end),
 		awful.key({ Win,     }, "<",     function () awful.screen.focus_relative( 1) end),
 		awful.key({ Win, Shi }, "<",     function () awful.screen.focus_relative(-1) end),
+		awful.key({ Win, Shi }, "o",     swap_screens),
 
 		-- Layout navegation
 		awful.key({ Win,     }, "u",     awful.client.urgent.jumpto ),
