@@ -18,7 +18,7 @@ awful.rules.rules = {
 	},
 
 	-- Floating and fixed
-	{ rule_any = { class = {"Skype", "Pidgin" } },
+	{ rule_any = { class = {"Skype", "Pidgin", "Telegram"} },
 	  properties = { floating = true, sticky = true, ontop = true }
 	},
 
