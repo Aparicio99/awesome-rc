@@ -23,7 +23,7 @@ awful.rules.rules = {
 	},
 
 	-- Other
-	{ rule = { class = "Firefox" },
+	{ rule = { class = "Firefox", type = "normal" },
 	  properties = { tag = tags[1][2] }
 	},
 	{ rule = { name = "xeyes" },
