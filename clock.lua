@@ -57,7 +57,7 @@ clock = {
 		-- Timers
 		clock.timer_min:connect_signal("timeout", function()
 							clock.widget:set_markup(os.date(clock.format_min))
-							--battery.reload()
+							battery.reload()
 						end)
 		clock.timer_sec:connect_signal("timeout", function() clock.widget:set_markup(os.date(clock.format2)) end)
 

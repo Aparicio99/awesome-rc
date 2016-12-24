@@ -54,6 +54,7 @@ editor_cmd = terminal .. " -e " .. editor
 require("helpers")
 require("menu")
 require("volume")
+require("battery")
 require("mpd")
 require("clock")
 require("dropdown")
@@ -96,6 +97,7 @@ end
 
 mpd_widget    = mpd.init()
 volume_widget = volume.init()
+battery_widget = battery.init()
 clock_widget  = clock.init()
 conky_toggle  = conky.init()
 blank1        = wibox.widget.textbox()
@@ -201,6 +203,8 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local main_right_layout = wibox.layout.fixed.horizontal()
+    main_right_layout:add(battery_widget)
+    main_right_layout:add(blank1)
 
     -- Now bring it all together (with the tasklist in the middle)
     local main_layout = wibox.layout.align.horizontal()
