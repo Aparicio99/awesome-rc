@@ -2,7 +2,7 @@ conky = {
 	widget = wibox.widget.textbox(),
 
 	spawn_here = function()
-		local c = getclient("instance", "Conky")
+		local c = getclient("instance", "conky")
 
 		if not c then
 			spawn("conky")
@@ -18,7 +18,7 @@ conky = {
 
 	spawn_there = function()
 
-		local c = getclient("instance", "Conky")
+		local c = getclient("instance", "conky")
 
 		if not c then
 			spawn("conky")

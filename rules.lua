@@ -26,6 +26,9 @@ awful.rules.rules = {
 	{ rule = { class = "Firefox", type = "normal" },
 	  properties = { tag = tags[1][2] }
 	},
+	{ rule = { class = "Firefox", instance = "Toplevel" },
+	  properties = { floating = true }
+	},
 	{ rule = { name = "xeyes" },
 	  properties = { floating = true, skip_taskbar = true, sticky = true }
 	},
@@ -37,6 +40,9 @@ awful.rules.rules = {
 	},
 	{ rule = { class = "Boincmgr" },
 	  properties = { floating = true, skip_taskbar = true}
+	},
+	{ rule = { class = "RocketLeague" },
+	  properties = { fullscreen = true }
 	},
 
 	-- Drop consoles
@@ -54,7 +60,7 @@ awful.rules.rules = {
 	},
 
 	-- Right fixed Conky
-	{ rule = { class = "Conky"  },
+	{ rule = { class = "conky"  },
 	  properties = { floating = true,
 	                 focus = false,
                          sticky = true,
