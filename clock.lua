@@ -1,6 +1,6 @@
 clock = {
 	widget = wibox.widget.textbox(),
-	timer_min = timer({timeout = 60}),
+	timer_min = timer({timeout = 5}),
 	timer_sec = timer({timeout = 1}),
 	offset = 0,
 	long = false,

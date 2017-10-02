@@ -30,39 +30,47 @@ battery = {
 			local fchargenow = io.open(battery.path.."charge_now")
 			local fchargefull = io.open(battery.path.."charge_full")
 			local fcurrent = io.open(battery.path.."current_now")
+			local fvoltage = io.open(battery.path.."voltage_now")
 			local fstate = io.open(battery.path.."status")
 
-			local chargenow = fchargenow:read("*number")
-			local chargefull = fchargefull:read("*number")
-			local current = fcurrent:read("*number")
+			local chargenow = fchargenow:read("*number") / 1000
+			local chargefull = fchargefull:read("*number") / 1000
+			local current = fcurrent:read("*number") / 1000
+			local voltage = fvoltage:read("*number") / 1000000
 			local state = fstate:read("*all")
 
 			fchargenow:close()
 			fchargefull:close()
 			fcurrent:close()
+			fvoltage:close()
 			fstate:close()
 
-			local value = math.floor(chargenow/chargefull * 100 + 0.5)
+			local perc = math.floor(chargenow/chargefull * 100 + 0.5)
 			local time_left = chargenow/current
 			local hours_left = math.floor(time_left)
 			local minutes_left = math.floor((time_left - hours_left) * 60)
+			local power = string.format("%.2f", (current / 1000) * voltage)
 
 			local color = beautiful.fg_focus
-			if value < 20 then
+			if perc < 20 then
 				color = "red"
-			elseif value < 50 then
+			elseif perc < 50 then
 				color = "orange"
 			end
 
-			local text = "Bat <span color='"..color.."'>"..value.."%</span>"
+			local text = ""
+
+			text = text.." <span color='"..color.."'>"..power.." W</span>"
+
+			text = text.." Bat <span color='"..color.."'>"..perc.."%</span>"
 
 			if state == "Discharging\n" then
 
 				text = text.." Time left <span color='"..color.."'>"..hours_left.."h"..minutes_left.."m</span>"
 
-				if value < 10 then
+				if perc < 10 then
 					urgent("WARNING!", "Battery low")
-				elseif value < 20 then
+				elseif perc < 20 then
 					out("Battery low")
 				end
 			end
