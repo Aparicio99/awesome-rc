@@ -1,30 +1,43 @@
 volume = {
-	reset = true,
+	widget = wibox.widget.textbox(),
 	value = 0,
 	default = "10%",
-	widget = wibox.widget.textbox(),
+	reset = true,
+	icons = {
+		"&#xf026;", -- fa-volume-off
+		"&#xf027;", -- fa-volume-down
+		"&#xf028;"  -- fa-volume-up
+	},
 
 	-- Update the textbox with the current volume level
 	update = function(output)
 		if not output then
-			output = pread("amixer get PCM")
+			output = pread("amixer get Master")
 		end
 
 		local level = output:match("%d+%%")
 		local mute = output:match("%[%a+%]")
+		volume.value = tonumber(level:sub(0,-2))
 
-		local text = "Vol <span color=\"" .. beautiful.fg_focus .. "\">"..level.."</span>"
-
-		if mute == "[off]" then
-			text = "Vol "..level
+		if volume.value < 10 then
+			icon = volume.icons[1]
+		elseif volume.value < 50 then
+			icon = volume.icons[2]
+		else
+			icon = volume.icons[3]
 		end
 
-		--if not volume.reset then
-		--	text = "<span color='orange'>"..text.."</span>"
-		--end
+		local color_text = beautiful.fg_focus
+
+		if mute == "[off]" then
+			color_text = beautiful.bg_urgent
+		end
+
+		local text = string.format(
+			"<span font='fontawesome'>%s</span> <span color='%s'>%s</span>",
+			icon, color_text, level)
 
 		volume.widget:set_markup(text)
-		volume.value = tonumber(level:sub(0,-2))
 	end,
 
 	-- Toggle volume mute
@@ -53,7 +66,7 @@ volume = {
 
 	-- Set volume level
 	set = function(s)
-		volume.update(pread("amixer set PCM "..s))
+		volume.update(pread("amixer set Master "..s))
 	end,
 
 	inc = function() volume.set("1%+") end,

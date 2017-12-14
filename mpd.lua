@@ -1,6 +1,10 @@
 mpd = {
 	widget = wibox.widget.textbox(),
 
+	present = function()
+		return pread("mpc") ~= ""
+	end,
+
 	-- Update the textbox with the current mpd level
 	update = function(cmd)
 		output = pread("mpc "..cmd)
@@ -8,15 +12,19 @@ mpd = {
 		local state = output:match("\n%[(%a+)%]")
 		local symbol
 
-		if state == "playing" then
-			symbol = "▶"
+		if not state then
+			symbol=""
+		elseif state == "playing" then
+			symbol = "&#xf04b;" -- fa-play
 		elseif state == "paused" then
-			symbol = "||"
+			symbol = "&#xf04c;" -- fa-pause
 		else
-			symbol = "◼"
+			symbol = "&#xf04d;" -- fa-stop
 		end
 
-		mpd.widget:set_markup(string.format(" <span color=\"%s\">%s</span> ", beautiful.fg_focus, symbol))
+		mpd.widget:set_markup(string.format(
+			"<span font=\"fontawesome 7\" color=\"%s\" rise=\"5\">%s</span>",
+			beautiful.fg_focus, symbol))
 
 		return output
 	end,
@@ -44,6 +52,10 @@ mpd = {
 
 	-- Setup widget
 	init = function()
+
+		if not mpd.present() then
+			return
+		end
 
 		mpd.toggle = mpd.cmd("toggle")
 		mpd.next = mpd.cmd("next")

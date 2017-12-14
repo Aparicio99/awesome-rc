@@ -4,9 +4,9 @@ clock = {
 	timer_sec = timer({timeout = 1}),
 	offset = 0,
 	long = false,
-	format_min = "%a %b %d <span color=\"" .. beautiful.fg_focus .. "\">%H:%M</span>  ",
-	format_sec = "%d/%m/%y <span color=\"#ff0000\">%H:%M:%S</span> ",
-	format_nix = "      <span color=\"#ff0000\">%s</span>    ",
+	format_min = "%a %b %d <span color=\"" .. beautiful.fg_focus .. "\">%H:%M</span>",
+	format_sec = "%d/%m/%y <span color=\"#ff0000\">%H:%M:%S</span>",
+	format_nix = "<span color=\"#ff0000\">%s</span>",
 	format2 = format_sec,
 
 	-- Show calendar popup
@@ -57,7 +57,11 @@ clock = {
 		-- Timers
 		clock.timer_min:connect_signal("timeout", function()
 							clock.widget:set_markup(os.date(clock.format_min))
-							battery.reload()
+							if battery.present() then
+								battery.reload()
+								wifi.reload()
+								system.reload()
+							end
 						end)
 		clock.timer_sec:connect_signal("timeout", function() clock.widget:set_markup(os.date(clock.format2)) end)
 

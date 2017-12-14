@@ -7,7 +7,7 @@ local orange2 = "#ff9900"
 local gray1 = "#090909"
 local gray2 = "#222222"
 local white1 = "#dddddd"
-local read1 = "#ff0000"
+local red1 = "#ff0000"
 
 theme = {}
 

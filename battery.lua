@@ -1,31 +1,27 @@
 battery = {
-	path = "/sys/class/power_supply/BAT0/",
 	widget = wibox.widget.textbox(),
-	num = false,
-	show = true,
+	path = "/sys/class/power_supply/BAT0/",
+	icons = {
+		"&#xf244;", -- fa-battery-empty
+		"&#xf243;", -- fa-battery-quarter
+		"&#xf242;", -- fa-battery-half
+		"&#xf241;", -- fa-battery-three-quarters
+		"&#xf240;", -- fa-battery-full
+		"&#xf1e6;"  -- fa-plug
+	},
 
-	toggle = function()
-		battery.widget:set_text("")
-		battery.show = not battery.show
-		battery.reload()
+	present = function()
+		return battery.widget ~= nil
 	end,
 
-
-	-- Update battery level textbox
-	reload = function()
-		if not battery.show or battery.widget == nil then
-			return
-		end
+	status = function()
 
 		local fstatus = io.open(battery.path.."status")
 
 		if fstatus then
 			local status = fstatus:read("*all")
 
-			if status == "Full\n" then
-				battery.widget.text = ""
-				return
-			end
+			fstatus:close()
 
 			local fchargenow = io.open(battery.path.."charge_now")
 			local fchargefull = io.open(battery.path.."charge_full")
@@ -51,44 +47,69 @@ battery = {
 			local minutes_left = math.floor((time_left - hours_left) * 60)
 			local power = string.format("%.2f", (current / 1000) * voltage)
 
-			local color = beautiful.fg_focus
-			if perc < 20 then
-				color = "red"
-			elseif perc < 50 then
-				color = "orange"
+			local color_text = beautiful.fg_focus
+			local color_icon = beautiful.fg_normal
+
+			local icon = battery.icons[1]
+
+
+			if status == "Full\n" then
+				return string.format(
+				"<span color='%s' font='fontawesome'>%s</span> <span color='%s'>%s</span>",
+				color_icon, battery.icons[5], color_text, "Battery full")
 			end
-
-			local text = ""
-
-			text = text.." <span color='"..color.."'>"..power.." W</span>"
-
-			text = text.." Bat <span color='"..color.."'>"..perc.."%</span>"
 
 			if state == "Discharging\n" then
 
-				text = text.." Time left <span color='"..color.."'>"..hours_left.."h"..minutes_left.."m</span>"
-
-				if perc < 10 then
-					urgent("WARNING!", "Battery low")
-				elseif perc < 20 then
-					out("Battery low")
+				if perc < 20 then
+					color_text = beautiful.bg_urgent
 				end
+
+				icon = battery.icons[math.ceil(perc/20)]
+			else
+				icon = battery.icons[6] -- Plug icon
 			end
 
-			battery.widget:set_markup(text)
+			local text = string.format(
+				"<span color='%s' font='fontawesome'>%s</span> <span color='%s'>%d%% </span>/<span color='%s'> %s W</span>",
+				color_icon, icon, color_text, perc, color_text, power)
 
+
+			if state == "Discharging\n" then
+
+				text = string.format("%s / <span color='%s'>%dh%dm</span>",
+					text, color_text, hours_left, minutes_left)
+
+				if perc < 5 then
+					urgent("WARNING!", "Battery low")
+				elseif perc < 10 then
+					out("Battery low")
+				end
+			else
+				text = string.format("%s / <span color='%s'>charging</span>",
+					text, color_text)
+			end
+
+			return text
 		else
-			battery.widget:set_markup("Battery offline")
+			return "Battery offline"
 		end
-
-		fstatus:close()
 	end,
 
-	-- Show battery infromation popup
-	info = function()
-		if battery.widget == nil then
+	-- Update level textbox
+	reload = function()
+		if not battery.present() then
 			return
 		end
+		battery.widget:set_markup(battery.status())
+	end,
+
+	-- Show infromation popup
+	info = function()
+		if not battery.present() then
+			return
+		end
+
 		local file = io.open(battery.path.."uevent")
 		rout(file:read("*all"))
 		file:close()
@@ -104,8 +125,7 @@ battery = {
 
 		battery.widget:buttons(awful.util.table.join(
 			awful.button({ }, 1, function() battery.info() end),
-			awful.button({ }, 2, function() battery.reload() end),
-			awful.button({ }, 3, function() battery.num = not battery.num battery.reload() end)
+			awful.button({ }, 3, function() battery.reload() end)
 		))
 
 		battery.reload()
