@@ -11,7 +11,7 @@ conky = {
 			c:kill()
 			return
 		else
-			c:geometry({x = 0})
+			--c:geometry({x = 0})
 			awful.client.movetoscreen(c, mouse.screen)
 		end
 	end,
@@ -23,7 +23,7 @@ conky = {
 		if not c then
 			spawn("conky")
 		else
-			c:geometry({x = 0})
+			--c:geometry({x = 0})
 			if mouse.screen == 1 then
 				awful.client.movetoscreen(c, 2)
 			else
@@ -33,8 +33,7 @@ conky = {
 	end,
 
 	callback = function(c)
-		local strutwidth = 200
-		c:struts( { left = strutwidth } )
+		c:struts( { right = 200 } )
 		c:buttons(awful.util.table.join(
 			awful.button({     }, 4, function(c) awful.tag.viewnext(mouse.screen) end),
 			awful.button({     }, 5, function(c) awful.tag.viewprev(mouse.screen) end),
