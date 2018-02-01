@@ -12,7 +12,7 @@ awful.rules.rules = {
 	},
 
 	-- Floating
-	{ rule_any = {	class = { "MPlayer", "gimp", "Gmpc", "Transmission", "Minecraft", "Steam" },
+	{ rule_any = {	class = { "MPlayer", "gimp", "Gmpc", "Transmission", "Minecraft", "Steam", "Pinentry" },
 			name = { "File Transfers", "cal", "ncmpc", "puff", "feh" } },
 			properties = { floating = true }
 	},
@@ -24,7 +24,7 @@ awful.rules.rules = {
 
 	-- Other
 	{ rule = { class = "Firefox", type = "normal" },
-	  properties = { tag = tags[1][2] }
+	  properties = { tag = tags[1][1] }
 	},
 	{ rule = { class = "Firefox", instance = "Toplevel" },
 	  properties = { floating = true }

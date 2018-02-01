@@ -40,7 +40,6 @@ conky = {
 			awful.button({     }, 5, function(c) awful.tag.viewprev(mouse.screen) end),
 			awful.button({ Win }, 2, function (c) c:kill() end)
 		))
-
 	end,
 
 	-- Setup widget

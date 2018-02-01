@@ -13,7 +13,7 @@ mpd = {
 		local symbol
 
 		if not state then
-			symbol=""
+			symbol = "&#xf04d;" -- fa-stop
 		elseif state == "playing" then
 			symbol = "&#xf04b;" -- fa-play
 		elseif state == "paused" then
