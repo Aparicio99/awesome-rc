@@ -1,5 +1,6 @@
 volume = {
 	widget = wibox.widget.textbox(),
+	device = "Master",
 	value = 0,
 	default = "10%",
 	reset = true,
@@ -12,7 +13,7 @@ volume = {
 	-- Update the textbox with the current volume level
 	update = function(output)
 		if not output then
-			output = pread("amixer get Master")
+			output = pread("amixer get "..volume.device)
 		end
 
 		local level = output:match("%d+%%")
@@ -66,7 +67,7 @@ volume = {
 
 	-- Set volume level
 	set = function(s)
-		volume.update(pread("amixer set Master "..s))
+		volume.update(pread("amixer set "..volume.device.." "..s))
 	end,
 
 	inc = function() volume.set("1%+") end,
@@ -85,6 +86,13 @@ volume = {
 
 	-- Setup widget
 	init = function()
+
+		output = pread("amixer get PCM")
+
+		if output ~= "" then
+			volume.device = "PCM"
+		end
+
 		volume.widget:buttons(awful.util.table.join(
 			awful.button({ }, 1, volume.check),
 			awful.button({ }, 2, volume.toggle),
