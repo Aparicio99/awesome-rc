@@ -2,37 +2,41 @@ mpd = {
 	widget = wibox.widget.textbox(),
 
 	present = function()
-		return pread("mpc") ~= ""
+		return program_exists("mpc")
 	end,
 
 	-- Update the textbox with the current mpd level
-	update = function(cmd)
-		output = pread("mpc "..cmd)
+	update = function(cmd, popup, t)
+		async("mpc "..cmd, function(output)
 
-		local state = output:match("\n%[(%a+)%]")
-		local symbol
+			local state = output:match("\n%[(%a+)%]")
+			local symbol
 
-		if not state then
-			symbol = "&#xf04d;" -- fa-stop
-		elseif state == "playing" then
-			symbol = "&#xf04b;" -- fa-play
-		elseif state == "paused" then
-			symbol = "&#xf04c;" -- fa-pause
-		else
-			symbol = "&#xf04d;" -- fa-stop
-		end
+			if not state then
+				symbol = "&#xf04d;" -- fa-stop
+			elseif state == "playing" then
+				symbol = "&#xf04b;" -- fa-play
+			elseif state == "paused" then
+				symbol = "&#xf04c;" -- fa-pause
+			else
+				symbol = "&#xf04d;" -- fa-stop
+			end
 
-		mpd.widget:set_markup(string.format(
-			"<span font=\"fontawesome 7\" color=\"%s\" rise=\"5\">%s</span>",
-			beautiful.fg_focus, symbol))
+			mpd.widget:set_markup(string.format(
+				"<span font=\"fontawesome 7\" color=\"%s\" rise=\"5\">%s</span>",
+				beautiful.fg_focus, symbol))
 
-		return output
+			if popup then
+				rout(output, t)
+			end
+		end)
+
 	end,
 
 	cmd = function(s, t)
 		if not t then t = 2 end
 		return function()
-			rout(mpd.update(s), t)
+			mpd.update(s, true, t)
 		end
 	end,
 
@@ -41,11 +45,11 @@ mpd = {
 		local c = getclient("name", "ncmpc")
 		if not c then
 			spawn(terminal.." -geometry 80x58-+2+19 -e ncmpc")
-			mpd.update("")
+			mpd.update("", false)
 		else
 			--c:kill()
 			spawn("pkill -9 ncmpc")
-			mpd.update("")
+			mpd.update("", false)
 		end
 
 	end,
@@ -71,7 +75,9 @@ mpd = {
 			awful.button({ }, 5, mpd.next)
 		))
 
-		mpd.update("")
+		mpd.update("", false)
 		return mpd.widget
 	end,
 }
+
+-- vim:ts=4

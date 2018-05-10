@@ -1,3 +1,5 @@
+local gears = require("gears")
+
 volume = {
 	widget = wibox.widget.textbox(),
 	device = "Master",
@@ -10,11 +12,7 @@ volume = {
 		"&#xf028;"  -- fa-volume-up
 	},
 
-	-- Update the textbox with the current volume level
-	update = function(output)
-		if not output then
-			output = pread("amixer get "..volume.device)
-		end
+	update_callback = function(output)
 
 		local level = output:match("%d+%%")
 		local mute = output:match("%[%a+%]")
@@ -41,17 +39,29 @@ volume = {
 		volume.widget:set_markup(text)
 	end,
 
+	-- Update the textbox with the current volume level
+	update = function(output)
+		if not output then
+			async("amixer get "..volume.device, update_callback)
+		else
+			update_callback(output)
+		end
+
+	end,
+
 	-- Toggle volume mute
 	toggle = function()
-		local output = pread("amixer set Master toggle")
-		local mute = output:match("%[%a+%]")
+		async("amixer set Master toggle",
+			function(output)
+				local mute = output:match("%[%a+%]")
 
-		if mute == "[on]" then
-			rout("Mute OFF", 2)
-		else
-			rout("Mute ON", 2)
-		end
-		volume.update(output)
+				if mute == "[on]" then
+					rout("Mute OFF", 2)
+				else
+					rout("Mute ON", 2)
+				end
+				volume.update(output)
+			end)
 	end,
 
 	-- Toggle volume reset
@@ -67,7 +77,8 @@ volume = {
 
 	-- Set volume level
 	set = function(s)
-		volume.update(pread("amixer set "..volume.device.." "..s))
+		async("amixer set "..volume.device.." "..s,
+			function (output) volume.update(output) end)
 	end,
 
 	inc = function() volume.set("1%+") end,
@@ -87,13 +98,16 @@ volume = {
 	-- Setup widget
 	init = function()
 
-		output = pread("amixer get PCM")
+		async("amixer get PCM",
+			function (output)
+				if output ~= "" then
+					volume.device = "PCM"
+				end
+			end)
 
-		if output ~= "" then
-			volume.device = "PCM"
-		end
+		volume.update()
 
-		volume.widget:buttons(awful.util.table.join(
+		volume.widget:buttons(gears.table.join(
 			awful.button({ }, 1, volume.check),
 			awful.button({ }, 2, volume.toggle),
 			awful.button({ }, 3, volume.toggle_reset),
@@ -101,7 +115,8 @@ volume = {
 			awful.button({ }, 5, volume.dec)
 		))
 
-		volume.update()
 		return volume.widget
 	end,
 }
+
+-- vim:ts=4

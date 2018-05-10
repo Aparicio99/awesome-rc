@@ -1,6 +1,4 @@
-gears = require("gears")
 awful = require("awful")
-awful.rules = require("awful.rules")
 require("awful.autofocus")
 wibox = require("wibox")
 beautiful = require("beautiful")
@@ -40,7 +38,7 @@ beautiful.init(config .. "/themes/custom/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 spawn = awful.util.spawn
-pread = awful.util.pread
+async = awful.spawn.easy_async
 Win = "Mod4"
 Alt = "Mod1"
 Ctr = "Control"
@@ -153,41 +151,35 @@ mytasklist.buttons = awful.util.table.join(
                                               awful.client.focus.byidx(-1)
                                               if client.focus then client.focus:raise() end
                                           end))
-main_panel = {}
-
-main_panel[1] = awful.wibox({ position = "top", screen = 1, ontop = false})
-
-if screen.count() == 2 then
-    main_panel[2] = awful.wibox({ position = "top", screen = 2, ontop = false})
-end
-
-for s = 1, screen.count() do
+awful.screen.connect_for_each_screen(function(s)
 
     -- Create a promptbox for each screen
-    promptbox[s] = awful.widget.prompt()
+    s.promptbox = awful.widget.prompt()
 
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
-    mylayoutbox[s] = awful.widget.layoutbox(s)
-    mylayoutbox[s]:buttons(mylayoutbox.buttons)
+    s.mylayoutbox = awful.widget.layoutbox(s)
+    s.mylayoutbox:buttons(mylayoutbox.buttons)
 
     -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 
     -- Create a tasklist widget
-    mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
+    s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Widgets that are aligned to the left
     local main_left_layout = wibox.layout.fixed.horizontal()
-    main_left_layout:add(mylayoutbox[s])
+    main_left_layout:add(s.mylayoutbox)
     main_left_layout:add(blank1)
-    main_left_layout:add(mytaglist[s])
+    main_left_layout:add(s.mytaglist)
     --main_left_layout:add(blank1)
-    main_left_layout:add(promptbox[s])
+    main_left_layout:add(s.promptbox)
 
     -- Widgets that are aligned to the right
     local main_right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then main_right_layout:add(wibox.widget.systray()) end
+    if s.index == 1 then
+        main_right_layout:add(wibox.widget.systray())
+    end
     main_right_layout:add(blank2)
     if battery.present() then
 	    main_right_layout:add(battery_widget)
@@ -209,11 +201,12 @@ for s = 1, screen.count() do
     -- Now bring it all together (with the tasklist in the middle)
     local main_layout = wibox.layout.align.horizontal()
     main_layout:set_left(main_left_layout)
-    main_layout:set_middle(mytasklist[s])
+    main_layout:set_middle(s.mytasklist)
     main_layout:set_right(main_right_layout)
 
-    main_panel[s]:set_widget(main_layout)
-end
+    s.main_panel = awful.wibar({ position = "top", screen = s})
+    s.main_panel:set_widget(main_layout)
+end)
 
 -- }}}
 
@@ -224,13 +217,12 @@ require("binds")
 require("rules")
 
 --------------------------------------- Signals ---------------------------------------
-client.connect_signal("manage", function (c, startup)
-    if not startup then
-        -- Put windows in a smart way, only if they does not set an initial position.
-        if not c.size_hints.user_position and not c.size_hints.program_position then
-            awful.placement.no_overlap(c)
-            awful.placement.no_offscreen(c)
-        end
+client.connect_signal("manage", function (c)
+    if awesome.startup and
+      not c.size_hints.user_position
+      and not c.size_hints.program_position then
+        -- Prevent clients from being unreachable after screen count changes.
+        awful.placement.no_offscreen(c)
     end
 end)
 
@@ -244,3 +236,5 @@ client.connect_signal("unfocus", function(c)
                                          c.border_color = beautiful.border_normal
                                      end
                                  end)
+
+-- vim:ts=4:sw=4

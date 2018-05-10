@@ -20,16 +20,20 @@ clock = {
 		local date = datespec.year * 12 + datespec.month - 1 + offset
 		date = (date % 12 + 1) .. " " .. math.floor(date / 12)
 
-		local cal = pread("cal " .. date)
-		cal = string.gsub(cal, "^(%s*%S* %S*%s*)\n", "<b><span color=\"white\">%1</span></b>\n")
+		spawn_out("cal")
 
-		local day = datespec.day
+		async("cal " .. date,
+			function(output)
+				local cal = string.gsub(cal, "^(%s*%S* %S*%s*)\n", "<b><span color=\"white\">%1</span></b>\n")
 
-		if offset == 0 then
-			cal = string.gsub(cal, "([\n ])(" .. day .. ")([\n ])", "%1<b><span color='" .. beautiful.fg_focus .. "'>%2</span></b>%3")
-		end
+				local day = datespec.day
 
-		naughty.notify({text = cal, timeout = 0, replaces_id = 1})
+				if offset == 0 then
+					cal = string.gsub(cal, "([\n ])(" .. day .. ")([\n ])", "%1<b><span color='" .. beautiful.fg_focus .. "'>%2</span></b>%3")
+				end
+
+				naughty.notify({text = cal, timeout = 0, replaces_id = 1})
+			end)
 	end,
 
 	-- Toggle hour format
@@ -84,4 +88,4 @@ clock = {
 	end,
 }
 
-
+-- vim:ts=4:sw=4

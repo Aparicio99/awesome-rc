@@ -12,9 +12,18 @@ function urgent(s1, s2)
 	naughty.notify({ title=s1, text=s2, bg="#ff0000", fg="#000000"})
 end
 
+function program_exists(cmd)
+		-- Returns: (integer) The forked PID.
+		-- Or (string) Error message.
+		return type(spawn(cmd) == "number")
+end
+
+
 -- Spawn program and show output in notification
-function spawn_out(s, t)
-	rout(pread(s), t)
+function spawn_out(cmd, timeout)
+	async(cmd, function(output)
+		rout(output, timeout)
+	end)
 end
 
 -- Simplify calls to external programs in places where a function is expected
@@ -27,7 +36,9 @@ function t(s)
 end
 
 function mkprompt(p, f, c)
-	return function () awful.prompt.run({ prompt = p }, promptbox[mouse.screen].widget, f, nil, c) end
+	return function ()
+		awful.prompt.run({ prompt = p }, awful.screen.focused().promptbox.widget, f, nil, c)
+	end
 end
 
 function round(what, precision)
@@ -42,9 +53,9 @@ function layoutinfo()
 end
 
 function sleep()
-	if pread("pidof xscreensaver") == "" then
+	if program_exists("pidof xscreensaver") == "" then
 		out("sleeping...")
-		pread("/home/aparicio/scripts/afk true")
+		spawn("/home/aparicio/scripts/afk true")
 
 		keygrabber.run( function(mod, key, event)
 			if event == "press" then
@@ -157,7 +168,7 @@ function swap_screens()
 
 	for s = 1, 2 do
 		local filter = function(c)
-			return c.screen == s
+			return c.screen.index == s
 			   and c.type == "normal"
 			   and not c.hidden
 			   and not c.sticky
@@ -206,3 +217,5 @@ function client_info()
 
   naughty.notify{ text = v:sub(1,#v-1), timeout = 0, margin = 10 }
 end
+
+-- vim:ts=4:sw=4
