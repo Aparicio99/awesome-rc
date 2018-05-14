@@ -46,11 +46,11 @@ clock = {
 
 		if clock.long then
 			clock.timer_sec:stop()
-			clock.widget:set_markup(os.date(clock.format_min))
+			clock.widget.markup = os.date(clock.format_min)
 			clock.timer_min:start()
 		else
 			clock.timer_min:stop()
-			clock.widget:set_markup(os.date(clock.format2))
+			clock.widget.markup = os.date(clock.format2)
 			clock.timer_sec:start()
 		end
 		clock.long = not clock.long
@@ -60,14 +60,14 @@ clock = {
 	init = function()
 		-- Timers
 		clock.timer_min:connect_signal("timeout", function()
-							clock.widget:set_markup(os.date(clock.format_min))
+							clock.widget.markup = os.date(clock.format_min)
 							if battery.present() then
 								battery.reload()
 								wifi.reload()
 								system.reload()
 							end
 						end)
-		clock.timer_sec:connect_signal("timeout", function() clock.widget:set_markup(os.date(clock.format2)) end)
+		clock.timer_sec:connect_signal("timeout", function() clock.widget.markup = os.date(clock.format2) end)
 
 		-- Binds
 		clock.widget:buttons(awful.util.table.join(
@@ -81,7 +81,7 @@ clock = {
 		))
 
 		-- Start
-		clock.widget:set_markup(os.date(clock.format_min))
+		clock.widget.markup = os.date(clock.format_min)
 		clock.timer_min:start()
 
 		return clock.widget

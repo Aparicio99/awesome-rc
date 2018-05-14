@@ -24,7 +24,7 @@ system = {
 		if not system.widget then
 			return
 		end
-		system.widget:set_markup(system.status())
+		system.widget.markup = system.status()
 	end,
 
 	-- Show infromation popup

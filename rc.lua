@@ -105,8 +105,8 @@ conky_toggle   = conky.init()
 blank1         = wibox.widget.textbox()
 blank2         = wibox.widget.textbox()
 
-blank1:set_text(" ")
-blank2:set_text("  ")
+blank1.text =" "
+blank2.text = "  "
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -200,12 +200,12 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Now bring it all together (with the tasklist in the middle)
     local main_layout = wibox.layout.align.horizontal()
-    main_layout:set_left(main_left_layout)
-    main_layout:set_middle(s.mytasklist)
-    main_layout:set_right(main_right_layout)
+    main_layout.left = main_left_layout
+    main_layout.middle = s.mytasklist
+    main_layout.right = main_right_layout
 
     s.main_panel = awful.wibar({ position = "top", screen = s})
-    s.main_panel:set_widget(main_layout)
+    s.main_panel.widget = main_layout
 end)
 
 -- }}}

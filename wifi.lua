@@ -27,7 +27,7 @@ wifi = {
 		if wifi.widget == nil then
 			return
 		end
-		wifi.widget:set_markup(text)
+		wifi.widget.markup = text
 	end,
 
 	-- Show infromation popup

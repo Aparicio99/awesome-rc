@@ -103,7 +103,7 @@ battery = {
 		if not battery.present() then
 			return
 		end
-		battery.widget:set_markup(battery.status())
+		battery.widget.markup = battery.status()
 	end,
 
 	-- Show infromation popup
@@ -120,10 +120,11 @@ battery = {
 	-- Setup widget
 	init = function()
 
-		if not gears.filesystem.dir_readable(battery.path) then
-			battery.widget = nil
-			return nil
-		end
+		-- Always enable for debugging
+		--if not gears.filesystem.dir_readable(battery.path) then
+		--	battery.widget = nil
+		--	return nil
+		--end
 
 		battery.widget:buttons(awful.util.table.join(
 			awful.button({ }, 1, function() battery.info() end),

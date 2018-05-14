@@ -36,7 +36,7 @@ volume = {
 			"<span font='fontawesome'>%s</span> <span color='%s'>%s</span>",
 			icon, color_text, level)
 
-		volume.widget:set_markup(text)
+		volume.widget.markup = text
 	end,
 
 	-- Update the textbox with the current volume level

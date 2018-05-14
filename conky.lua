@@ -50,7 +50,7 @@ conky = {
 		                              awful.button({ }, 3, conky.spawn_there)))
 
 		-- Start
-		conky.widget:set_text(" ")
+		conky.widget.text = " "
 
 		return conky.widget
 	end,

@@ -22,9 +22,9 @@ mpd = {
 				symbol = "&#xf04d;" -- fa-stop
 			end
 
-			mpd.widget:set_markup(string.format(
+			mpd.widget.markup = string.format(
 				"<span font=\"fontawesome 7\" color=\"%s\" rise=\"5\">%s</span>",
-				beautiful.fg_focus, symbol))
+				beautiful.fg_focus, symbol)
 
 			if popup then
 				rout(output, t)
