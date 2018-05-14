@@ -1,3 +1,5 @@
+local gears = require("gears")
+
 battery = {
 	widget = wibox.widget.textbox(),
 	path = "/sys/class/power_supply/BAT0/",
@@ -118,7 +120,7 @@ battery = {
 	-- Setup widget
 	init = function()
 
-		if not awful.util.file_readable(battery.path) then
+		if not gears.filesystem.dir_readable(battery.path) then
 			battery.widget = nil
 			return nil
 		end
