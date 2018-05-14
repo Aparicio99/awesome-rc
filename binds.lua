@@ -70,7 +70,6 @@ local globalkeys = gears.table.join(
 	awful.key({ Win, Alt }, "Return",          lspawn(terminal.." -e su")),
 	awful.key({     }, "Print",                lspawn("screenshot scr")),
 	awful.key({ Ctr }, "Print",                lspawn("screenshot area")),
-	awful.key({     }, "XF86WWW",              lspawn(browser)),
 	awful.key({     }, "XF86Display",          lspawn("xset dpms force off")),
 	awful.key({     }, "Pause",                sleep),
 	awful.key({     }, "Scroll_Lock",          lspawn("scroll_led off")),

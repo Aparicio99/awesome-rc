@@ -43,14 +43,13 @@ Win = "Mod4"
 Alt = "Mod1"
 Ctr = "Control"
 Shi = "Shift"
-browser = "Firefox"
 terminal = "uterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
 require("helpers")
 require("menu")
-require("volume")
+volume = require("volume")
 require("battery")
 require("wifi")
 require("system")
@@ -95,7 +94,6 @@ end
 -- }}}
 
 mpd_widget     = mpd.init()
-volume_widget  = volume.init()
 battery_widget = battery.init()
 wifi_widget    = wifi.init()
 system_widget  = system.init()
@@ -169,7 +167,7 @@ awful.screen.connect_for_each_screen(function(s)
 	    right_layout:add(system_widget)
     right_layout:add(blank2)
     end
-    right_layout:add(volume_widget)
+    right_layout:add(volume.widget)
     right_layout:add(blank2)
     if mpd.present() then
 	    right_layout:add(mpd_widget)
