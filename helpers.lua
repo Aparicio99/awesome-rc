@@ -1,4 +1,5 @@
 local spawn = awful.spawn
+local async = awful.spawn.easy_async
 
 function out(s, t)
 	naughty.notify({ text=s, timeout=t })
@@ -28,7 +29,7 @@ end
 
 -- Simplify calls to external programs in places where a function is expected
 function lspawn(s)
-	return function() awwful.spawn(s) end
+	return function() awful.spawn(s) end
 end
 
 function t(s)
@@ -55,12 +56,12 @@ end
 function sleep()
 	if program_exists("pidof xscreensaver") == "" then
 		out("sleeping...")
-		spawn("/home/aparicio/scripts/afk true")
+		spawn("afk true")
 
 		keygrabber.run( function(mod, key, event)
 			if event == "press" then
 				keygrabber.stop()
-				spawn("/home/aparicio/scripts/afk false")
+				spawn("afk false")
 			end
 		end)
 	else

@@ -1,3 +1,5 @@
+local async = awful.spawn.easy_async
+
 wifi = {
 	widget = wibox.widget.textbox(),
 	wifi_interface = "",

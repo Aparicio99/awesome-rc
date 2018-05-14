@@ -1,3 +1,5 @@
+local async = awful.spawn.easy_async
+
 mpd = {
 	widget = wibox.widget.textbox(),
 

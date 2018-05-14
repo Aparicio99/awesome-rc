@@ -1,4 +1,5 @@
 local timer = gears.timer
+local async = awful.spawn.easy_async
 
 clock = {
 	widget = wibox.widget.textbox(),

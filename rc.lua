@@ -39,14 +39,12 @@ cache = awful.util.getdir("cache")
 beautiful.init(config .. "/themes/custom/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-async = awful.spawn.easy_async
 Win = "Mod4"
 Alt = "Mod1"
 Ctr = "Control"
 Shi = "Shift"
 browser = "Firefox"
-scripts = "/home/aparicio/scripts/"
-terminal = scripts.."uterm"
+terminal = "uterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 

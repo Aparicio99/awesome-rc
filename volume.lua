@@ -1,4 +1,5 @@
 local gears = require("gears")
+local async = awful.spawn.easy_async
 
 volume = {
 	widget = wibox.widget.textbox(),
