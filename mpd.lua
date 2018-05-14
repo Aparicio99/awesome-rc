@@ -69,7 +69,7 @@ mpd = {
 		mpd.show = mpd.cmd("", 0)
 		mpd.stop = function() mpd.update("stop") end
 
-		mpd.widget:buttons(awful.util.table.join(
+		mpd.widget:buttons(gears.table.join(
 			awful.button({ }, 1, mpd.toggle),
 			awful.button({ }, 2, mpd.stop),
 			awful.button({ }, 3, mpd.client),

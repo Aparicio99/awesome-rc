@@ -5,7 +5,7 @@ drop = {
 
 		local globalkeys = root.keys()
 
-		hasitem = awful.util.table.hasitem
+		hasitem = gears.table.hasitem
 
 		if drop.enabled then
 			rout("Drop terminals Off", 1)
@@ -15,7 +15,7 @@ drop = {
 			end)
 		else
 			rout("Drop terminals On", 1)
-			globalkeys = awful.util.table.join(globalkeys,
+			globalkeys = gears.table.join(globalkeys,
 				awful.key({     }, "F1", function () drop.toggle(1) end ),
 				awful.key({     }, "F2", function () drop.toggle(2) end ))
 		end

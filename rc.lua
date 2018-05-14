@@ -109,105 +109,90 @@ blank2.text = "  "
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
 
--- Create a wibox for each screen and add it
-promptbox = {}
+layout_buttons = gears.table.join(
+   awful.button({ }, 1, function () mainmenu:toggle() end),
+   awful.button({ }, 2, function () awful.layout.set(awful.layout.suit.floating) end),
+   awful.button({ }, 3, function () awful.layout.set(awful.layout.suit.tile) end),
+   awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
+   awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end))
 
-mylayoutbox = {}
-mylayoutbox.buttons = awful.util.table.join(
-                           awful.button({ }, 1, function () mainmenu:toggle() end),
-                           awful.button({ }, 2, function () awful.layout.set(awful.layout.suit.floating) end),
-                           awful.button({ }, 3, function () awful.layout.set(awful.layout.suit.tile) end),
-                           awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-                           awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end))
+taglist_buttons = gears.table.join(
+	awful.button({     }, 1, awful.tag.viewonly),
+	awful.button({ Win }, 1, awful.client.movetotag),
+	awful.button({     }, 3, awful.tag.viewtoggle),
+	awful.button({ Win }, 3, awful.client.toggletag),
+	awful.button({     }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
+	awful.button({     }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end))
 
-mytaglist = {}
-mytaglist.buttons = awful.util.table.join(
-                    awful.button({     }, 1, awful.tag.viewonly),
-                    awful.button({ Win }, 1, awful.client.movetotag),
-                    awful.button({     }, 3, awful.tag.viewtoggle),
-                    awful.button({ Win }, 3, awful.client.toggletag),
-                    awful.button({     }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-                    awful.button({     }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
-                    )
-mytasklist = {}
-mytasklist.buttons = awful.util.table.join(
-                     awful.button({ }, 1, function (c) -- focus window
-                                                  if not c:isvisible() then
-                                                      awful.tag.viewonly(c:tags()[1])
-                                                  end
-                                                  client.focus = c
-                                                  c:raise()
-                                          end),
-                     awful.button({ }, 2, function (c) c:kill() end),
-                     awful.button({ }, 3, function (c) c.minimized = not c.minimized end),
-                     awful.button({ }, 4, function () -- change focused client
-                                              awful.client.focus.byidx(1)
-                                              if client.focus then client.focus:raise() end
-                                          end),
-                     awful.button({ }, 5, function () -- change focused client
-                                              awful.client.focus.byidx(-1)
-                                              if client.focus then client.focus:raise() end
-                                          end))
+tasklist_buttons = gears.table.join(
+	 awful.button({ }, 1, function (c) -- focus window
+							  if not c:isvisible() then
+								  awful.tag.viewonly(c:tags()[1])
+							  end
+							  client.focus = c
+							  c:raise()
+						  end),
+	 awful.button({ }, 2, function (c) c:kill() end),
+	 awful.button({ }, 3, function (c) c.minimized = not c.minimized end),
+	 awful.button({ }, 4, function () -- change focused client
+							  awful.client.focus.byidx(1)
+							  if client.focus then client.focus:raise() end
+						  end),
+	 awful.button({ }, 5, function () -- change focused client
+							  awful.client.focus.byidx(-1)
+							  if client.focus then client.focus:raise() end
+						  end))
+
 awful.screen.connect_for_each_screen(function(s)
 
-    -- Create a promptbox for each screen
     s.promptbox = awful.widget.prompt()
 
-    -- Create an imagebox widget which will contains an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
-    s.mylayoutbox = awful.widget.layoutbox(s)
-    s.mylayoutbox:buttons(mylayoutbox.buttons)
+    s.layoutbox = awful.widget.layoutbox(s)
+    s.layoutbox:buttons(layout_buttons)
 
-    -- Create a taglist widget
-    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+    s.taglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
 
-    -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
-
-    -- Widgets that are aligned to the left
-    local main_left_layout = wibox.layout.fixed.horizontal()
-    main_left_layout:add(s.mylayoutbox)
-    main_left_layout:add(blank1)
-    main_left_layout:add(s.mytaglist)
-    --main_left_layout:add(blank1)
-    main_left_layout:add(s.promptbox)
+    s.tasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
     -- Widgets that are aligned to the right
-    local main_right_layout = wibox.layout.fixed.horizontal()
+    local right_layout = wibox.layout.fixed.horizontal()
     if s.index == 1 then
-        main_right_layout:add(wibox.widget.systray())
+        right_layout:add(wibox.widget.systray())
     end
-    main_right_layout:add(blank2)
+    right_layout:add(blank2)
     if battery.present() then
-	    main_right_layout:add(battery_widget)
-	    main_right_layout:add(blank2)
-	    main_right_layout:add(wifi_widget)
-	    main_right_layout:add(blank2)
-	    main_right_layout:add(system_widget)
-    main_right_layout:add(blank2)
+	    right_layout:add(battery_widget)
+	    right_layout:add(blank2)
+	    right_layout:add(wifi_widget)
+	    right_layout:add(blank2)
+	    right_layout:add(system_widget)
+    right_layout:add(blank2)
     end
-    main_right_layout:add(volume_widget)
-    main_right_layout:add(blank2)
+    right_layout:add(volume_widget)
+    right_layout:add(blank2)
     if mpd.present() then
-	    main_right_layout:add(mpd_widget)
-	    main_right_layout:add(blank2)
+	    right_layout:add(mpd_widget)
+	    right_layout:add(blank2)
     end
-    main_right_layout:add(clock_widget)
-    main_right_layout:add(conky_toggle)
+    right_layout:add(clock_widget)
+    right_layout:add(conky_toggle)
 
     -- Now bring it all together (with the tasklist in the middle)
-    local main_layout = wibox.layout.align.horizontal()
-    main_layout.left = main_left_layout
-    main_layout.middle = s.mytasklist
-    main_layout.right = main_right_layout
-
     s.main_panel = awful.wibar({ position = "top", screen = s})
-    s.main_panel.widget = main_layout
+    s.main_panel:setup {
+		layout = wibox.layout.align.horizontal,
+		{
+			layout = wibox.layout.fixed.horizontal,
+			s.layoutbox,
+			blank1,
+			s.taglist,
+			s.promptbox,
+		},
+		s.tasklist,
+		right_layout,
+	}
 end)
-
--- }}}
 
 --------------------------------------- Bindinds ------------------------------------
 require("binds")

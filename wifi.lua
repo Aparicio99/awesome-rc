@@ -39,7 +39,7 @@ wifi = {
 	-- Setup widget
 	init = function()
 
-		wifi.widget:buttons(awful.util.table.join(
+		wifi.widget:buttons(gears.table.join(
 			awful.button({ }, 1, function() wifi.info() end),
 			awful.button({ }, 3, function() wifi.reload() end)
 		))

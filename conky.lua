@@ -34,7 +34,7 @@ conky = {
 
 	callback = function(c)
 		c:struts( { right = 200 } )
-		c:buttons(awful.util.table.join(
+		c:buttons(gears.table.join(
 			awful.button({     }, 4, function(c) awful.tag.viewnext(mouse.screen) end),
 			awful.button({     }, 5, function(c) awful.tag.viewprev(mouse.screen) end),
 			awful.button({ Win }, 2, function (c) c:kill() end)
@@ -45,7 +45,7 @@ conky = {
 	init = function()
 
 		-- Binds
-		conky.widget:buttons(awful.util.table.join(
+		conky.widget:buttons(gears.table.join(
 		                              awful.button({ }, 1, conky.spawn_here),
 		                              awful.button({ }, 3, conky.spawn_there)))
 

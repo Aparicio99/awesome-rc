@@ -39,7 +39,7 @@ system = {
 			return nil
 		end
 
-		system.widget:buttons(awful.util.table.join(
+		system.widget:buttons(gears.table.join(
 			awful.button({ }, 1, function() system.info() end),
 			awful.button({ }, 3, function() system.reload() end)
 		))

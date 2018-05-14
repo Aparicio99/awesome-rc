@@ -73,7 +73,7 @@ clock = {
 		clock.timer_sec:connect_signal("timeout", function() clock.widget.markup = os.date(clock.format2) end)
 
 		-- Binds
-		clock.widget:buttons(awful.util.table.join(
+		clock.widget:buttons(gears.table.join(
 			awful.button({ }, 1, function() clock.showcalendar(0) end),
 			awful.button({ }, 2, function() clock.toggle(2) end),
 			awful.button({ }, 3, function() clock.toggle(1) end),
