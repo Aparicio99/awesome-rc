@@ -1,9 +1,11 @@
-awful = require("awful")
-require("awful.autofocus")
-wibox = require("wibox")
+awful     = require("awful")
+gears     = require("gears")
+wibox     = require("wibox")
 beautiful = require("beautiful")
-naughty = require("naughty")
-menubar = require("menubar")
+naughty   = require("naughty")
+menubar   = require("menubar")
+
+require("awful.autofocus")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -37,7 +39,6 @@ cache = awful.util.getdir("cache")
 beautiful.init(config .. "/themes/custom/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-spawn = awful.util.spawn
 async = awful.spawn.easy_async
 Win = "Mod4"
 Alt = "Mod1"

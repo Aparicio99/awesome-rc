@@ -52,9 +52,9 @@ drop = {
 		local c = getclient("instance", "dropterm"..n)
 		if not c then
 			if n == 3 then
-				spawn(terminal.." -name dropterm"..n.." -e su")
+				awful.spawn(terminal.." -name dropterm"..n.." -e su")
 			else
-				spawn(terminal.." -name dropterm"..n)
+				awful.spawn(terminal.." -name dropterm"..n)
 			end
 		elseif c.hidden then
 			drop.setprop(c, n, false)

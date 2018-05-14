@@ -44,11 +44,11 @@ mpd = {
 	client = function()
 		local c = getclient("name", "ncmpc")
 		if not c then
-			spawn(terminal.." -geometry 80x58-+2+19 -e ncmpc")
+			awful.spawn(terminal.." -geometry 80x58-+2+19 -e ncmpc")
 			mpd.update("", false)
 		else
 			--c:kill()
-			spawn("pkill -9 ncmpc")
+			awful.spawn("pkill -9 ncmpc")
 			mpd.update("", false)
 		end
 

@@ -1,3 +1,5 @@
+local timer = gears.timer
+
 clock = {
 	widget = wibox.widget.textbox(),
 	timer_min = timer({timeout = 5}),

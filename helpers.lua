@@ -1,4 +1,4 @@
---------------------------------------- Helpers ---------------------------------------
+local spawn = awful.spawn
 
 function out(s, t)
 	naughty.notify({ text=s, timeout=t })
@@ -28,7 +28,7 @@ end
 
 -- Simplify calls to external programs in places where a function is expected
 function lspawn(s)
-	return function() spawn(s) end
+	return function() awwful.spawn(s) end
 end
 
 function t(s)

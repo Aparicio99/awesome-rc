@@ -5,7 +5,7 @@ conky = {
 		local c = getclient("instance", "conky")
 
 		if not c then
-			spawn("conky")
+			awful.spawn("conky")
 
 		elseif c.screen == mouse.screen then
 			c:kill()
@@ -21,7 +21,7 @@ conky = {
 		local c = getclient("instance", "conky")
 
 		if not c then
-			spawn("conky")
+			awful.spawn("conky")
 		else
 			--c:geometry({x = 0})
 			if mouse.screen == 1 then

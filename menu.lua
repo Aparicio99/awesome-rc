@@ -1,3 +1,5 @@
+local spawn = awful.spawn
+
 internetmenu = {
 	{ "Transmission",	"transmission-remote-gtk"},
 	{ "Google Chrome",	"google-chrome-stable"},

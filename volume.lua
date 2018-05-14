@@ -119,4 +119,4 @@ volume = {
 	end,
 }
 
--- vim:ts=4
+-- vim:ts=4:sw=4

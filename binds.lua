@@ -1,4 +1,3 @@
-local gears = require("gears")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
 --------------------------------------- Root Mouse Bindings ---------------------------------------

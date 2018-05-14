@@ -1,5 +1,3 @@
-local gears = require("gears")
-
 battery = {
 	widget = wibox.widget.textbox(),
 	path = "/sys/class/power_supply/BAT0/",
