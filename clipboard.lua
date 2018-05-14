@@ -1,7 +1,7 @@
 local spawn = awful.spawn
 local async = awful.spawn.easy_async
 
-clipboard = {
+return {
 
 	clear = function()
 		spawn("clip clear all")

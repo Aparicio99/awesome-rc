@@ -54,10 +54,10 @@ volume = require "volume"
 require("battery")
 require("wifi")
 require("system")
-require("mpd")
-dropdown = require "dropdown"
-require("clipboard")
-require("conky")
+mpd       = require "mpd"
+dropdown  = require "dropdown"
+clipboard = require "clipboard"
+conky     = require "conky"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
@@ -93,11 +93,9 @@ for s = 1, screen.count() do
 end
 -- }}}
 
-mpd_widget     = mpd.init()
 battery_widget = battery.init()
 wifi_widget    = wifi.init()
 system_widget  = system.init()
-conky_toggle   = conky.init()
 blank1         = wibox.widget.textbox()
 blank2         = wibox.widget.textbox()
 
@@ -169,11 +167,11 @@ awful.screen.connect_for_each_screen(function(s)
     right_layout:add(volume.widget)
     right_layout:add(blank2)
     if mpd.present() then
-	    right_layout:add(mpd_widget)
+	    right_layout:add(mpd.widget)
 	    right_layout:add(blank2)
     end
     right_layout:add(clock.widget)
-    right_layout:add(conky_toggle)
+    right_layout:add(conky.widget)
 
     -- Now bring it all together (with the tasklist in the middle)
     s.main_panel = awful.wibar({ position = "top", screen = s})
