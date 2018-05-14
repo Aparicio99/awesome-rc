@@ -52,11 +52,11 @@ awful.rules.rules = {
 	  properties = { floating = true, ontop = true, skip_taskbar = true, sticky = true, hidden = true },
 	  callback = function(c)
 	    if c.instance == "dropterm1" then
-		    drop.setprop(c, 1, true)
+		    dropdown.setprop(c, 1, true)
 	    elseif c.instance == "dropterm2" then
-		    drop.setprop(c, 2, true)
+		    dropdown.setprop(c, 2, true)
 	    elseif c.instance == "dropterm3" then
-		    drop.setprop(c, 3, true)
+		    dropdown.setprop(c, 3, true)
 	    end
 	  end
 	},

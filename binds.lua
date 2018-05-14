@@ -93,8 +93,8 @@ local globalkeys = gears.table.join(
 	awful.key({     }, "XF86MonBrightnessUp",  lspawn("xbacklight -inc 10")),
 	awful.key({     }, "XF86MonBrightnessDown",lspawn("xbacklight -dec 10")),
 	awful.key({ Win }, "e",                    lspawn("xscreensaver-command -lock")),
-	awful.key({ Win }, "F1",                   function () drop.toggle(3) end),
-	awful.key({ Win }, "F3",                   drop.onoff),
+	awful.key({ Win }, "F1",                   function () dropdown.toggle(3) end),
+	awful.key({ Win }, "F3",                   dropdown.onoff),
 	awful.key({ Alt }, "F2",		   function () menubar.show() end),
 	awful.key({     }, "F4",                   function () toggle_hidden("instance", "skype", "Pidgin", "Telegram")
 		                                                       spawn("scroll_led off")
@@ -169,7 +169,7 @@ end
 root.keys(globalkeys)
 
 --------------------------------------- Enable dropterms key bindings ---------------------------------------
-drop.onoff()
+dropdown.onoff()
 
 --------------------------------------- Client key bindings ---------------------------------------
 clientkeys = gears.table.join(

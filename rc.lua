@@ -49,13 +49,13 @@ editor_cmd = terminal .. " -e " .. editor
 
 require("helpers")
 require("menu")
-volume = require("volume")
+clock  = require "clock"
+volume = require "volume"
 require("battery")
 require("wifi")
 require("system")
 require("mpd")
-require("clock")
-require("dropdown")
+dropdown = require "dropdown"
 require("clipboard")
 require("conky")
 
@@ -97,7 +97,6 @@ mpd_widget     = mpd.init()
 battery_widget = battery.init()
 wifi_widget    = wifi.init()
 system_widget  = system.init()
-clock_widget   = clock.init()
 conky_toggle   = conky.init()
 blank1         = wibox.widget.textbox()
 blank2         = wibox.widget.textbox()
@@ -173,7 +172,7 @@ awful.screen.connect_for_each_screen(function(s)
 	    right_layout:add(mpd_widget)
 	    right_layout:add(blank2)
     end
-    right_layout:add(clock_widget)
+    right_layout:add(clock.widget)
     right_layout:add(conky_toggle)
 
     -- Now bring it all together (with the tasklist in the middle)
