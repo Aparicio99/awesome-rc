@@ -103,10 +103,11 @@ local function init()
 		function (output)
 			if output ~= "" then
 				volume.device = "PCM"
+				update()
+			else
+				update(output)
 			end
 		end)
-
-	update()
 
 	volume.widget:buttons(gears.table.join(
 		awful.button({ }, 1, volume.check),
