@@ -119,10 +119,10 @@ battery = {
 	init = function()
 
 		-- Always enable for debugging
-		--if not gears.filesystem.dir_readable(battery.path) then
-		--	battery.widget = nil
-		--	return nil
-		--end
+		if not gears.filesystem.dir_readable(battery.path) then
+			battery.widget = nil
+			return nil
+		end
 
 		battery.widget:buttons(awful.util.table.join(
 			awful.button({ }, 1, function() battery.info() end),

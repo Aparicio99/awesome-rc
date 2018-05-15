@@ -72,14 +72,14 @@ end
 -- Move windows to adjacent desktops
 function shift_to_tag(n)
 	return function(c)
-		local id = awful.tag.getidx(awful.tag.selected(mouse.screen)) + n;
+		local screen = awful.screen.focused()
 
-		if id > 4 then id = 1
-		elseif id < 1 then id = 4 end
+		local current_id = awful.tag.getidx(screen.selected_tag);
+		local next_id = ((current_id + n - 1) % 4) + 1
 
-		local new = tags[c.screen][id]
-		awful.client.movetotag(new)
-		awful.tag.viewonly(new)
+		local next_screen = screen.tags[next_id]
+		awful.client.movetotag(next_screen)
+		awful.tag.viewonly(next_screen)
 	end
 end
 

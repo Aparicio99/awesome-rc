@@ -83,7 +83,7 @@ function volume.set(s)
 end
 
 function volume.inc() volume.set("1%+") end
-function volume.set() volume.set("1%-") end
+function volume.dec() volume.set("1%-") end
 
 -- Set volume to 50% if reset is enabled
 function volume.check()

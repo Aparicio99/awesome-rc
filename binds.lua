@@ -86,7 +86,7 @@ local globalkeys = gears.table.join(
 	awful.key({ Win }, "End",                  mpd.next),
 	awful.key({ Win }, "Insert",               mpd.toggle),
 	awful.key({ Win }, "Delete",               mpd.stop),
-	awful.key({     }, "XF86AudioPlay",	   function () volume.check() mpd.toggle() end),
+	awful.key({     }, "XF86AudioPlay",        function () volume.check() mpd.toggle() end),
 	awful.key({     }, "XF86AudioStop",        mpd.stop),
 	awful.key({     }, "XF86AudioPrev",        mpd.prev),
 	awful.key({     }, "XF86AudioNext",        mpd.next),
@@ -95,10 +95,11 @@ local globalkeys = gears.table.join(
 	awful.key({ Win }, "e",                    lspawn("xscreensaver-command -lock")),
 	awful.key({ Win }, "F1",                   function () dropdown.toggle(3) end),
 	awful.key({ Win }, "F3",                   dropdown.onoff),
-	awful.key({ Alt }, "F2",		   function () menubar.show() end),
-	awful.key({     }, "F4",                   function () toggle_hidden("instance", "skype", "Pidgin", "Telegram")
-		                                                       spawn("scroll_led off")
-							   end),
+	awful.key({ Alt }, "F2",                   function () menubar.show() end),
+	awful.key({     }, "F4",                   function ()
+													toggle_hidden("instance", "skype", "Pidgin", "Telegram")
+													awful.spawn("scroll_led off")
+	                                           end),
 	awful.key({ Win }, "s",                    clipboard.seltocli),
 	awful.key({ Win }, "c",                    clipboard.clitosel),
 

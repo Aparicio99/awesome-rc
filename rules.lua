@@ -26,7 +26,7 @@ awful.rules.rules = {
 
 	-- Other
 	{ rule = { class = "Firefox", type = "normal" },
-	  properties = { tag = tags[1][1] }
+	  properties = { screen = 1, tag = "1" }
 	},
 	{ rule = { class = "Firefox", instance = "Toplevel" },
 	  properties = { floating = true }
