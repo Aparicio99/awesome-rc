@@ -26,7 +26,7 @@ function drop.onoff()
 end
 
 function drop.setprop(c, n, resize)
-	area = screen[mouse.screen].geometry
+	area = awful.screen.focused().geometry
 	yy = area.y
 	xx = area.x + (area.width - c:geometry().width)/2
 	ww = 800
@@ -46,7 +46,7 @@ function drop.setprop(c, n, resize)
 	else
 		c:geometry({ y = yy, x = xx})
 	end
-	c.hidden = false
+	c.hidden = true
 end
 
 function drop.toggle(n)
