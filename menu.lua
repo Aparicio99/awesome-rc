@@ -37,10 +37,10 @@ utilsmenu = {
 }
 
 awesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
+   { "manual",      terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
+   { "restart",     awesome.restart },
+   { "quit",        function() awesome.quit() end}
 }
 
 mainmenu = awful.menu({ items = {

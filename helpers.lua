@@ -38,7 +38,12 @@ end
 
 function mkprompt(p, f, c)
 	return function ()
-		awful.prompt.run({ prompt = p }, awful.screen.focused().promptbox.widget, f, nil, c)
+		awful.prompt.run({
+			prompt  = p,
+			textbox = awful.screen.focused().promptbox.widget,
+			exe_callback = f,
+			history_path = c
+		})
 	end
 end
 

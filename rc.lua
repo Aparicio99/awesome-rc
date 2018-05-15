@@ -60,8 +60,7 @@ clipboard = require "clipboard"
 conky     = require "conky"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-layouts =
-{
+awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
@@ -75,7 +74,6 @@ layouts =
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
--- }}}
 
 naughty.config.presets.normal.font = "Monospace 8"
 naughty.config.presets.normal.border_color = beautiful.fg_focus
@@ -83,15 +81,6 @@ naughty.config.presets.normal.screen = 1
 naughty.config.presets.normal.position = "top_right"
 naughty.config.presets.low.screen = 1
 naughty.config.presets.critical.screen = 1
-
--- {{{ Tags
--- Define a tag table which hold all screen tags.
-tags = {}
-for s = 1, screen.count() do
-    -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4 }, s, layouts[2])
-end
--- }}}
 
 battery_widget = battery.init()
 wifi_widget    = wifi.init()
@@ -105,41 +94,64 @@ blank2.text = "  "
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
-layout_buttons = gears.table.join(
+local layout_buttons = gears.table.join(
    awful.button({ }, 1, function () mainmenu:toggle() end),
    awful.button({ }, 2, function () awful.layout.set(awful.layout.suit.floating) end),
    awful.button({ }, 3, function () awful.layout.set(awful.layout.suit.tile) end),
-   awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-   awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end))
+   awful.button({ }, 4, function () awful.layout.inc(1) end),
+   awful.button({ }, 5, function () awful.layout.inc(-1) end))
 
-taglist_buttons = gears.table.join(
-	awful.button({     }, 1, awful.tag.viewonly),
-	awful.button({ Win }, 1, awful.client.movetotag),
-	awful.button({     }, 3, awful.tag.viewtoggle),
-	awful.button({ Win }, 3, awful.client.toggletag),
-	awful.button({     }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-	awful.button({     }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end))
+local taglist_buttons = gears.table.join(
+	awful.button({     }, 1,	function(t) t:view_only() end),
 
-tasklist_buttons = gears.table.join(
-	 awful.button({ }, 1, function (c) -- focus window
-							  if not c:isvisible() then
-								  awful.tag.viewonly(c:tags()[1])
-							  end
-							  client.focus = c
-							  c:raise()
-						  end),
+	awful.button({ Win }, 1,	function(t)
+									if client.focus then
+										client.focus:move_to_tag(t)
+									end
+								end),
+
+	awful.button({     }, 3,	awful.tag.viewtoggle),
+
+	awful.button({ Win }, 3,	function(t)
+									if client.focus then
+										client.focus:toggle_tag(t)
+									end
+								end),
+
+	awful.button({     }, 4,	function(t) awful.tag.viewnext(t.screen) end),
+	awful.button({     }, 5,	function(t) awful.tag.viewprev(t.screen) end))
+
+local tasklist_buttons = gears.table.join(
+
+	 awful.button({ }, 1,	function (c) -- focus window
+								-- Without this, the following
+								-- :isvisible() makes no sense
+								c.minimized = false
+								if not c:isvisible() and c.first_tag then
+									c.first_tag:view_only()
+								end
+								-- This will also un-minimize
+								-- the client, if needed
+								client.focus = c
+								c:raise()
+							end),
+
 	 awful.button({ }, 2, function (c) c:kill() end),
 	 awful.button({ }, 3, function (c) c.minimized = not c.minimized end),
+
 	 awful.button({ }, 4, function () -- change focused client
 							  awful.client.focus.byidx(1)
 							  if client.focus then client.focus:raise() end
 						  end),
+
 	 awful.button({ }, 5, function () -- change focused client
 							  awful.client.focus.byidx(-1)
 							  if client.focus then client.focus:raise() end
 						  end))
 
 awful.screen.connect_for_each_screen(function(s)
+
+    awful.tag({ "1", "2", "3", "4" }, s, awful.layout.layouts[2])
 
     s.promptbox = awful.widget.prompt()
 
