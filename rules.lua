@@ -15,9 +15,13 @@ awful.rules.rules = {
 		             size_hints_honor = false }
 	},
 
+	-- Let the client decide the position
+	{ rule = { name = "ncmpc" },
+	  properties = { placement = awful.placement.restore }},
+
 	-- Floating
 	{ rule_any = {
-		class = { "MPlayer", "gimp", "Gmpc", "Transmission", "Minecraft", "Steam", "Pinentry" },
+		class = { "mpv", "gimp", "Gmpc", "Transmission", "Minecraft", "Steam", "Pinentry" },
 		name  = { "File Transfers", "cal", "ncmpc", "puff", "feh" } },
 	  properties = { floating = true }
 	},

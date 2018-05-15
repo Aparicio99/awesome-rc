@@ -47,7 +47,7 @@ end
 local function client()
 	local c = getclient("name", "ncmpc")
 	if not c then
-		awful.spawn(terminal.." -geometry 80x58-+2+19 -e ncmpc")
+		awful.spawn(terminal.." -geometry 80x58-+0+21 -e ncmpc")
 		update("", false)
 	else
 		--c:kill()
@@ -73,7 +73,7 @@ local function init()
 	mpd.widget:buttons(gears.table.join(
 		awful.button({ }, 1, mpd.toggle),
 		awful.button({ }, 2, mpd.stop),
-		awful.button({ }, 3, mpd.client),
+		awful.button({ }, 3, client),
 		awful.button({ }, 4, mpd.prev),
 		awful.button({ }, 5, mpd.next)
 	))
