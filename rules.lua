@@ -1,27 +1,36 @@
+local telegram_width = 639
+
 awful.rules.rules = {
 
 	-- All clients will match this rule.
 	{ rule = { },
 	  properties = { border_width = beautiful.border_width,
-			 border_color = beautiful.border_normal,
-			 focus = awful.client.focus.filter,
-			 raise = true,
-			 keys = clientkeys,
-			 buttons = clientbuttons,
-			 screen = awful.screen.preferred,
-			 placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-			 size_hints_honor = false }
+	                 border_color = beautiful.border_normal,
+		             focus = awful.client.focus.filter,
+		             raise = true,
+		             keys = clientkeys,
+		             buttons = clientbuttons,
+		             screen = awful.screen.preferred,
+		             placement = awful.placement.no_overlap+awful.placement.no_offscreen,
+		             size_hints_honor = false }
 	},
 
 	-- Floating
-	{ rule_any = {	class = { "MPlayer", "gimp", "Gmpc", "Transmission", "Minecraft", "Steam", "Pinentry" },
-			name = { "File Transfers", "cal", "ncmpc", "puff", "feh" } },
-			properties = { floating = true }
+	{ rule_any = {
+		class = { "MPlayer", "gimp", "Gmpc", "Transmission", "Minecraft", "Steam", "Pinentry" },
+		name  = { "File Transfers", "cal", "ncmpc", "puff", "feh" } },
+	  properties = { floating = true }
 	},
 
 	-- Floating and fixed
-	{ rule_any = { class = {"Skype", "Pidgin", "Telegram"} },
-	  properties = { floating = true, sticky = true, ontop = true }
+	{ rule_any = { class = { "Telegram" } },
+	  properties = { floating = true,
+	                 sticky   = true,
+	                 ontop    = true,
+	                 height   = awful.screen.focused().geometry.height - beautiful.menu_height,
+	                 width    = telegram_width,
+	                 x        = awful.screen.focused().geometry.width - telegram_width - 2,
+	                 y        = 21 }
 	},
 
 	-- Other
@@ -65,9 +74,11 @@ awful.rules.rules = {
 	{ rule = { class = "conky"  },
 	  properties = { floating = true,
 	                 focus = false,
-                         sticky = true,
-                         skip_taskbar = true,
-                         border_color = beautiful.bg_normal },
+                     sticky = true,
+                     skip_taskbar = true,
+                     border_color = beautiful.bg_normal },
 	  callback = conky.callback
 	}
 }
+
+-- vim:ts=4:sw=4
