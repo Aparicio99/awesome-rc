@@ -1,5 +1,6 @@
 local drop = {
 	enabled = false,
+	startup = true,
 }
 
 function drop.onoff()
@@ -46,10 +47,13 @@ function drop.setprop(c, n, resize)
 	else
 		c:geometry({ y = yy, x = xx})
 	end
-	c.hidden = true
+
+	-- Only hide if it already exists when awesome just started
+	c.hidden = drop.startup
 end
 
 function drop.toggle(n)
+	drop.startup = false
 	local c = getclient("instance", "dropterm"..n)
 	if not c then
 		if n == 3 then
