@@ -88,7 +88,7 @@ system_widget  = system.init()
 blank1         = wibox.widget.textbox()
 blank2         = wibox.widget.textbox()
 
-blank1.text =" "
+blank1.text = " "
 blank2.text = "  "
 
 -- Menubar configuration

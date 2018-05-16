@@ -54,6 +54,7 @@ theme.tasklist_floating_icon =		dir .. "tasklist/floating.png"
 theme.menu_submenu_icon = dir .. "icons/submenu.png"
 theme.menu_height = 24
 theme.menu_width  = 120
+theme.systray_icon_spacing = 2
 
 -- You can add as many variables as
 -- you wish and access them by using
