@@ -124,7 +124,7 @@ function toggle_hidden(prop, ...)
 				c.hidden = true
 			end
 		else
-			if not last_focus then
+			if not last_focus or not last_focus.valid then
 				last_focus = windows[1]
 			end
 
