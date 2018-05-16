@@ -52,7 +52,7 @@ require("helpers")
 mainmenu = require "menu"
 clock  = require "clock"
 volume = require "volume"
-require("battery")
+battery = require "battery"
 require("wifi")
 require("system")
 mpd       = require "mpd"
@@ -83,7 +83,6 @@ naughty.config.presets.normal.position = "top_right"
 naughty.config.presets.low.screen = 1
 naughty.config.presets.critical.screen = 1
 
-battery_widget = battery.init()
 wifi_widget    = wifi.init()
 system_widget  = system.init()
 blank1         = wibox.widget.textbox()
