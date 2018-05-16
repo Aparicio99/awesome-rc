@@ -149,6 +149,8 @@ local tasklist_buttons = gears.table.join(
 							  if client.focus then client.focus:raise() end
 						  end))
 
+local systray = wibox.widget.systray(true)
+
 awful.screen.connect_for_each_screen(function(s)
 
     awful.tag({ "1", "2", "3", "4" }, s, awful.layout.layouts[2])
@@ -165,7 +167,7 @@ awful.screen.connect_for_each_screen(function(s)
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s.index == 1 then
-        right_layout:add(wibox.widget.systray())
+        right_layout:add(systray)
     end
     right_layout:add(blank2)
     if battery.present() then
