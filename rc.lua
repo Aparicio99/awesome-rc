@@ -48,7 +48,8 @@ editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
 require("helpers")
-require("menu")
+
+mainmenu = require "menu"
 clock  = require "clock"
 volume = require "volume"
 require("battery")
