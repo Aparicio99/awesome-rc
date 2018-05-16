@@ -30,35 +30,36 @@ do
         in_error = false
     end)
 end
--- }}}
 
--- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 config = awful.util.getdir("config")
 cache = awful.util.getdir("cache")
 beautiful.init(config .. "/themes/custom/theme.lua")
 
--- This is used later as the default terminal and editor to run.
 Win = "Mod4"
 Alt = "Mod1"
 Ctr = "Control"
 Shi = "Shift"
+
+-- This is used later as the default terminal and editor to run.
 terminal = "uterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
+-- Custom libs
+
 require("helpers")
 
-mainmenu = require "menu"
-clock  = require "clock"
-volume = require "volume"
-battery = require "battery"
-require("wifi")
-require("system")
+mainmenu  = require "menu"
+clock     = require "clock"
+volume    = require "volume"
 mpd       = require "mpd"
 dropdown  = require "dropdown"
 clipboard = require "clipboard"
 conky     = require "conky"
+battery   = require "battery"
+wifi      = require "wifi"
+system    = require "system"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -83,16 +84,13 @@ naughty.config.presets.normal.position = "top_right"
 naughty.config.presets.low.screen = 1
 naughty.config.presets.critical.screen = 1
 
-wifi_widget    = wifi.init()
-system_widget  = system.init()
-blank1         = wibox.widget.textbox()
-blank2         = wibox.widget.textbox()
-
-blank1.text = " "
-blank2.text = "  "
+blank1 = wibox.widget.textbox(" ")
+blank2 = wibox.widget.textbox("  ")
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+
+-- Main panel configuration
 
 local layout_buttons = gears.table.join(
    awful.button({ }, 1, function () mainmenu:toggle() end),
@@ -136,18 +134,18 @@ local tasklist_buttons = gears.table.join(
 								c:raise()
 							end),
 
-	 awful.button({ }, 2, function (c) c:kill() end),
-	 awful.button({ }, 3, function (c) c.minimized = not c.minimized end),
+	 awful.button({ }, 2,	function (c) c:kill() end),
+	 awful.button({ }, 3,	function (c) c.minimized = not c.minimized end),
 
-	 awful.button({ }, 4, function () -- change focused client
-							  awful.client.focus.byidx(1)
-							  if client.focus then client.focus:raise() end
-						  end),
+	 awful.button({ }, 4,	function () -- change focused client
+								awful.client.focus.byidx(1)
+								if client.focus then client.focus:raise() end
+							end),
 
-	 awful.button({ }, 5, function () -- change focused client
-							  awful.client.focus.byidx(-1)
-							  if client.focus then client.focus:raise() end
-						  end))
+	 awful.button({ }, 5,	function () -- change focused client
+								awful.client.focus.byidx(-1)
+								if client.focus then client.focus:raise() end
+							end))
 
 local systray = wibox.widget.systray(true)
 
@@ -171,11 +169,11 @@ awful.screen.connect_for_each_screen(function(s)
     end
     right_layout:add(blank2)
     if battery.present() then
-	    right_layout:add(battery_widget)
+	    right_layout:add(battery.widget)
 	    right_layout:add(blank2)
-	    right_layout:add(wifi_widget)
+	    right_layout:add(wifi.widget)
 	    right_layout:add(blank2)
-	    right_layout:add(system_widget)
+	    right_layout:add(system.widget)
     right_layout:add(blank2)
     end
     right_layout:add(volume.widget)
@@ -203,13 +201,10 @@ awful.screen.connect_for_each_screen(function(s)
 	}
 end)
 
---------------------------------------- Bindinds ------------------------------------
 require("binds")
---
---------------------------------------- Rules ------------------------------------
+
 require("rules")
 
---------------------------------------- Signals ---------------------------------------
 client.connect_signal("manage", function (c)
     if awesome.startup and
       not c.size_hints.user_position
@@ -219,15 +214,18 @@ client.connect_signal("manage", function (c)
     end
 end)
 
-client.connect_signal("focus", function(c)
-			           if c.type ~= "desktop" then
-                                       c.border_color = beautiful.border_focus
-                                   end
-                               end)
-client.connect_signal("unfocus", function(c)
-                                     if c.type ~= "desktop" then
-                                         c.border_color = beautiful.border_normal
-                                     end
-                                 end)
+client.connect_signal("focus",
+	function(c)
+		if c.type ~= "desktop" then
+			c.border_color = beautiful.border_focus
+		end
+	end)
+
+client.connect_signal("unfocus",
+	function(c)
+		if c.type ~= "desktop" then
+			c.border_color = beautiful.border_normal
+		end
+	 end)
 
 -- vim:ts=4:sw=4

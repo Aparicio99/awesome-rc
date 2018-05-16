@@ -131,8 +131,6 @@ local function init()
 	))
 
 	battery.reload()
-
-	return battery.widget
 end
 
 init()
