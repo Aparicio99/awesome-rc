@@ -132,7 +132,7 @@ function toggle_hidden(prop, ...)
 			last_focus:raise()
 		end
 	else
-		out("No hidden windows found")
+		rout("No hidden windows found")
 	end
 end
 
