@@ -24,12 +24,10 @@ function clock.showcalendar(offset)
 	local date = datespec.year * 12 + datespec.month - 1 + offset
 	date = (date % 12 + 1) .. " " .. math.floor(date / 12)
 
-	spawn_out("cal")
-
 	async("cal " .. date,
 		function(output)
-			local cal = string.gsub(cal, "^(%s*%S* %S*%s*)\n", "<b><span color=\"white\">%1</span></b>\n")
 
+			local cal = string.gsub(output, "^(%s*%S* %S*%s*)\n", "<b><span color=\"white\">%1</span></b>\n")
 			local day = datespec.day
 
 			if offset == 0 then
