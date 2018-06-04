@@ -11,18 +11,6 @@ local battery = {
 	},
 }
 
-function battery.present()
-	return battery.widget ~= nil
-end
-
--- Update level textbox
-function battery.reload()
-	if not battery.present() then
-		return
-	end
-	battery.widget.markup = status()
-end
-
 local function status()
 
 	local fstatus = io.open(battery.path.."status")
@@ -131,6 +119,18 @@ local function init()
 	))
 
 	battery.reload()
+end
+
+function battery.present()
+	return battery.widget ~= nil
+end
+
+-- Update level textbox
+function battery.reload()
+	if not battery.present() then
+		return
+	end
+	battery.widget.markup = status()
 end
 
 init()
