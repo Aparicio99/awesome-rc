@@ -1,6 +1,8 @@
 local battery = {
 	widget = wibox.widget.textbox(),
-	path = "/sys/class/power_supply/BAT0/",
+	path1 = "/sys/class/power_supply/BAT0/",
+	path2 = "/sys/class/power_supply/BAT1/",
+	path = nil,
 	icons = {
 		"&#xf244;", -- fa-battery-empty
 		"&#xf243;", -- fa-battery-quarter
@@ -17,32 +19,40 @@ local function status()
 
 	if fstatus then
 		local status = fstatus:read("*all")
-
 		fstatus:close()
 
-		local fchargenow = io.open(battery.path.."charge_now")
-		local fchargefull = io.open(battery.path.."charge_full")
-		local fcurrent = io.open(battery.path.."current_now")
-		local fvoltage = io.open(battery.path.."voltage_now")
-		local fstate = io.open(battery.path.."status")
+		local fchargenow  = io.open(battery.path.."energy_now")
+		local fchargefull = io.open(battery.path.."energy_full")
+		local fvoltage    = io.open(battery.path.."voltage_now")
+		local fstate      = io.open(battery.path.."status")
+		local fcurrent    = io.open(battery.path.."current_now")
+		local fpower      = io.open(battery.path.."power_now")
 
 		local chargenow = fchargenow:read("*number") / 1000
 		local chargefull = fchargefull:read("*number") / 1000
-		local current = fcurrent:read("*number") / 1000
 		local voltage = fvoltage:read("*number") / 1000000
 		local state = fstate:read("*all")
 
+		local power = 0
+		if fpower then
+			power = fpower:read("*number") / 1000
+		elseif fcurrent then
+			local current = fcurrent:read("*number") / 1000
+			power = current * voltage
+		end
+
 		fchargenow:close()
 		fchargefull:close()
-		fcurrent:close()
 		fvoltage:close()
 		fstate:close()
+		if fcurrent then fcurrent:close() end
+		if fpower then fpower:close() end
 
 		local perc = math.floor(chargenow/chargefull * 100 + 0.5)
-		local time_left = chargenow/current
+		local time_left = chargenow/power
 		local hours_left = math.floor(time_left)
 		local minutes_left = math.floor((time_left - hours_left) * 60)
-		local power = string.format("%.2f", (current / 1000) * voltage)
+		local power_s = string.format("%.2f", (power / 1000))
 
 		local color_text = beautiful.fg_focus
 		local color_icon = beautiful.fg_normal
@@ -69,7 +79,7 @@ local function status()
 
 		local text = string.format(
 			"<span color='%s' font='fontawesome'>%s</span> <span color='%s'>%d%% </span>/<span color='%s'> %s W</span>",
-			color_icon, icon, color_text, perc, color_text, power)
+			color_icon, icon, color_text, perc, color_text, power_s)
 
 
 		if state == "Discharging\n" then
@@ -107,8 +117,16 @@ end
 -- Setup widget
 local function init()
 
-	-- Always enable for debugging
-	if not gears.filesystem.dir_readable(battery.path) then
+	-- TODO: Rewrite this more flexible and clean
+	if gears.filesystem.dir_readable(battery.path1) then
+		battery.path = battery.path1
+	end
+
+	if gears.filesystem.dir_readable(battery.path2) then
+		battery.path = battery.path2
+	end
+
+	if not battery.path then
 		battery.widget = nil
 		return nil
 	end

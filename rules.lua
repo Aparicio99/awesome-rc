@@ -47,11 +47,11 @@ awful.rules.rules = {
 	{ rule = { name = "xeyes" },
 	  properties = { floating = true, skip_taskbar = true, sticky = true }
 	},
-	{ rule = { class = "Claws-mail", role = "compose" },
-	  properties = {  floating = true}
+	{ rule_any = { class = {"compose"}, type = {"dialog"} },
+	  properties = {  floating = true, maximized = false}
 	},
 	{ rule = { class = "Claws-mail", role = "mainwindow" },
-	  properties = { maximized_horizontal = true, maximized_vertical = true, sticky = true}
+	  properties = { maximized = true, sticky = true}
 	},
 	{ rule = { class = "Boincmgr" },
 	  properties = { floating = true, skip_taskbar = true}

@@ -169,9 +169,9 @@ awful.screen.connect_for_each_screen(function(s)
     end
     right_layout:add(blank2)
     if battery.present() then
-	    right_layout:add(battery.widget)
-	    right_layout:add(blank2)
 	    right_layout:add(wifi.widget)
+	    right_layout:add(blank2)
+	    right_layout:add(battery.widget)
 	    right_layout:add(blank2)
 	    right_layout:add(system.widget)
     right_layout:add(blank2)

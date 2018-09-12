@@ -72,6 +72,7 @@ local globalkeys = gears.table.join(
 	awful.key({ Ctr }, "Print",                lspawn("screenshot area")),
 	awful.key({     }, "XF86Display",          lspawn("xset dpms force off")),
 	awful.key({     }, "Pause",                sleep),
+	awful.key({ Win }, "l",                    sleep),
 	awful.key({     }, "Scroll_Lock",          lspawn("scroll_led off")),
 	awful.key({     }, "XF86AudioMute",        volume.toggle),
 	awful.key({     }, "XF86AudioRaiseVolume", volume.inc),
@@ -96,6 +97,9 @@ local globalkeys = gears.table.join(
 	awful.key({ Win }, "F1",                   function () dropdown.toggle(3) end),
 	awful.key({ Win }, "F3",                   dropdown.onoff),
 	awful.key({ Alt }, "F2",                   function () menubar.show() end),
+	awful.key({     }, "F3",                   function ()
+													toggle_hidden("instance", "evolution", "claws-mail")
+	                                           end),
 	awful.key({     }, "F4",                   function ()
 													toggle_hidden("instance", "skype", "Pidgin", "Telegram")
 													awful.spawn("scroll_led off")
@@ -189,8 +193,7 @@ clientkeys = gears.table.join(
 		awful.key({ Win, Alt }, "KP_Add", function (c) if c.opacity < 0.9 then c.opacity = c.opacity + 0.1 else c.opacity = 1 end end),
 		awful.key({ Win, Alt }, "KP_Subtract", function (c) if c.opacity > 0.1 then c.opacity = c.opacity - 0.1 else c.opacity = 0.1 end end),
 		awful.key({ Win,     }, "m",	  function (c)
-							c.maximized_horizontal = not c.maximized_horizontal
-							c.maximized_vertical   = not c.maximized_vertical
+							c.maximized   = not c.maximized
 						  end)
 )
 
