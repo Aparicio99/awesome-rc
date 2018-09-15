@@ -13,73 +13,79 @@ local battery = {
 	},
 }
 
+function battery.read(file)
+
+	local fd = io.open(battery.path .. file)
+	if not fd then
+		return 0
+	end
+
+	local value = fd:read("*number")
+	fd:close()
+	return value
+end
+
 local function status()
 
-	local fstatus = io.open(battery.path.."status")
+	local fstate = io.open(battery.path.."status")
 
-	if fstatus then
-		local status = fstatus:read("*all")
-		fstatus:close()
-
-		local fchargenow  = io.open(battery.path.."energy_now")
-		local fchargefull = io.open(battery.path.."energy_full")
-		local fvoltage    = io.open(battery.path.."voltage_now")
-		local fstate      = io.open(battery.path.."status")
-		local fcurrent    = io.open(battery.path.."current_now")
-		local fpower      = io.open(battery.path.."power_now")
-
-		local chargenow = fchargenow:read("*number") / 1000
-		local chargefull = fchargefull:read("*number") / 1000
-		local voltage = fvoltage:read("*number") / 1000000
+	if fstate then
 		local state = fstate:read("*all")
+		fstate:close()
 
-		local power = 0
-		if fpower then
-			power = fpower:read("*number") / 1000
-		elseif fcurrent then
-			local current = fcurrent:read("*number") / 1000
-			power = current * voltage
+		local capacity    = battery.read("capacity")
+		local voltage_now = battery.read("voltage_now") / 1000000
+
+		local energy_now  = battery.read("energy_now") / 1000
+		local energy_full = battery.read("energy_full") / 1000
+
+		local charge_now  = battery.read("charge_now") / 1000
+		local charge_full = battery.read("charge_full") / 1000
+
+		local power_now   = battery.read("power_now") / 1000
+		local current_now = battery.read("current_now") / 1000
+
+		if energy_now == 0 then
+			energy_now = charge_now * voltage_now
 		end
 
-		fchargenow:close()
-		fchargefull:close()
-		fvoltage:close()
-		fstate:close()
-		if fcurrent then fcurrent:close() end
-		if fpower then fpower:close() end
+		if energy_full == 0 then
+			energy_full = charge_full * voltage_now
+		end
 
-		local perc = math.floor(chargenow/chargefull * 100 + 0.5)
-		local time_left = chargenow/power
+		if  power_now == 0 then
+			power_now = current_now * voltage_now
+		end
+
+		local time_left = energy_now / power_now
 		local hours_left = math.floor(time_left)
 		local minutes_left = math.floor((time_left - hours_left) * 60)
-		local power_s = string.format("%.2f", (power / 1000))
+		local power_s = string.format("%.2f", (power_now / 1000))
 
 		local color_text = beautiful.fg_focus
 		local color_icon = beautiful.fg_normal
 
 		local icon = battery.icons[1]
 
-
-		if status == "Full\n" then
+		if state == "Full\n" then
 			return string.format(
 			"<span color='%s' font='fontawesome'>%s</span> <span color='%s'>%s</span>",
 			color_icon, battery.icons[5], color_text, "Battery full")
-		end
 
-		if state == "Discharging\n" then
+		elseif state == "Discharging\n" then
 
-			if perc < 20 then
+			if capacity < 20 then
 				color_text = beautiful.bg_urgent
 			end
 
-			icon = battery.icons[math.ceil(perc/20)]
+			icon = battery.icons[math.ceil(capacity/20)]
 		else
 			icon = battery.icons[6] -- Plug icon
 		end
 
 		local text = string.format(
 			"<span color='%s' font='fontawesome'>%s</span> <span color='%s'>%d%% </span>/<span color='%s'> %s W</span>",
-			color_icon, icon, color_text, perc, color_text, power_s)
+			color_icon, icon, color_text, capacity, color_text, power_s)
 
 
 		if state == "Discharging\n" then
@@ -87,9 +93,9 @@ local function status()
 			text = string.format("%s / <span color='%s'>%dh%dm</span>",
 				text, color_text, hours_left, minutes_left)
 
-			if perc < 5 then
+			if capacity < 5 then
 				urgent("WARNING!", "Battery low")
-			elseif perc < 10 then
+			elseif capacity < 10 then
 				out("Battery low")
 			end
 		else
