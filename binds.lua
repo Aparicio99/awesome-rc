@@ -73,7 +73,6 @@ local globalkeys = gears.table.join(
 	awful.key({     }, "XF86Display",          lspawn("xset dpms force off")),
 	awful.key({     }, "Pause",                sleep),
 	awful.key({ Win }, "l",                    sleep),
-	awful.key({     }, "Scroll_Lock",          lspawn("scroll_led off")),
 	awful.key({     }, "XF86AudioMute",        volume.toggle),
 	awful.key({     }, "XF86AudioRaiseVolume", volume.inc),
 	awful.key({     }, "XF86AudioLowerVolume", volume.dec),
@@ -98,11 +97,10 @@ local globalkeys = gears.table.join(
 	awful.key({ Win }, "F3",                   dropdown.onoff),
 	awful.key({ Alt }, "F2",                   function () menubar.show() end),
 	awful.key({     }, "F3",                   function ()
-													toggle_hidden("instance", "evolution", "claws-mail")
+													toggle_hidden("instance", "claws-mail", "evolution")
 	                                           end),
 	awful.key({     }, "F4",                   function ()
-													toggle_hidden("instance", "skype", "Pidgin", "Telegram")
-													awful.spawn("scroll_led off")
+													toggle_hidden("instance", "Telegram", "skype")
 	                                           end),
 	awful.key({ Win }, "s",                    clipboard.seltocli),
 	awful.key({ Win }, "c",                    clipboard.clitosel),

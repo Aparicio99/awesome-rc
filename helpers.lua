@@ -59,7 +59,7 @@ function layoutinfo()
 end
 
 function sleep()
-	if program_exists("pidof xscreensaver") == "" then
+	if not program_exists("pidof xscreensaver") then
 		out("sleeping...")
 		spawn("afk true")
 
@@ -88,7 +88,7 @@ function shift_to_tag(n)
 	end
 end
 
-last_focus = nil
+last_focus = {}
 
 -- Hide/Show all windows matching some property
 function toggle_hidden(prop, ...)
@@ -96,6 +96,7 @@ function toggle_hidden(prop, ...)
 	local windows = {}
 	local all_hidden = false
 	local focus = false
+	local id = arg[1] -- Use the first name as the identifier for a group
 
 	for i, c in ipairs(client.get()) do
 		for j, value in ipairs(arg) do
@@ -104,7 +105,7 @@ function toggle_hidden(prop, ...)
 
 				all_hidden = all_hidden or c.hidden
 				if c == client.focus then
-					last_focus = c
+					last_focus[id] = c
 					focus = true
 				end
 			end
@@ -116,7 +117,7 @@ function toggle_hidden(prop, ...)
 			c.hidden = false
 			c:raise()
 		end
-		client.focus = last_focus
+		client.focus = last_focus[id]
 
 	elseif next(windows) then
 		if focus then
@@ -124,12 +125,12 @@ function toggle_hidden(prop, ...)
 				c.hidden = true
 			end
 		else
-			if not last_focus or not last_focus.valid then
-				last_focus = windows[1]
+			if not last_focus[id] or not last_focus[id].valid then
+				last_focus[id] = windows[1]
 			end
 
-			client.focus = last_focus
-			last_focus:raise()
+			client.focus = last_focus[id]
+			last_focus[id]:raise()
 		end
 	else
 		rout("No hidden windows found")
