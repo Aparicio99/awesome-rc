@@ -21,7 +21,7 @@ end
 function reload()
 	async("iw "..wifi.interface.." link", function (output)
 
-		local ssid = output:match("SSID: ([%w%p]+)")
+		local ssid = output:match("SSID: ([%w%p%s]+)")
 		if not ssid then ssid = "-" end
 		local signal = output:match("signal: (%-%d+)")
 		if not signal then signal = "-" end
