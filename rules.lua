@@ -47,17 +47,11 @@ awful.rules.rules = {
 	{ rule = { name = "xeyes" },
 	  properties = { floating = true, skip_taskbar = true, sticky = true }
 	},
-	{ rule_any = { class = {"compose"}, type = {"dialog"} },
-	  properties = {  floating = true, maximized = false}
-	},
 	{ rule = { class = "Claws-mail", role = "mainwindow" },
 	  properties = { maximized = true, sticky = true}
 	},
-	{ rule = { class = "Boincmgr" },
-	  properties = { floating = true, skip_taskbar = true}
-	},
-	{ rule = { class = "RocketLeague" },
-	  properties = { fullscreen = true }
+	{ rule_any = { role = {"compose"}, type = {"dialog"} },
+	  properties = {  floating = true, maximized = false}
 	},
 
 	-- Drop consoles
