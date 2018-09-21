@@ -93,13 +93,14 @@ last_focus = {}
 -- Hide/Show all windows matching some property
 function toggle_hidden(prop, ...)
 
+	local args = {...}
 	local windows = {}
 	local all_hidden = false
 	local focus = false
-	local id = arg[1] -- Use the first name as the identifier for a group
+	local id = args[1] -- Use the first name as the identifier for a group
 
 	for i, c in ipairs(client.get()) do
-		for j, value in ipairs(arg) do
+		for j, value in ipairs(args) do
 			if c[prop] == value then
 				table.insert(windows, c)
 
