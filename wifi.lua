@@ -18,7 +18,7 @@ local function info()
 	-- TODO
 end
 
-function reload()
+function wifi.reload()
 	async("iw "..wifi.interface.." link", function (output)
 
 		local ssid = output:match("SSID: ([%w%p%s]+)")
@@ -54,9 +54,9 @@ local function init()
 
 		wifi.widget:buttons(gears.table.join(
 			awful.button({ }, 1, function() info() end),
-			awful.button({ }, 3, function() reload() end)
+			awful.button({ }, 3, function() wifi.reload() end)
 		))
-		reload()
+		wifi.reload()
 	end)
 end
 
