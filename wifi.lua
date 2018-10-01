@@ -21,18 +21,26 @@ end
 function wifi.reload()
 	async("iw "..wifi.interface.." link", function (output)
 
-		local ssid = output:match("SSID: ([%w%p%s]+)")
+		local ssid = output:match("SSID: ([%w%p ]+)")
 		if not ssid then ssid = "-" end
+
 		local signal = output:match("signal: (%-%d+)")
 		if not signal then signal = "-" end
+
 		local bitrate = output:match("bitrate: (%d+)")
 		if not bitrate then bitrate = "-" end
 
 		local color = beautiful.fg_focus
-		--local text =  "<span font=\"fontawesome\">&#xf1eb;</span> ".."<span color='"..color.."'>"..ssid.."</span>"
-		local text =  "<span color='"..color.."'>"..ssid.."</span>"
-		text = text .." / <span color='"..color.."'>"..signal.." dBm</span>"
-		text = text .." / <span color='"..color.."'>"..bitrate.." mbit/s</span>"
+
+		local text = ""
+
+		if ssid ~= "-" then
+			text = "<span color='"..color.."'>"..ssid.."</span>"
+			text = text .." / <span color='"..color.."'>"..signal.." dBm</span>"
+			text = text .." / <span color='"..color.."'>"..bitrate.." mbit/s</span>"
+		else
+			text = "<span color='#ff0000'>Wifi off</span>"
+		end
 
 		set_status(text)
 	end)
