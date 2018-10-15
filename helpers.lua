@@ -118,7 +118,9 @@ function toggle_hidden(prop, ...)
 			c.hidden = false
 			c:raise()
 		end
-		client.focus = last_focus[id]
+		if last_focus[id] then
+			client.focus = last_focus[id]
+		end
 
 	elseif next(windows) then
 		if focus then

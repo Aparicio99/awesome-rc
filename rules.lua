@@ -48,10 +48,10 @@ awful.rules.rules = {
 	  properties = { floating = true, skip_taskbar = true, sticky = true }
 	},
 	{ rule = { class = "Claws-mail", role = "mainwindow" },
-	  properties = { maximized = true, sticky = true}
+	  properties = { maximized = true, sticky = true, hidden = true}
 	},
 	{ rule = { class = "Evolution" },
-	  properties = { maximized = true, sticky = true}
+	  properties = { maximized = true, sticky = true, hidden = true }
 	},
 	{ rule_any = { role = {"compose"}, type = {"dialog"} },
 	  properties = {  floating = true, maximized = false}
