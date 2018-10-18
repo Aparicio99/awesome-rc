@@ -181,7 +181,7 @@ clientkeys = gears.table.join(
 		awful.key({ Win,     }, "f",      function (c) c.fullscreen = not c.fullscreen end),
 		awful.key({ Win, Alt }, "space",  awful.client.floating.toggle ),
 		awful.key({ Win, Ctr }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-		awful.key({ Win,     }, "o",      function (c) c.move_to_screen() end),
+		awful.key({ Win,     }, "o",      function (c) c:move_to_screen() end),
 		awful.key({ Win, Alt }, "r",      function (c) c:redraw() end),
 		awful.key({ Win,     }, "t",      function (c) c.ontop = not c.ontop end),
 		awful.key({ Win,     }, "n",      function (c) c.minimized = not c.minimized end),
