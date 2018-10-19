@@ -50,8 +50,11 @@ awful.rules.rules = {
 	{ rule = { class = "Claws-mail", role = "mainwindow" },
 	  properties = { maximized = true, sticky = true, hidden = true}
 	},
-	{ rule = { class = "Evolution" },
+	{ rule = { class = "Evolution", type = "normal" },
 	  properties = { maximized = true, sticky = true, hidden = true }
+	},
+	{ rule = { class = "Evolution", icon_name = "Compose Message" },
+	  properties = { maximized = false, sticky = false, hidden = false, floating = true }
 	},
 	{ rule_any = { role = {"compose"}, type = {"dialog"} },
 	  properties = {  floating = true, maximized = false}
