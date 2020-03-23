@@ -80,7 +80,7 @@ function shift_to_tag(n)
 		local screen = awful.screen.focused()
 
 		local current_id = awful.tag.getidx(screen.selected_tag);
-		local next_id = ((current_id + n - 1) % 4) + 1
+		local next_id = ((current_id + n - 1) % NUM_TAGS) + 1
 
 		local next_screen = screen.tags[next_id]
 		awful.client.movetotag(next_screen)
