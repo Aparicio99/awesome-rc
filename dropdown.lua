@@ -12,14 +12,23 @@ function drop.onoff()
 	if drop.enabled then
 		rout("Drop terminals Off", 1)
 		globalkeys = filter_table(globalkeys, function(x)
-			return (x.key == "F1" or x.key == "F2")
+			return (x.key == "F1" or
+			        x.key == "F2" or
+			        x.key == "F3" or
+			        x.key == "F4")
 				   and not hasitem(x.modifiers, Win)
 		end)
 	else
 		rout("Drop terminals On", 1)
 		globalkeys = gears.table.join(globalkeys,
 			awful.key({     }, "F1", function () drop.toggle(1) end ),
-			awful.key({     }, "F2", function () drop.toggle(2) end ))
+			awful.key({     }, "F2", function () drop.toggle(2) end ),
+			awful.key({     }, "F3", function ()
+									toggle_hidden("instance", "claws-mail", "evolution")
+			end),
+			awful.key({     }, "F4", function ()
+									toggle_hidden("instance", "Telegram", "skype")
+			end))
 	end
 
 	drop.enabled = not drop.enabled
