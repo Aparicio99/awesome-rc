@@ -96,12 +96,6 @@ local globalkeys = gears.table.join(
 	awful.key({ Win }, "F1",                   function () dropdown.toggle(3) end),
 	awful.key({ Win }, "F3",                   dropdown.onoff),
 	awful.key({ Alt }, "F2",                   function () menubar.show() end),
-	awful.key({     }, "F3",                   function ()
-													toggle_hidden("instance", "claws-mail", "evolution")
-	                                           end),
-	awful.key({     }, "F4",                   function ()
-													toggle_hidden("instance", "Telegram", "skype")
-	                                           end),
 	awful.key({ Win }, "s",                    clipboard.seltocli),
 	awful.key({ Win }, "c",                    clipboard.clitosel),
 
