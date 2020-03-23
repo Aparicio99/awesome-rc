@@ -27,7 +27,7 @@ awful.rules.rules = {
 	},
 
 	-- Floating and fixed
-	{ rule_any = { class = { "Telegram" } },
+	{ rule_any = { name = { "Telegram" } },
 	  properties = { floating = true,
 	                 sticky   = true,
 	                 ontop    = true,
@@ -35,6 +35,10 @@ awful.rules.rules = {
 	                 width    = telegram_width,
 	                 x        = awful.screen.focused().geometry.width - telegram_width - 2,
 	                 y        = 21 }
+	},
+
+	{ rule = { instance = "Telegram", name = "Media viewer" },
+	  properties = { maximized = true, ontop = true }
 	},
 
 	-- Other
