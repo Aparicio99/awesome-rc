@@ -115,7 +115,7 @@ local globalkeys = gears.table.join(
 --------------------------------------- Numeric Tag Switching ---------------------------------------
 
 
-for i = 1, 4 do
+for i = 1, NUM_TAGS do
 	globalkeys = gears.table.join(globalkeys,
 
 		awful.key({ Win }, "#"..i+9,

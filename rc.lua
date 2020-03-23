@@ -149,9 +149,11 @@ local tasklist_buttons = gears.table.join(
 
 local systray = wibox.widget.systray(true)
 
+NUM_TAGS = 6
+
 awful.screen.connect_for_each_screen(function(s)
 
-    awful.tag({ "1", "2", "3", "4" }, s, awful.layout.layouts[2])
+    awful.tag({ "1", "2", "3", "4", "5", "6" }, s, awful.layout.layouts[2])
 
     s.promptbox = awful.widget.prompt()
 
