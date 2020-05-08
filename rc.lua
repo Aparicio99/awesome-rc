@@ -79,10 +79,10 @@ awful.layout.layouts = {
 
 naughty.config.presets.normal.font = "Monospace 8"
 naughty.config.presets.normal.border_color = beautiful.fg_focus
-naughty.config.presets.normal.screen = 1
+--naughty.config.presets.normal.screen = 1
 naughty.config.presets.normal.position = "top_right"
-naughty.config.presets.low.screen = 1
-naughty.config.presets.critical.screen = 1
+--naughty.config.presets.low.screen = 1
+--naughty.config.presets.critical.screen = 1
 
 blank1 = wibox.widget.textbox(" ")
 blank2 = wibox.widget.textbox("  ")
