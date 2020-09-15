@@ -82,14 +82,14 @@ local globalkeys = gears.table.join(
 	awful.key({ Win }, "KP_Subtract",          volume.dec),
 	awful.key({ Win }, "KP_Multiply",          volume.toggle),
 	awful.key({ Win }, "KP_Divide",            volume.check),
-	awful.key({ Win }, "Home",                 mpd.prev),
-	awful.key({ Win }, "End",                  mpd.next),
-	awful.key({ Win }, "Insert",               mpd.toggle),
-	awful.key({ Win }, "Delete",               mpd.stop),
-	awful.key({     }, "XF86AudioPlay",        function () volume.check() mpd.toggle() end),
-	awful.key({     }, "XF86AudioStop",        mpd.stop),
-	awful.key({     }, "XF86AudioPrev",        mpd.prev),
-	awful.key({     }, "XF86AudioNext",        mpd.next),
+	awful.key({ Win }, "Home",                 music.prev),
+	awful.key({ Win }, "End",                  music.next),
+	awful.key({ Win }, "Insert",               music.toggle),
+	awful.key({ Win }, "Delete",               music.stop),
+	awful.key({     }, "XF86AudioPlay",        function () volume.check() music.toggle() end),
+	awful.key({     }, "XF86AudioStop",        music.stop),
+	awful.key({     }, "XF86AudioPrev",        music.prev),
+	awful.key({     }, "XF86AudioNext",        music.next),
 	awful.key({     }, "XF86MonBrightnessUp",  lspawn("xbacklight -inc 10")),
 	awful.key({     }, "XF86MonBrightnessDown",lspawn("xbacklight -dec 10")),
 	awful.key({ Win }, "e",                    lspawn("xscreensaver-command -lock")),
@@ -106,10 +106,7 @@ local globalkeys = gears.table.join(
 		awful.util.eval, cache.."/history_eval") ),
 
 	awful.key({ Win }, "F11", mkprompt("Calc: ",
-		function (s) out("= " .. awful.util.eval("return (" .. s .. ")")) end ) ),
-
-	awful.key({ Win }, "XF86AudioPlay", mkprompt("mpc ",
-		function (s) mpd.cmd(s, 10)() end, cache.."/history_mpc") )
+		function (s) out("= " .. awful.util.eval("return (" .. s .. ")")) end ) )
 )
 
 --------------------------------------- Numeric Tag Switching ---------------------------------------

@@ -53,7 +53,7 @@ require("helpers")
 mainmenu  = require "menu"
 clock     = require "clock"
 volume    = require "volume"
-mpd       = require "mpd"
+music     = require "music"
 dropdown  = require "dropdown"
 clipboard = require "clipboard"
 conky     = require "conky"
@@ -180,8 +180,8 @@ awful.screen.connect_for_each_screen(function(s)
     end
     right_layout:add(volume.widget)
     right_layout:add(blank2)
-    if mpd.present() then
-	    right_layout:add(mpd.widget)
+    if music.present() then
+	    right_layout:add(music.widget)
 	    right_layout:add(blank2)
     end
     right_layout:add(clock.widget)
