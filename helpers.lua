@@ -58,22 +58,6 @@ function layoutinfo()
 		"\nFactor: " .. awful.tag.getmwfact(), 2)
 end
 
-function sleep()
-	if not program_exists("pidof xscreensaver") then
-		out("sleeping...")
-		spawn("afk true")
-
-		keygrabber.run( function(mod, key, event)
-			if event == "press" then
-				keygrabber.stop()
-				spawn("afk false")
-			end
-		end)
-	else
-		spawn("xscreensaver-command -lock")
-	end
-end
-
 -- Move windows to adjacent desktops
 function shift_to_tag(n)
 	return function(c)
