@@ -63,6 +63,9 @@ awful.rules.rules = {
 	{ rule_any = { role = {"compose"}, type = {"dialog"} },
 	  properties = {  floating = true, maximized = false}
 	},
+	{ rule = { name = "Microsoft Teams Notification" },
+	  properties = { floating = true, focusable = false, screen = 1 }
+	},
 
 	-- Drop consoles
 	{ rule_any = { instance = {"dropterm1", "dropterm2", "dropterm3"} },
