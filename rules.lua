@@ -66,6 +66,9 @@ awful.rules.rules = {
 	{ rule = { name = "Microsoft Teams Notification" },
 	  properties = { floating = true, focusable = false, screen = 1 }
 	},
+	{ rule = { class = "Firefox", name = "Picture-in-Picture" },
+	  properties = { maximized = false, sticky = true, ontop = true, skip_taskbar = true, floating = true }
+	},
 
 	-- Drop consoles
 	{ rule_any = { instance = {"dropterm1", "dropterm2", "dropterm3"} },
