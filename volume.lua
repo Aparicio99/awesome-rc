@@ -4,7 +4,8 @@ local volume = {
 	widget = wibox.widget.textbox(),
 	device = "Master",
 	value = 0,
-	default = "10%",
+	default = 15, -- percent
+	threshold = 5, -- percent
 	reset = true,
 	icons = {
 		"&#xf026;", -- fa-volume-off
@@ -33,11 +34,9 @@ local function update_callback(output)
 		color_text = beautiful.bg_urgent
 	end
 
-	local text = string.format(
-		"<span font='fontawesome'>%s</span> <span color='%s'>%s</span>",
+	volume.widget.markup = string.format(
+		"<span font=\"fontawesome 7\">%s</span> <span color='%s'>%s</span>",
 		icon, color_text, level)
-
-	volume.widget.markup = text
 end
 
 -- Update the textbox with the current volume level
@@ -73,26 +72,58 @@ function volume.toggle_reset()
 	else
 		rout("Volume reset OFF", 1)
 	end
-	--volume.update(
 end
 
 -- Set volume level
-function volume.set(s)
-	async("amixer set "..volume.device.." "..s,
+function volume.set(value)
+	async(string.format("amixer set %s %s%%", volume.device, value),
 		function (output) update(output) end)
 end
 
-function volume.inc() volume.set("1%+") end
-function volume.dec() volume.set("1%-") end
+function volume.inc()
+	if volume.value < 100 then
+		volume.set(volume.value + 1)
+	end
+end
 
--- Set volume to 50% if reset is enabled
+function volume.dec()
+	if volume.value > 0 then
+		volume.set(volume.value - 1)
+	end
+end
+
+-- Set volume to default if reset is enabled and exceeds threshold
 function volume.check()
-	if volume.reset then
-		if volume.value < 5 or volume.value > 20 then
-			volume.set(volume.default)
-		end
-	else
-		volume.set("100%")
+
+	if not volume.reset then
+		return
+	end
+
+	if math.abs(volume.value - volume.default) > volume.threshold then
+		volume.set(volume.default)
+	end
+end
+
+function volume.set_default(value)
+	volume.default = value
+	rout(string.format("Default volume = %d +/- %d", volume.default, volume.threshold), 2)
+end
+
+function volume.copy_default()
+	volume.set_default(volume.value)
+end
+
+function volume.inc_default()
+	if volume.default < 100 then
+		volume.set_default(volume.default + 1)
+		volume.set(volume.default)
+	end
+end
+
+function volume.dec_default()
+	if volume.default > 0 then
+		volume.set_default(volume.default - 1)
+		volume.set(volume.default)
 	end
 end
 
@@ -110,11 +141,14 @@ local function init()
 		end)
 
 	volume.widget:buttons(gears.table.join(
-		awful.button({ }, 1, volume.check),
-		awful.button({ }, 2, volume.toggle),
-		awful.button({ }, 3, volume.toggle_reset),
-		awful.button({ }, 4, volume.inc),
-		awful.button({ }, 5, volume.dec)
+		awful.button({     }, 1, volume.check),
+		awful.button({     }, 2, volume.toggle),
+		awful.button({     }, 3, volume.toggle_reset),
+		awful.button({     }, 4, volume.inc),
+		awful.button({     }, 5, volume.dec),
+		awful.button({ Win }, 1, volume.copy_default),
+		awful.button({ Win }, 4, volume.inc_default),
+		awful.button({ Win }, 5, volume.dec_default)
 	))
 end
 
