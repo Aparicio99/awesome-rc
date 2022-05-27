@@ -63,6 +63,9 @@ awful.rules.rules = {
 	{ rule_any = { role = {"compose"}, type = {"dialog"} },
 	  properties = {  floating = true, maximized = false}
 	},
+	{ rule = { class = "Thunderbird", role = "3pane" },
+	  properties = { maximized = true, sticky = true, hidden = true}
+	},
 	{ rule = { name = "Microsoft Teams Notification" },
 	  properties = { floating = true, focusable = false, screen = 1 }
 	},

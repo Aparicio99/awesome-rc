@@ -24,10 +24,10 @@ function drop.onoff()
 			awful.key({     }, "F1", function () drop.toggle(1) end ),
 			awful.key({     }, "F2", function () drop.toggle(2) end ),
 			awful.key({     }, "F3", function ()
-									toggle_hidden("instance", "claws-mail", "evolution")
+									toggle_hidden("instance", "claws-mail", "evolution", "Mail")
 			end),
 			awful.key({     }, "F4", function ()
-									toggle_hidden("instance", "Telegram", "skype")
+									toggle_hidden("instance", "Telegram", "telegram-desktop", "skype")
 			end))
 	end
 
