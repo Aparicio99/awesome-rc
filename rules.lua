@@ -69,7 +69,7 @@ awful.rules.rules = {
 	{ rule = { name = "Microsoft Teams Notification" },
 	  properties = { floating = true, focusable = false, screen = 1 }
 	},
-	{ rule = { class = "Firefox", name = "Picture-in-Picture" },
+	{ rule = { class = "Firefox", role = "PictureInPicture" },
 	  properties = { maximized = false, sticky = true, ontop = true, skip_taskbar = true, floating = true }
 	},
 
